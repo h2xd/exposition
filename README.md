@@ -10,6 +10,7 @@ The ambition is to implement an interface structure to enhance the creation and 
 ## Ideas
 
 - [ ] Create an interface / controller to support various tools
+- [ ] Find a good way to pass down a http return code for future integrations
 - [ ] Create a E2E-Test integration
 - [ ] Create examples how to generate api datasets
 - [ ] Create a VueDevTools Plugin
