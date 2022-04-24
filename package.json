@@ -13,5 +13,10 @@
     "Testing"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^17.0.25",
+    "vite": "^2.9.5",
+    "vitest": "^0.9.4"
+  }
 }

@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "esnext",
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "declaration": true,
+    "declarationDir": "./types",
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "noUnusedLocals": true,
+    "paths": {
+      "@exposition/core": [
+        "./packages/core/index.ts"
+      ],
+    },
+    "types": [
+      "vitest",
+      "vitest/globals"
+    ]
+  },
+  "include": [
+    "packages",
+    "vitest.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/dist",
+  ]
+}
