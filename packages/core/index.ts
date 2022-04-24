@@ -1,4 +1,3 @@
-
 /**
  * Main dataset for the options API
  */
@@ -19,7 +18,7 @@ export type Scenario<Value extends string> = {
      * Provide the developer context of the outcome,
      * when this option is selected
      */
-    label: string
+    label?: string
     value: Value
   }>
 }
