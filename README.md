@@ -1,10 +1,8 @@
-# Exposition
+# 📖 Exposition
 
-_Structure to explain the who, what and where of the API mocking process._
+Structure to explain the who, what and where of the API mocking process
 
----
-
-The ambition is to implement an interface structure to enhance the creation and usage of API mocking with [mswjs](https://github.com/mswjs/msw) and [miragejs](https://github.com/miragejs/miragejs).
+_The ambition is to create a structure to enhance the creation, usage and experience of API mocking with [mswjs](https://github.com/mswjs/msw) and [miragejs](https://github.com/miragejs/miragejs)._
 
 
 ## Ideas
