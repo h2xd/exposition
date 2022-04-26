@@ -40,7 +40,7 @@ export function createFastScenarioConfig<T extends Record<string, ReadonlyArray<
       ...accumulator,
       [key]: {
         name: key,
-        options: values.map((value) => { value }),
+        options: values.map(value => ({ value })),
         initialValue: values[0],
       },
     }
