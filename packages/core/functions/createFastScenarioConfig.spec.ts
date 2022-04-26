@@ -11,6 +11,7 @@ it('should create basic scenario with all required values', () => {
     stand: {
       name: 'stand',
       initialValue: 'diamond',
+      value: 'diamond',
       options: [
         {
           value: 'diamond',

@@ -1,4 +1,4 @@
-import type { ScenarioMap } from '../@types/scenario'
+import type { ScenarioFastConfig } from '../@types/scenario'
 import type { Readable } from '../@types/utils'
 
 /**
@@ -25,7 +25,7 @@ import type { Readable } from '../@types/utils'
  *
  * @returns Record<string, Scenario>
  */
-export function createFastScenarioConfig<T extends Record<string, ReadonlyArray<string>>>(config: T): ScenarioMap<Readable<T>> {
+export function createFastScenarioConfig<T extends Record<string, ReadonlyArray<string>>>(config: T): ScenarioFastConfig<Readable<T>> {
   return Object.keys(config).reduce((accumulator, key) => {
     const values = config[key]
 
@@ -35,7 +35,8 @@ export function createFastScenarioConfig<T extends Record<string, ReadonlyArray<
         name: key,
         options: values.map(value => ({ value })),
         initialValue: values[0],
+        value: values[0],
       },
     }
-  }, {} as ScenarioMap<Readable<T>>)
+  }, {} as ScenarioFastConfig<Readable<T>>)
 }

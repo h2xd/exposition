@@ -29,6 +29,7 @@ export interface Scenario<Value extends string> {
    */
   description?: string
   initialValue: Value
+  value: Value
   options: ScenarioOption<Value>[]
 }
 
@@ -41,9 +42,11 @@ interface ScenarioOption<Value extends string> {
   value: Value
 }
 
-export type ScenarioMap<T extends Record<string, string[]>> = {
+export type ScenarioFastConfig<T extends Record<string, string[]>> = {
   [K in keyof T]: Scenario<T[K][number]>
 }
+
+export type ScenarioMap = Record<string, Scenario<string>>
 
 /**
  * Helper type to model a Record<string, string> that can be passed
@@ -72,6 +75,6 @@ export type ScenarioMap<T extends Record<string, string[]>> = {
  *   user: 'gdi'
  * }
  */
-export type ScenarioValueMap<T extends Record<string, Scenario<any>>> = {
+export type ScenarioValueMap<T extends Record<string, Scenario<string>>> = {
   [K in keyof T]: T[K]['options'][number]['value']
 }
