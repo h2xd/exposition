@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint --ext=js,ts,tsx,vue,md,json .",
     "lint:fix": "nr lint --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run"
   },
   "keywords": [
     "exposition",

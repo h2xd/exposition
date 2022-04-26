@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "description": "Core funtionalities and utils of the exposition library",
   "main": "index.js",
-  "scripts": {
-    "test": "pnpm test"
-  },
   "keywords": [
     "exposition",
     "mock",
