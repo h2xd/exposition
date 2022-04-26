@@ -24,7 +24,7 @@
     "paths": {
       "@exposition/core": [
         "./packages/core/index.ts"
-      ],
+      ]
     },
     "types": [
       "vitest",
@@ -37,6 +37,6 @@
   ],
   "exclude": [
     "node_modules",
-    "**/dist",
+    "**/dist"
   ]
 }

@@ -2,12 +2,12 @@
   "name": "@exposition/core",
   "version": "0.1.0",
   "description": "Core funtionalities and utils of the exposition library",
-  "main": "index.js",
   "keywords": [
     "exposition",
     "mock",
     "test"
   ],
+  "license": "MIT",
   "author": "Andrej Schujkow <https://github.com/h2xd>",
-  "license": "MIT"
+  "main": "index.js"
 }

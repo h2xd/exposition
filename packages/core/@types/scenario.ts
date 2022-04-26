@@ -17,7 +17,7 @@
  *   ]
  * }
  */
-export type Scenario<Value extends string> = {
+export interface Scenario<Value extends string> {
   /**
    * Name of the scenario that might also
    * be displayed to the developer
@@ -32,7 +32,7 @@ export type Scenario<Value extends string> = {
   options: ScenarioOption<Value>[]
 }
 
-type ScenarioOption<Value extends string> = {
+interface ScenarioOption<Value extends string> {
   /**
    * Provide the developer context of the outcome,
    * when this option is selected
@@ -49,7 +49,7 @@ export type ScenarioMap<T extends Record<string, string[]>> = {
  * Helper type to model a Record<string, string> that can be passed
  * to other interfaces
  * TODO: Add export / import types that accept this type
- * 
+ *
  * @example
  * const UserScenario: Scenario<'gdi' | 'nod'> = {
  *   initialValue: 'gdi',
@@ -63,7 +63,7 @@ export type ScenarioMap<T extends Record<string, string[]>> = {
  *     }
  *   ]
  * }
- * 
+ *
  * const config = {
  *   user: UserScenario
  * }
