@@ -5,6 +5,8 @@
   "description": "Structure to explain the who, what and where of the API mocking process",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint --ext=js,ts,tsx,vue,md,json .",
+    "lint:fix": "nr lint --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
