@@ -1,21 +1,22 @@
 /**
  * Main dataset for the options API
  * @example
- * const scenarioUser: Scenario<'valid' | 'unreachable'> = {
- *   name: 'user:email',
- *   description: 'Handle how the current state of the user email should look like',
- *   initialValue: 'valid',
- *   options: [
- *     {
- *       label: 'User email is fully valid',
- *       value: 'valid'
- *     },
- *     {
- *       label: 'The email is unreachable',
- *       value: 'unreachable'
- *     }
- *   ]
- * }
+  const scenarioUser: Scenario<'valid' | 'unreachable'> = {
+    name: 'user:email',
+    description: 'Handle how the current state of the user email should look like',
+    initialValue: 'valid',
+    value: 'valid',
+    options: [
+      {
+        label: 'User email is fully valid',
+        value: 'valid'
+      },
+      {
+        label: 'The email is unreachable',
+        value: 'unreachable'
+      }
+    ]
+  }
  */
 export interface Scenario<Value extends string> {
   /**
@@ -28,8 +29,15 @@ export interface Scenario<Value extends string> {
    * the developer some sort of context
    */
   description?: string
-  initialValue: Value
+  /**
+   * The current value/state of the `Scenario`
+   */
   value: Value
+  /**
+   * The initial value of the `Scenario`,
+   * that can be used in reset handlers
+   */
+  initialValue: Value
   options: ScenarioOption<Value>[]
 }
 
