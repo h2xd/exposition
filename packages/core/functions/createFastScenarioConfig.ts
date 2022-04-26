@@ -14,16 +14,14 @@ import type { Readable } from '../@types/utils'
  * You can also hover over the `initialValue` an discover that the types
  * are being correctly passed to by the `createFastScenarioConfig` function. ✨
  *
- * @example
- * const config = createFastScenarioConfig({
- *  user: ['online', 'offline'],
- * } as const)
- *
  * @param config
  * Initial configuration of the scenario
  * has to be casted with `as const` to provide typeings
- *
  * @returns Record<string, Scenario>
+ * @example
+  const config = createFastScenarioConfig({
+    user: ['online', 'offline'],
+  } as const)
  */
 export function createFastScenarioConfig<T extends Record<string, ReadonlyArray<string>>>(config: T): ScenarioFastConfig<Readable<T>> {
   return Object.keys(config).reduce((accumulator, key) => {
