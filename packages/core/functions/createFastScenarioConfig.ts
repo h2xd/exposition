@@ -1,4 +1,4 @@
-import type { ScenarioMap } from '@exposition/core'
+import type { ScenarioMap } from '../@types/scenario'
 
 type Readable<T extends Record<string, ReadonlyArray<string>>> = {
   /**
