@@ -5,7 +5,7 @@ import { createFastScenarioConfig } from './createFastScenarioConfig'
 it('should create basic scenario with all required values', () => {
   const result = createFastScenarioConfig({
     stand: ['diamond', 'world'],
-  })
+  } as const)
 
   const expectedScenario = {
     stand: {
