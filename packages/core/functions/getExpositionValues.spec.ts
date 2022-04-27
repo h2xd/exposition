@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest'
 import type { Scenario } from '../@types/scenario'
-import { getScenarioValueMap } from './getScenarioValueMap'
+import { getExpositionValues } from './getExpositionValues'
 
 function createTestScenario(): Scenario<'rice' | 'pasta'> {
   return {
@@ -21,25 +21,25 @@ function createTestScenario(): Scenario<'rice' | 'pasta'> {
   }
 }
 
-it('should extract selected values from a ScenarioMap', () => {
-  const TestScenarioMap = {
+it('should extract selected values from an Exposition', () => {
+  const exposition = {
     base: createTestScenario(),
   }
 
-  const result = getScenarioValueMap(TestScenarioMap)
+  const expositionValues = getExpositionValues(exposition)
 
-  expect(result.base).toBe('pasta')
+  expect(expositionValues.base).toBe('pasta')
 })
 
 it('should return a map that wont mutate the given argument', () => {
-  const TestScenarioMap = {
+  const exposition = {
     base: createTestScenario(),
   }
 
-  const result = getScenarioValueMap(TestScenarioMap)
+  const expositionValues = getExpositionValues(exposition)
 
-  result.base = 'rice'
+  expositionValues.base = 'rice'
 
-  expect(result.base).toBe('rice')
-  expect(TestScenarioMap.base.value).toBe('pasta')
+  expect(expositionValues.base).toBe('rice')
+  expect(exposition.base.value).toBe('pasta')
 })
