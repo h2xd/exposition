@@ -1,13 +1,13 @@
 import { expect, it } from 'vitest'
 import type { Scenario } from '../@types/scenario'
-import { createFastScenarioConfig } from './createFastScenarioConfig'
+import { createExpositionFast } from './createExpositionFast'
 
-it('should create basic scenario with all required values', () => {
-  const result = createFastScenarioConfig({
+it('should create an Exposition with all required values', () => {
+  const resultExposition = createExpositionFast({
     stand: ['diamond', 'world'],
-  } as const)
+  })
 
-  const expectedScenario = {
+  const expectedExposition = {
     stand: {
       name: 'stand',
       initialValue: 'diamond',
@@ -23,5 +23,5 @@ it('should create basic scenario with all required values', () => {
     } as Scenario<'diamond' | 'world'>,
   }
 
-  expect(result).toMatchObject(expectedScenario)
+  expect(resultExposition).toMatchObject(expectedExposition)
 })

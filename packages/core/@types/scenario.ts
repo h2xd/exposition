@@ -49,7 +49,3 @@ interface ScenarioOption<Value extends string> {
   label?: string
   value: Value
 }
-
-export type ScenarioFastConfig<T extends Record<string, string[]>> = {
-  [K in keyof T]: Scenario<T[K][number]>
-}

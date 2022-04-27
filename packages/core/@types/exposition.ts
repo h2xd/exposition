@@ -3,9 +3,13 @@ import type { Scenario } from './scenario'
 export type ExpositionConfig = Record<string, ExpositionScenarioConfig>
 export type ExpositionScenarioConfig = Pick<Scenario<string>, 'description' | 'options'>
 
-export type Exposition<T extends ExpositionConfig> = {
+export type FastExpositionConfig = Record<string, string[]>
+
+export type Exposition<T extends ExpositionConfig | FastExpositionConfig> = T extends ExpositionConfig ? {
   [K in keyof T]: Scenario<T[K]['options'][number]['value']>
-}
+} : T extends FastExpositionConfig ? {
+  [K in keyof T]: Scenario<T[K][number]>
+} : never
 
 /**
  * Helper type to model a Record<string, string> that can be passed

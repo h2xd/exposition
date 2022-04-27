@@ -1,8 +1,10 @@
-import type { ScenarioFastConfig } from '../@types/scenario'
-import type { Readable } from '../@types/utils'
+import type { Exposition, FastExpositionConfig } from '../@types/exposition'
 
 /**
- * Create ScenarioMap with minimal affort.
+ * Speedrun the Exposition creation process
+ *
+ * _Useful for PoCs or small projects_
+ *
  * IMPORTANT: For full type support the given config parameter needs to be casted with `as const`
  *
  * - The key of the entry will be used for he name of the `Scenario`.
@@ -12,18 +14,18 @@ import type { Readable } from '../@types/utils'
  * Hint: Try out the autocomplete function of your IDE.
  * Press CMD/CTRL + SPACE to see the values of the current selected `Scenario`.
  * You can also hover over the `initialValue` an discover that the types
- * are being correctly passed to by the `createFastScenarioConfig` function. ✨
+ * are being correctly passed to by the `createExpositionFast` function. ✨
  *
  * @param config
  * Initial configuration of the scenario
  * has to be casted with `as const` to provide typeings
- * @returns Record<string, Scenario>
+ * @returns Exposition
  * @example
-  const config = createFastScenarioConfig({
+  const config = createExpositionFast({
     user: ['online', 'offline'],
   } as const)
  */
-export function createFastScenarioConfig<T extends Record<string, ReadonlyArray<string>>>(config: T): ScenarioFastConfig<Readable<T>> {
+export function createExpositionFast<T extends FastExpositionConfig>(config: T): Exposition<T> {
   return Object.keys(config).reduce((accumulator, key) => {
     const values = config[key]
 
@@ -36,5 +38,5 @@ export function createFastScenarioConfig<T extends Record<string, ReadonlyArray<
         value: values[0],
       },
     }
-  }, {} as ScenarioFastConfig<Readable<T>>)
+  }, {} as Exposition<T>)
 }
