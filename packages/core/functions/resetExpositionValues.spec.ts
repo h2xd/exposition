@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest'
 import { createExpositionFast } from './createExpositionFast'
-import { resetExpositionValues } from './resetExposition'
+import { resetExpositionValues } from './resetExpositionValues'
 import { updateExpositionValues } from './updateExpositionValues'
 
 it('should reset the whole exposition', () => {
