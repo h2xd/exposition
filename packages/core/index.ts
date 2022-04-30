@@ -1,4 +1,5 @@
 export * from './@types/scenario'
+export * from './@types/exposition'
 
 export { createExposition } from './functions/createExposition'
 export { createExpositionFast } from './functions/createExpositionFast'
