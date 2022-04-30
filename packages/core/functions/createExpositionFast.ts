@@ -1,4 +1,4 @@
-import type { Exposition, FastExpositionConfig } from '../@types/exposition'
+import type { ExpositionReturn, FastExpositionConfig } from '../@types/exposition'
 
 /**
  * Speedrun the Exposition creation process
@@ -25,7 +25,7 @@ import type { Exposition, FastExpositionConfig } from '../@types/exposition'
     user: ['online', 'offline'],
   } as const)
  */
-export function createExpositionFast<T extends FastExpositionConfig>(config: T): Exposition<T> {
+export function createExpositionFast<T extends FastExpositionConfig>(config: T): ExpositionReturn<T> {
   return Object.keys(config).reduce((accumulator, key) => {
     const values = config[key]
 
@@ -38,5 +38,5 @@ export function createExpositionFast<T extends FastExpositionConfig>(config: T):
         value: values[0],
       },
     }
-  }, {} as Exposition<T>)
+  }, {} as ExpositionReturn<T>)
 }

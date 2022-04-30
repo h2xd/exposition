@@ -1,4 +1,4 @@
-import type { Exposition, ExpositionConfig, ExpositionScenarioConfig } from '../@types/exposition'
+import type { ExpositionConfig, ExpositionReturn, ExpositionScenarioConfig } from '../@types/exposition'
 import type { Scenario } from '../@types/scenario'
 
 function expostionConfigToScenario<T extends ExpositionScenarioConfig>(name: string, config: T): Scenario<T['options'][number]['value']> {
@@ -39,13 +39,11 @@ function expostionConfigToScenario<T extends ExpositionScenarioConfig>(name: str
     }
   })
  */
-export function createExposition<
-  T extends ExpositionConfig,
->(config: T): Exposition<T> {
+export function createExposition<T extends ExpositionConfig>(config: T): ExpositionReturn<T> {
   return Object.keys(config).reduce((accumulator, key) => {
     return {
       ...accumulator,
       [key]: expostionConfigToScenario(key, config[key]),
     }
-  }, {} as Exposition<T>)
+  }, {} as ExpositionReturn<T>)
 }

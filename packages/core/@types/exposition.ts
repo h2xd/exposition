@@ -5,11 +5,13 @@ export type ExpositionScenarioConfig = Pick<Scenario<string>, 'description' | 'o
 
 export type FastExpositionConfig = Record<string, string[]>
 
-export type Exposition<T extends ExpositionConfig | FastExpositionConfig> = T extends ExpositionConfig ? {
+export type ExpositionReturn<T extends ExpositionConfig | FastExpositionConfig> = T extends ExpositionConfig ? {
   [K in keyof T]: Scenario<T[K]['options'][number]['value']>
 } : T extends FastExpositionConfig ? {
   [K in keyof T]: Scenario<T[K][number]>
 } : never
+
+export type Exposition = ExpositionReturn<ExpositionConfig | FastExpositionConfig>
 
 /**
  * Helper type to model a Record<string, string> that can be passed
@@ -38,6 +40,6 @@ export type Exposition<T extends ExpositionConfig | FastExpositionConfig> = T ex
  *   user: 'gdi'
  * }
  */
-export type ExpositionValues<T extends Record<string, Scenario<string>>> = {
+export type ExpositionValues<T extends Exposition> = {
   [K in keyof T]: T[K]['options'][number]['value']
 }

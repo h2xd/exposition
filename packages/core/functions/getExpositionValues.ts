@@ -1,4 +1,4 @@
-import type { Exposition, ExpositionValues } from '../@types/exposition'
+import type { ExpositionReturn, ExpositionValues } from '../@types/exposition'
 
 /**
  * Extract the current values from a given `Exposition`
@@ -30,7 +30,7 @@ import type { Exposition, ExpositionValues } from '../@types/exposition'
 
   console.log(expositionValues) // { base: "pasta" }
  */
-export function getExpositionValues<T extends Exposition<any>>(exposition: T): ExpositionValues<T> {
+export function getExpositionValues<T extends ExpositionReturn<any>>(exposition: T): ExpositionValues<T> {
   return Object.keys(exposition).reduce((accumulator, key) => {
     const scenario = exposition[key]
 
