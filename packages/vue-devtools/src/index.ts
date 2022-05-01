@@ -3,8 +3,6 @@ import { version } from '../package.json'
 import type { Exposition, ExpositionValues } from '../../core'
 import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '../../core'
 
-// Our plugin
-
 export default function setupDevtools<T extends Exposition>(app, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
   const id = `@exposition/vue-devtools/${version}`
 
@@ -143,17 +141,19 @@ export default function setupDevtools<T extends Exposition>(app, options: { expo
                   _custom: {
                     type: null,
                     value: scenario.value,
-                    // tooltip: 'It\'s a test!',
                     actions: [{
-                      icon: 'star',
-                      tooltip: 'Test custom action',
-                      action: () => console.log('Meow! 🐱'),
+                      icon: 'restore',
+                      tooltip: 'Reset the value of the scenario',
+                      action: updateState(() => {
+                        internalExpositionState = updateExpositionValues(internalExpositionState, {
+                          [scenario.name]: scenario.initialValue,
+                        })
+                      }),
                     }],
                   },
                 },
                 editable: false,
               },
-
             ],
             options: scenario.options.map((option, index) => {
               return {
@@ -180,25 +180,5 @@ export default function setupDevtools<T extends Exposition>(app, options: { expo
         }
       }
     })
-
-    // api.on.inspectComponent((payload, context) => {
-    //   payload.instanceData.state.push({
-    //     type: stateType,
-    //     key: '$hello',
-    //     value: 'yo',
-    //     editable: false,
-    //   })
-
-    //   payload.instanceData.state.push({
-    //     type: stateType,
-    //     key: 'time counter',
-    //     value: 'dio',
-    //     editable: false,
-    //   })
-    // })
-
-    // setInterval(() => {
-    //   api.notifyComponentUpdate()
-    // }, 5000)
   })
 }
