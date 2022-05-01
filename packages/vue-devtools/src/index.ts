@@ -2,6 +2,7 @@ import type { App } from 'vue'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import { version } from '../package.json'
 import type { Exposition } from '../../core'
+import { updateExpositionValues } from '../../core'
 
 // Our plugin
 
@@ -12,6 +13,8 @@ export default function setupDevtools(app, options: { exposition: Exposition }) 
 
   const stateType = 'My Awesome Plugin state'
   const inspectorId = `${id}/inspector`
+
+  let internalExpositionState: Exposition = { ...options.exposition }
 
   return setupDevtoolsPlugin({
     id,
@@ -43,8 +46,8 @@ export default function setupDevtools(app, options: { exposition: Exposition }) 
 
     api.on.getInspectorTree((payload, context) => {
       if (payload.inspectorId === inspectorId) {
-        const scenarioElements = Object.keys(options.exposition).reduce((accumulator, key) => {
-          const { name } = options.exposition[key]
+        const scenarioElements = Object.keys(internalExpositionState).reduce((accumulator, key) => {
+          const { name } = internalExpositionState[key]
 
           return [
             ...accumulator,
@@ -90,29 +93,72 @@ export default function setupDevtools(app, options: { exposition: Exposition }) 
 
         if (payload.nodeId === 'scenarios') {
           payload.state = {
-            scenarios: Object.keys(options.exposition).reduce((accumulator, key) => {
+            scenarios: Object.keys(internalExpositionState).reduce((accumulator, key) => {
               return [
                 ...accumulator,
                 {
                   key,
-                  value: options.exposition[key].value,
+                  value: internalExpositionState[key].value,
                 },
               ]
             }, []),
           }
         }
 
-        if (Object.keys(options.exposition).includes(payload.nodeId)) {
-          const scenario = options.exposition[payload.nodeId]
+        if (Object.keys(internalExpositionState).includes(payload.nodeId)) {
+          const scenario = internalExpositionState[payload.nodeId]
 
           payload.state = {
-            section: [
+            state: [
               {
-                key: scenario.name,
-                value: scenario.value,
+                key: 'scenario',
+                value: scenario.name,
+              },
+              {
+                key: 'initialValue',
+                value: scenario.initialValue,
+              },
+              {
+                key: 'value',
+                value: {
+                  _custom: {
+                    type: null,
+                    value: scenario.value,
+                    // tooltip: 'It\'s a test!',
+                    actions: [{
+                      icon: 'star',
+                      tooltip: 'Test custom action',
+                      action: () => console.log('Meow! 🐱'),
+                    }],
+                  },
+                },
                 editable: false,
               },
+
             ],
+            options: scenario.options.map((option, index) => {
+              return {
+                key: option.label || index,
+                value: {
+                  _custom: {
+                    type: null,
+                    value: option.value,
+                    actions: [{
+                      icon: 'check',
+                      tooltip: `Set "${option.value}" as the new value`,
+                      action: () => {
+                        internalExpositionState = updateExpositionValues(internalExpositionState, {
+                          [scenario.name]: option.value,
+                        })
+
+                        api.sendInspectorState(inspectorId)
+                      },
+                    }],
+                  },
+                },
+                editable: false,
+              }
+            }),
           }
         }
       }
