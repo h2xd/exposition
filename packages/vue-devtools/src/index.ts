@@ -1,24 +1,23 @@
-import type { App } from 'vue'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import { version } from '../package.json'
-import type { Exposition } from '../../core'
-import { resetExpositionValues, updateExpositionValues } from '../../core'
+import type { Exposition, ExpositionValues } from '../../core'
+import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '../../core'
 
 // Our plugin
 
-export default function setupDevtools(app, options: { exposition: Exposition; onUpdate: (exposition: Exposition) => void }) {
-  console.log(options)
-
+export default function setupDevtools<T extends Exposition>(app, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
   const id = `@exposition/vue-devtools/${version}`
 
   const stateType = 'My Awesome Plugin state'
   const inspectorId = `${id}/inspector`
+  const timelineId = `${id}/timeline`
+  const expositionLabel = '📖 Exposition'
 
-  let internalExpositionState: Exposition = { ...options.exposition }
+  let internalExpositionState: T = { ...options.exposition }
 
   return setupDevtoolsPlugin({
     id,
-    label: '📖 Exposition',
+    label: expositionLabel,
     packageName: '@exposition/vue-devtools',
     homepage: 'https://github.com/h2xd/exposition',
     componentStateTypes: [stateType],
@@ -28,9 +27,26 @@ export default function setupDevtools(app, options: { exposition: Exposition; on
       return function () {
         beforeUpdateHandler()
         api.sendInspectorState(inspectorId)
-        options.onUpdate({ ...internalExpositionState })
+        const values = getExpositionValues(internalExpositionState)
+
+        options.onUpdate({ ...values })
+
+        api.addTimelineEvent({
+          layerId: timelineId,
+          event: {
+            title: 'updateExposition',
+            time: api.now(),
+            data: { ...values },
+          },
+        })
       }
     }
+
+    api.addTimelineLayer({
+      id: timelineId,
+      label: expositionLabel,
+      color: 0x6004DB,
+    })
 
     api.addInspector({
       id: inspectorId,
@@ -43,13 +59,6 @@ export default function setupDevtools(app, options: { exposition: Exposition; on
           action: updateState(() => {
             internalExpositionState = resetExpositionValues(internalExpositionState)
           }),
-        },
-      ],
-      nodeActions: [
-        {
-          icon: 'star',
-          tooltip: 'Test node custom action',
-          action: nodeId => console.log('Node action:', nodeId),
         },
       ],
     })

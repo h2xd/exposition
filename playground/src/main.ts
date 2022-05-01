@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
-import { createExpositionFast } from '../../packages/core'
+import type { ExpositionValues } from '../../packages/core'
+import { createExpositionFast, updateExpositionValues } from '../../packages/core'
 import expositionDevTools from '../../packages/vue-devtools/src'
 import App from './App.vue'
 
@@ -13,8 +14,8 @@ let exposition = createExpositionFast({
 
 app.use(expositionDevTools, {
   exposition,
-  onUpdate(newExposition: typeof exposition) {
-    exposition = newExposition
+  onUpdate(newExpositionValue: ExpositionValues<typeof exposition>) {
+    exposition = updateExpositionValues(exposition, newExpositionValue)
 
     console.log('new Exposition', exposition)
   },
