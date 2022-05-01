@@ -5,13 +5,20 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-const exposition = createExpositionFast({
+let exposition = createExpositionFast({
   user: ['Dio', 'Jojo'],
   stand: ['The Worldo', 'Star Platinum'],
   game: ['Oh! That\'s Baseball!!', 'F-Mega'],
 })
 
-app.use(expositionDevTools, { exposition })
+app.use(expositionDevTools, {
+  exposition,
+  onUpdate(newExposition: typeof exposition) {
+    exposition = newExposition
+
+    console.log('new Exposition', exposition)
+  },
+})
 
 app.mount('#app')
 

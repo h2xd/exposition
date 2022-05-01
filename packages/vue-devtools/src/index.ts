@@ -6,7 +6,7 @@ import { resetExpositionValues, updateExpositionValues } from '../../core'
 
 // Our plugin
 
-export default function setupDevtools(app, options: { exposition: Exposition }) {
+export default function setupDevtools(app, options: { exposition: Exposition; onUpdate: (exposition: Exposition) => void }) {
   console.log(options)
 
   const id = `@exposition/vue-devtools/${version}`
@@ -28,6 +28,7 @@ export default function setupDevtools(app, options: { exposition: Exposition }) 
       return function () {
         beforeUpdateHandler()
         api.sendInspectorState(inspectorId)
+        options.onUpdate({ ...internalExpositionState })
       }
     }
 
