@@ -2,7 +2,7 @@ import type { App } from 'vue'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import { version } from '../package.json'
 import type { Exposition } from '../../core'
-import { updateExpositionValues } from '../../core'
+import { resetExpositionValues, updateExpositionValues } from '../../core'
 
 // Our plugin
 
@@ -24,15 +24,24 @@ export default function setupDevtools(app, options: { exposition: Exposition }) 
     componentStateTypes: [stateType],
     app,
   }, (api) => {
+    function updateState(beforeUpdateHandler: Function): () => void {
+      return function () {
+        beforeUpdateHandler()
+        api.sendInspectorState(inspectorId)
+      }
+    }
+
     api.addInspector({
       id: inspectorId,
       label: 'Exposition',
       icon: 'auto_stories',
       actions: [
         {
-          icon: 'star',
-          tooltip: 'Test custom action',
-          action: () => console.log('Meow! 🐱'),
+          icon: 'restore',
+          tooltip: 'Reset the exposition to its initial state',
+          action: updateState(() => {
+            internalExpositionState = resetExpositionValues(internalExpositionState)
+          }),
         },
       ],
       nodeActions: [
@@ -146,13 +155,11 @@ export default function setupDevtools(app, options: { exposition: Exposition }) 
                     actions: [{
                       icon: 'check',
                       tooltip: `Set "${option.value}" as the new value`,
-                      action: () => {
+                      action: updateState(() => {
                         internalExpositionState = updateExpositionValues(internalExpositionState, {
                           [scenario.name]: option.value,
                         })
-
-                        api.sendInspectorState(inspectorId)
-                      },
+                      }),
                     }],
                   },
                 },
