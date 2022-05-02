@@ -1,49 +1,36 @@
-import type { ExpositionConfig, ExpositionReturn, ExpositionScenarioConfig } from '../@types/exposition'
-import type { Scenario } from '../@types/scenario'
-
-function expostionConfigToScenario<T extends ExpositionScenarioConfig>(name: string, config: T): Scenario<T['options'][number]['value']> {
-  const { description, options } = config
-  const firstOptionValue = options[0].value
-
-  return {
-    name,
-    description,
-    options,
-    initialValue: firstOptionValue,
-    value: firstOptionValue,
-  }
-}
+import type { Exposition, ExpositionConfig } from '../@types/exposition'
 
 /**
- * Create an Exposition with with all nessisary data for future usages 🔮
+ * Create an Exposition with all necessary data 🔮
  *
- * - The key of the entry will be used for the name of the `Scenario`.
+ * ✨ Cast the input config `as const` to get full type support
+ *
+ * - The key of the entry will be used for the name of the `Scenario`
  * - The first `options` value will be set as the `initialValue` of the `Scenario`
  *
  * @param config
- * @returns Record<string, Scenario>
+ * @returns `Exposition`
  * @example
-  const config = createExposition({
+  const exposition = createExposition({
     auth: {
-      description: 'Define how the Authentication-Service should respond to your requests',
-      options: [
-        {
-          label: 'All requests will be authorized ✅',
-          value: 'valid'
-        },
-        {
-          label: 'All requests will be denied ❌',
-          value: 'deny'
-        }
-      ]
+      options: ['valid ✅', 'deny ❌']
     }
-  })
+  } as const)
  */
-export function createExposition<T extends ExpositionConfig>(config: T): ExpositionReturn<T> {
+export function createExposition<T extends ExpositionConfig>(config: T): Exposition<T> {
   return Object.keys(config).reduce((accumulator, key) => {
+    const { options } = config[key]
+
+    const firstOptionValue = options[0]
+
     return {
       ...accumulator,
-      [key]: expostionConfigToScenario(key, config[key]),
+      [key]: {
+        id: key,
+        options,
+        initialValue: firstOptionValue,
+        value: firstOptionValue,
+      },
     }
-  }, {} as ExpositionReturn<T>)
+  }, {} as Exposition<T>)
 }

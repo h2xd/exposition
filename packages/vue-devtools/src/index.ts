@@ -3,7 +3,7 @@ import { version } from '../package.json'
 import type { Exposition, ExpositionValues } from '../../core'
 import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '../../core'
 
-export default function setupDevtools<T extends Exposition>(app, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
+export default function setupDevtools<T extends Exposition<any>>(app, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
   const id = `@exposition/vue-devtools/${version}`
 
   const stateType = 'My Awesome Plugin state'
@@ -64,13 +64,13 @@ export default function setupDevtools<T extends Exposition>(app, options: { expo
     api.on.getInspectorTree((payload, context) => {
       if (payload.inspectorId === inspectorId) {
         const scenarioElements = Object.keys(internalExpositionState).reduce((accumulator, key) => {
-          const { name } = internalExpositionState[key]
+          const { id } = internalExpositionState[key]
 
           return [
             ...accumulator,
             {
-              id: name,
-              label: name,
+              id,
+              label: id,
             },
           ]
         }, [])
@@ -129,7 +129,7 @@ export default function setupDevtools<T extends Exposition>(app, options: { expo
             state: [
               {
                 key: 'scenario',
-                value: scenario.name,
+                value: scenario.id,
               },
               {
                 key: 'initialValue',
@@ -146,7 +146,7 @@ export default function setupDevtools<T extends Exposition>(app, options: { expo
                       tooltip: 'Reset the value of the scenario',
                       action: updateState(() => {
                         internalExpositionState = updateExpositionValues(internalExpositionState, {
-                          [scenario.name]: scenario.initialValue,
+                          [scenario.id]: scenario.initialValue,
                         })
                       }),
                     }],
@@ -157,17 +157,17 @@ export default function setupDevtools<T extends Exposition>(app, options: { expo
             ],
             options: scenario.options.map((option, index) => {
               return {
-                key: option.label || index,
+                key: index,
                 value: {
                   _custom: {
                     type: null,
-                    value: option.value,
+                    value: option,
                     actions: [{
                       icon: 'check',
-                      tooltip: `Set "${option.value}" as the new value`,
+                      tooltip: `Set "${option}" as the new value`,
                       action: updateState(() => {
                         internalExpositionState = updateExpositionValues(internalExpositionState, {
-                          [scenario.name]: option.value,
+                          [scenario.id]: option,
                         })
                       }),
                     }],

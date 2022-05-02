@@ -2,25 +2,23 @@ import { expect, it } from 'vitest'
 import { createExposition } from './createExposition'
 
 it('should create an exposition with all required values', () => {
-  const resultExposition = createExposition({
+  const expositionConfig = {
     user: {
-      description: 'User configuration',
-      options: [{ value: 'well-behaved' }, { label: 'User was send to the shadow realm', value: 'banned' }],
+      options: [
+        'well-behaved',
+        'User was send to the shadow realm',
+      ],
     },
-  })
+  } as const
+
+  const resultExposition = createExposition(expositionConfig)
 
   const expectedExposition = {
     user: {
-      name: 'user',
-      description: 'User configuration',
+      id: 'user',
       initialValue: 'well-behaved',
       value: 'well-behaved',
-      options: [
-        {
-          value: 'well-behaved',
-        },
-        { label: 'User was send to the shadow realm', value: 'banned' },
-      ],
+      options: ['well-behaved', 'User was send to the shadow realm'],
     },
   }
 
@@ -28,18 +26,29 @@ it('should create an exposition with all required values', () => {
 })
 
 it('should return a immutable exposition', () => {
-  const options = {
+  const expositionConfig = {
     user: {
-      description: 'User configuration',
-      options: [{ value: 'well-behaved' }, { label: 'User was send to the shadow realm', value: 'banned' }],
+      options: [
+        'well-behaved',
+        'User was send to the shadow realm',
+      ],
     },
   }
 
-  const resultExposition = createExposition(options)
+  const resultExposition = createExposition(expositionConfig)
 
-  options.user.description = 'change options'
-  options.user.options = []
+  // @ts-expect-error - mutate the initial configuration to check if all references are removed
+  expositionConfig['new value'] = {}
+  expositionConfig.user.options = []
 
-  expect(resultExposition.user.description).toBe('User configuration')
-  expect(resultExposition.user.options).toMatchObject([{ value: 'well-behaved' }, { label: 'User was send to the shadow realm', value: 'banned' }])
+  const expectedExposition = {
+    user: {
+      id: 'user',
+      initialValue: 'well-behaved',
+      value: 'well-behaved',
+      options: ['well-behaved', 'User was send to the shadow realm'],
+    },
+  }
+
+  expect(resultExposition).toMatchObject(expectedExposition)
 })

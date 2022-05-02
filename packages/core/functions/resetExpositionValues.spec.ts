@@ -1,51 +1,58 @@
 import { expect, it } from 'vitest'
-import { createExpositionFast } from './createExpositionFast'
+import { createExposition } from './createExposition'
+import { getExpositionValues } from './getExpositionValues'
 import { resetExpositionValues } from './resetExpositionValues'
 import { updateExpositionValues } from './updateExpositionValues'
 
 it('should reset the whole exposition', () => {
-  const exposition = createExpositionFast({
-    user: ['Dio', 'JoJo'],
-    stand: ['The Worldo', 'Star Platinum'],
+  const exposition = createExposition({
+    user: { options: ['Dio', 'JoJo'] },
+    stand: { options: ['The Worldo', 'Star Platinum'] },
+  } as const)
+
+  const updatedExposition = updateExpositionValues(exposition, { user: 'JoJo', stand: 'Star Platinum' })
+
+  expect(getExpositionValues(updatedExposition)).toMatchObject({
+    user: 'JoJo',
+    stand: 'Star Platinum',
   })
 
-  const newExposition = updateExpositionValues(exposition, { user: 'JoJo', stand: 'Star Platinum' })
+  const resettedExposition = resetExpositionValues(updatedExposition)
 
-  expect(newExposition.user.value).toBe('JoJo')
-  expect(newExposition.stand.value).toBe('Star Platinum')
-
-  const resettedExposition = resetExpositionValues(newExposition)
-
-  expect(resettedExposition.user.value).toBe('Dio')
-  expect(resettedExposition.stand.value).toBe('The Worldo')
+  expect(getExpositionValues(resettedExposition)).toMatchObject({
+    user: 'Dio',
+    stand: 'The Worldo',
+  })
 })
 
 it('should return a immuteable object', () => {
-  const exposition = createExpositionFast({
-    time: ['running', 'frozen', 'reverse'],
-  })
+  const exposition = createExposition({
+    user: { options: ['Dio', 'JoJo'] },
+    stand: { options: ['The Worldo', 'Star Platinum'] },
+  } as const)
 
-  const patchedExposition = updateExpositionValues(exposition, { time: 'frozen' })
-  const resettedExposition = resetExpositionValues(patchedExposition)
+  const resettedExposition = resetExpositionValues(exposition)
 
-  expect(exposition.time.value).toBe('running')
-  expect(patchedExposition.time.value).toBe('frozen')
-  expect(resettedExposition.time.value).toBe('running')
+  exposition.user.value = 'JoJo'
+
+  expect(resettedExposition.user.value).toBe('Dio')
 })
 
 it('should only reset the given fields', () => {
-  const exposition = createExpositionFast({
-    autobot: ['Optimus Prime', 'Bumblebee'],
-    decepticon: ['Megatron', 'Starscream'],
-  })
+  const exposition = createExposition({
+    user: { options: ['Dio', 'JoJo'] },
+    stand: { options: ['The Worldo', 'Star Platinum'] },
+  } as const)
 
   const patchedExposition = updateExpositionValues(exposition, {
-    autobot: 'Bumblebee',
-    decepticon: 'Starscream',
+    user: 'JoJo',
+    stand: 'Star Platinum',
   })
 
-  const resettedExposition = resetExpositionValues(patchedExposition, ['decepticon'])
+  const resettedExposition = resetExpositionValues(patchedExposition, ['stand'])
 
-  expect(resettedExposition.autobot.value).toBe('Bumblebee')
-  expect(resettedExposition.decepticon.value).toBe('Megatron')
+  expect(getExpositionValues(resettedExposition)).toMatchObject({
+    user: 'JoJo',
+    stand: 'The Worldo',
+  })
 })
