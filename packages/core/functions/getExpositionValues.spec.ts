@@ -1,45 +1,37 @@
 import { expect, it } from 'vitest'
-import type { Scenario } from '../@types/scenario'
+import { createExposition } from './createExposition'
 import { getExpositionValues } from './getExpositionValues'
 
-function createTestScenario(): Scenario<'rice' | 'pasta'> {
-  return {
-    name: 'carb',
-    description: 'Carbohydrate Scenario',
-    initialValue: 'rice',
-    value: 'pasta',
-    options: [
-      {
-        label: 'Rice 🍚 is a good option',
-        value: 'rice',
-      },
-      {
-        label: 'Pasta 🍝 is also a good option',
-        value: 'pasta',
-      },
-    ],
-  }
-}
-
 it('should extract selected values from an Exposition', () => {
-  const exposition = {
-    base: createTestScenario(),
-  }
+  const expositionConfig = {
+    base: {
+      options: [
+        '🍚 rice',
+        '🍝 Pasta - Mama Mia',
+      ],
+    },
+  } as const
 
+  const exposition = createExposition(expositionConfig)
   const expositionValues = getExpositionValues(exposition)
 
-  expect(expositionValues.base).toBe('pasta')
+  expect(expositionValues.base).toBe('🍚 rice')
 })
 
 it('should return a map that wont mutate the given argument', () => {
-  const exposition = {
-    base: createTestScenario(),
-  }
+  const expositionConfig = {
+    base: {
+      options: [
+        '🍚 rice',
+        '🍝 Pasta - Mama Mia',
+      ],
+    },
+  } as const
 
+  const exposition = createExposition(expositionConfig)
   const expositionValues = getExpositionValues(exposition)
 
-  expositionValues.base = 'rice'
+  exposition.base.value = '🍝 Pasta - Mama Mia'
 
-  expect(expositionValues.base).toBe('rice')
-  expect(exposition.base.value).toBe('pasta')
+  expect(expositionValues.base).toBe('🍚 rice')
 })

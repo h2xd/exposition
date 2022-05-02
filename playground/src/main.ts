@@ -1,15 +1,15 @@
 import { createApp } from 'vue'
 import type { ExpositionValues } from '../../packages/core'
-import { createExpositionFast, updateExpositionValues } from '../../packages/core'
+import { createExposition, updateExpositionValues } from '../../packages/core'
 import expositionDevTools from '../../packages/vue-devtools/src'
 import App from './App.vue'
 
 const app = createApp(App)
 
-let exposition = createExpositionFast({
-  user: ['Dio', 'Jojo'],
-  stand: ['The Worldo', 'Star Platinum'],
-  game: ['Oh! That\'s Baseball!!', 'F-Mega'],
+let exposition = createExposition({
+  user: { options: ['Dio', 'Jojo'] },
+  stand: { options: ['The Worldo', 'Star Platinum'] },
+  game: { options: ['Oh! That\'s Baseball!!', 'F-Mega'] },
 })
 
 app.use(expositionDevTools, {
