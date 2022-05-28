@@ -16,5 +16,8 @@
   "types": "./index.d.ts",
   "main": "./index.cjs",
   "module": "./index.mjs",
+  "files": [
+    "dist"
+  ],
   "license": "MIT"
 }
