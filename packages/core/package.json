@@ -1,5 +1,5 @@
 {
-  "name": "@exposition/core",
+  "name": "exposition",
   "version": "0.1.0",
   "description": "Core funtionalities and utils of the exposition library",
   "keywords": [
