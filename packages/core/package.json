@@ -7,7 +7,14 @@
     "mock",
     "test"
   ],
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h2xd/exposition.git",
+    "directory": "packages/core"
+  },
   "author": "Andrej Schujkow <https://github.com/h2xd>",
-  "main": "index.js"
+  "types": "./index.d.ts",
+  "main": "./index.cjs",
+  "module": "./index.mjs",
+  "license": "MIT"
 }
