@@ -26,5 +26,11 @@ jobs:
     - name: 📦 Install dependencies
       run: pnpm install
 
-    - name: 🏃‍♀️ Run unit tests
+    - name: 🏃‍♀️ Run tests
       run: pnpm test
+
+    - name: 📢 Publish results
+      uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      if: always()
+      with:
+        files: "./tests/unittest.xml"
