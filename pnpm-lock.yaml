@@ -76,12 +76,6 @@ importers:
       typescript: 4.7.2
       vue: 3.2.36
 
-  packages/web:
-    specifiers:
-      '@exposition/core': workspace:*
-    dependencies:
-      '@exposition/core': link:../core
-
 packages:
 
   /@antfu/eslint-config-basic/0.21.1_eslint@8.16.0+typescript@4.7.2:
