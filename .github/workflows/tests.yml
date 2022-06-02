@@ -2,10 +2,12 @@ name: 🧪 Tests
 
 on:
   push:
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize', 'ready_for_review']
 
 jobs:
   unittest:
-    if: ! github.event.pull_request.draft
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-20.04
     strategy:
       matrix:
