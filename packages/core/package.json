@@ -1,5 +1,5 @@
 {
-  "name": "exposition",
+  "name": "@exposition/core",
   "version": "0.1.0",
   "description": "Core funtionalities and utils of the exposition library",
   "keywords": [
@@ -13,11 +13,8 @@
     "directory": "packages/core"
   },
   "author": "Andrej Schujkow <https://github.com/h2xd>",
-  "types": "./index.d.ts",
-  "main": "./index.cjs",
-  "module": "./index.mjs",
-  "files": [
-    "dist"
-  ],
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "license": "MIT"
 }
