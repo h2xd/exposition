@@ -1,0 +1,36 @@
+name: 🧪 Tests
+
+on:
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize', 'ready_for_review']
+
+jobs:
+  unittest:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: pnpm/action-setup@v2.0.1
+      with:
+        version: 7.0.0
+        
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+
+    - name: 📦 Install dependencies
+      run: pnpm install
+
+    - name: 🏃‍♀️ Run tests
+      run: pnpm test
+
+    - name: 📢 Publish results
+      uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      if: always()
+      with:
+        files: "./.tests/unittest.xml"

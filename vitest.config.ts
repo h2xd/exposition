@@ -17,6 +17,9 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    reporters: 'dot',
+    reporters: ['default', 'junit'],
+    outputFile: {
+      junit: './.tests/unittest.xml',
+    },
   },
 })
