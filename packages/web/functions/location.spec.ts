@@ -14,7 +14,7 @@ it('should create URL save parameters', () => {
     },
   })
 
-  expect(encodeUrlParameters(exposition)).toEqual('cart:empty,location:Australia')
+  expect(encodeUrlParameters(exposition)).not.toBe(JSON.stringify(getExpositionValues(exposition)))
 })
 
 it('should be able to parse given URL parameters', () => {

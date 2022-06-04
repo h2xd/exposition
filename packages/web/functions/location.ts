@@ -4,33 +4,18 @@ import type { ExpositionValues } from '../../core/dist'
 
 type Distinct<T, DistinctName> = T & { __TYPE__: DistinctName }
 
-type ExpositionUrlParameters = Distinct<string, 'UrlParameters'>
+type ExpositionUrlData = Distinct<string, 'UrlParameters'>
 
-export function encodeUrlParameters<T extends Exposition<any>>(exposition: T): ExpositionUrlParameters {
+export function encodeUrlParameters<T extends Exposition<any>>(exposition: T): ExpositionUrlData {
   const values = getExpositionValues(exposition)
+  const stringifiedValues = JSON.stringify(values)
 
-  const scenarioChunks = Object.keys(values).reduce<string[]>((accumulator, key) => {
-    const value = values[key]
-
-    return [
-      ...accumulator,
-      `${key}:${value}`,
-    ]
-  }, [])
-
-  return scenarioChunks.join(',') as ExpositionUrlParameters
+  return window.encodeURIComponent(stringifiedValues) as ExpositionUrlData
 }
 
-export function decodeUrlParameters<T extends Exposition<any>>(params: ExpositionUrlParameters): ExpositionValues<T> | undefined {
-  const scenarioChunks = params.split(',')
-  const values = scenarioChunks.reduce((accumulator, chunk) => {
-    const [key, value] = chunk.split(':')
-
-    return {
-      ...accumulator,
-      [key]: value,
-    }
-  }, {})
+export function decodeUrlParameters<T extends Exposition<any>>(data: ExpositionUrlData): ExpositionValues<T> | undefined {
+  const stringifiedValues = window.decodeURIComponent(data)
+  const values = JSON.parse(stringifiedValues)
 
   return values as ExpositionValues<T>
 }
