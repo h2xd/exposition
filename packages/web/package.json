@@ -13,12 +13,9 @@
     "directory": "packages/web"
   },
   "author": "Andrej Schujkow <https://github.com/h2xd>",
-  "types": "./index.d.ts",
-  "main": "./index.cjs",
-  "module": "./index.mjs",
-  "files": [
-    "dist"
-  ],
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "license": "MIT",
   "dependencies": {
     "@exposition/core": "workspace:*"
