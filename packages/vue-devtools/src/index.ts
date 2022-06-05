@@ -1,7 +1,17 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
+import type { Exposition, ExpositionValues } from '@exposition/core'
+import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '@exposition/core'
+import { writeToLocalStorage } from '@exposition/web'
+import debug from 'debug'
 import { version } from '../package.json'
-import type { Exposition, ExpositionValues } from '../../core'
-import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '../../core'
+
+/**
+ * View debugger by running:
+ * `localStorage.debug = 'exposition:*'`
+ * _Do not forget to set the logging setting to `verbose` in your browser_
+ */
+const log = debug('exposition:vue-devtools')
+const actionLog = log.extend('action')
 
 export default function setupDevtools<T extends Exposition<any>>(app, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
   const id = `@exposition/vue-devtools/${version}`
@@ -26,6 +36,8 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
         beforeUpdateHandler()
         api.sendInspectorState(inspectorId)
         const values = getExpositionValues(internalExpositionState)
+
+        log('Updating values to: %s', JSON.stringify(values))
 
         options.onUpdate({ ...values })
 
@@ -55,8 +67,17 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
           icon: 'restore',
           tooltip: 'Reset the exposition to its initial state',
           action: updateState(() => {
+            actionLog('clicked restore action')
             internalExpositionState = resetExpositionValues(internalExpositionState)
           }),
+        },
+        {
+          icon: 'save',
+          tooltip: 'Save the current state to the localStorage',
+          action: () => {
+            actionLog('clicked save to localStorage action')
+            writeToLocalStorage(internalExpositionState)
+          },
         },
       ],
     })
@@ -145,6 +166,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
                       icon: 'restore',
                       tooltip: 'Reset the value of the scenario',
                       action: updateState(() => {
+                        actionLog('restore scenario %s settings', scenario.id)
                         internalExpositionState = updateExpositionValues(internalExpositionState, {
                           [scenario.id]: scenario.initialValue,
                         })
@@ -166,6 +188,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
                       icon: 'check',
                       tooltip: `Set "${option}" as the new value`,
                       action: updateState(() => {
+                        actionLog('set new value "%s" for scenario "%s"', option, scenario.id)
                         internalExpositionState = updateExpositionValues(internalExpositionState, {
                           [scenario.id]: option,
                         })
