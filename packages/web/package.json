@@ -1,0 +1,23 @@
+{
+  "name": "@exposition/web",
+  "version": "0.1.0",
+  "description": "Web funtionalities and utils of the exposition library",
+  "keywords": [
+    "exposition",
+    "mock",
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h2xd/exposition.git",
+    "directory": "packages/web"
+  },
+  "author": "Andrej Schujkow <https://github.com/h2xd>",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "license": "MIT",
+  "dependencies": {
+    "@exposition/core": "workspace:*"
+  }
+}

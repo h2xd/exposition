@@ -16,8 +16,6 @@ app.use(expositionDevTools, {
   exposition,
   onUpdate(newExpositionValue: ExpositionValues<typeof exposition>) {
     exposition = updateExpositionValues(exposition, newExpositionValue)
-
-    console.log('new Exposition', exposition)
   },
 })
 

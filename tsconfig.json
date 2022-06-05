@@ -24,6 +24,9 @@
     "paths": {
       "@exposition/core": [
         "./packages/core/index.ts"
+      ],
+      "@exposition/web": [
+        "./packages/web/index.ts"
       ]
     },
     "types": [
