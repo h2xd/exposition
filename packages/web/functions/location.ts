@@ -8,7 +8,8 @@ type ExpositionUrlData = Distinct<string, 'UrlParameters'>
 
 /**
  * Extract URL safe values from the current exposition state
- * @param exposition values that should be used for the UrlData
+ * @public
+ * @param exposition - values that should be used for the UrlData
  * @returns
  *
  * @example
@@ -29,7 +30,8 @@ export function encodeUrlParameters<T extends Exposition<any>>(exposition: T): E
 
 /**
  * Decode the ExpositionValues from a given UrlParameters data set
- * @param data
+ * @public
+ * @param data - data that got extracted from window.location.query
  * @returns
  *
  * @example

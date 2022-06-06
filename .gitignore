@@ -105,3 +105,6 @@ dist
 
 # Tests result files
 .tests
+
+# api-extractor
+temp
