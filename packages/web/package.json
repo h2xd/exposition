@@ -7,6 +7,9 @@
     "mock",
     "test"
   ],
+  "scripts": {
+    "tsdoc:extract": "api-extractor run --local --verbose"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/h2xd/exposition.git",

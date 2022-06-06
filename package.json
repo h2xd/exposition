@@ -16,7 +16,8 @@
     "build:types": "tsc --emitDeclarationOnly",
     "lint": "eslint --ext=js,ts,tsx,vue,md,json .",
     "lint:fix": "eslint --ext=js,ts,tsx,vue,md,json . --fix",
-    "test": "vitest run"
+    "test": "vitest run",
+    "tsdoc:generate": "api-documenter markdown -i='./temp/' -o='docs'"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.21.1",
@@ -37,4 +38,4 @@
     "vite": "^2.9.9",
     "vitest": "^0.9.4"
   }
-}
+}11
