@@ -5,6 +5,7 @@ importers:
   .:
     specifiers:
       '@antfu/eslint-config': ^0.21.1
+      '@microsoft/api-documenter': ^7.17.16
       '@microsoft/api-extractor': ^7.24.2
       '@rollup/plugin-json': ^4.1.0
       '@types/node': ^17.0.40
@@ -22,6 +23,7 @@ importers:
       vitest: ^0.9.4
     devDependencies:
       '@antfu/eslint-config': 0.21.1_eslint@8.17.0+typescript@4.7.3
+      '@microsoft/api-documenter': 7.17.16
       '@microsoft/api-extractor': 7.24.2
       '@rollup/plugin-json': 4.1.0_rollup@2.75.5
       '@types/node': 17.0.40
@@ -278,6 +280,19 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.0.7
       '@jridgewell/sourcemap-codec': 1.4.13
+    dev: true
+
+  /@microsoft/api-documenter/7.17.16:
+    resolution: {integrity: sha512-7LwVCaaUowtTWnmoG3+vrNNjuDDV81xGut1oWkEjmDbNd7hPxti791Pc0f4x7lki7VQYYxzQUD2NyNJbZid0EQ==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.17.3
+      '@microsoft/tsdoc': 0.14.1
+      '@rushstack/node-core-library': 3.45.5
+      '@rushstack/ts-command-line': 4.11.0
+      colors: 1.2.5
+      js-yaml: 3.13.1
+      resolve: 1.17.0
     dev: true
 
   /@microsoft/api-extractor-model/7.17.3:
@@ -1762,6 +1777,12 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
+  /esprima/4.0.1:
+    resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
+    engines: {node: '>=4'}
+    hasBin: true
+    dev: true
+
   /esquery/1.4.0:
     resolution: {integrity: sha512-cCDispWt5vHHtwMY2YrAQ4ibFkAL8RbH5YGBnZBc90MolvvfkkQcJro/aZiAQUlQ3qgrYS6D6v8Gc5G5CQsc9w==}
     engines: {node: '>=0.10'}
@@ -2325,6 +2346,14 @@ packages:
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
+    dev: true
+
+  /js-yaml/3.13.1:
+    resolution: {integrity: sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==}
+    hasBin: true
+    dependencies:
+      argparse: 1.0.10
+      esprima: 4.0.1
     dev: true
 
   /js-yaml/4.1.0:

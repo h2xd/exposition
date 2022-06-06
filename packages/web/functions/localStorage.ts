@@ -5,17 +5,18 @@ export const LOCAL_STORAGE_KEY = 'exposition'
 
 /**
  * Write a given exposition state to the local storage
+ * @public
  * @param exposition - from which the values will be extracted
  * @param key - custom keyname for the store name
  *
  * @example
-  const exposition = createExposition({
-    auth: {
-      options: ['valid ✅', 'deny ❌']
-    }
-  } as const)
-
-  writeToLocalStorage(exposition)
+ * const exposition = createExposition(\{
+ *  auth: {
+ *    options: ['valid ✅', 'deny ❌']
+ *   }
+ * } as const)
+ *
+ * writeToLocalStorage(exposition)
  */
 export function writeToLocalStorage<T extends Exposition<any>>(exposition: T, key = LOCAL_STORAGE_KEY): void {
   if (!window.localStorage)
@@ -28,6 +29,7 @@ export function writeToLocalStorage<T extends Exposition<any>>(exposition: T, ke
 
 /**
  * Read from the `localStorage` and extract the given `ExpositionValues`
+ * @public
  * @param key - custom keyname for the store name
  * @returns the stored `ExpositionValues`
  *
