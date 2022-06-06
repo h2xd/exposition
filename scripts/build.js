@@ -1,19 +1,22 @@
+import { resolve as resolvePath } from 'path'
 import { defineConfig } from 'rollup'
 import esbuild from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
 
-function definePackageConfig(packageName) {
+const resolve = path => resolvePath(__dirname, path)
+
+export function definePackageBuild() {
   return [
     defineConfig({
-      input: `./packages/${packageName}/index.ts`,
+      input: resolve('index.ts'),
       output: [
         {
-          file: `./packages/${packageName}/dist/index.cjs`,
+          file: resolve('dist/index.cjs'),
           format: 'cjs',
           sourcemap: process.env.NODE_ENV === 'production',
         },
         {
-          file: `./packages/${packageName}/dist/index.mjs`,
+          file: resolve('dist/index.mjs'),
           format: 'es',
           sourcemap: process.env.NODE_ENV === 'production',
         },
@@ -33,10 +36,10 @@ function definePackageConfig(packageName) {
       ],
     }),
     defineConfig({
-      input: `./packages/${packageName}/index.ts`,
+      input: resolve('index.ts'),
       output: [
         {
-          file: `./packages/${packageName}/dist/index.d.ts`,
+          file: resolve('dist/index.d.ts'),
           format: 'es',
         },
       ],
@@ -44,8 +47,3 @@ function definePackageConfig(packageName) {
     }),
   ]
 }
-
-export default [
-  ...definePackageConfig('core'),
-  ...definePackageConfig('web'),
-]
