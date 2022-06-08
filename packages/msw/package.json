@@ -24,10 +24,14 @@
   "dependencies": {
     "@exposition/core": "workspace:*"
   },
+  "peerDependencies": {
+    "msw": "^0.42.0"
+  },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.24.2",
     "cross-env": "^7.0.3",
     "esbuild": "^0.12.9",
+    "msw": "^0.42.0",
     "rollup": "^2.52.3",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-esbuild": "^4.9.1",
