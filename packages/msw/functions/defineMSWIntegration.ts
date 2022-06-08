@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import type { RequestHandler, SetupWorkerApi } from 'msw'
 import type { SetupServerApi } from 'msw/node'
+=======
+import type { DefaultBodyType, MockedRequest, RestHandler, setupWorker } from 'msw'
+import type { setupServer } from 'msw/node'
+>>>>>>> feat: add msw integration
 import type { Exposition, ExpositionConfig, ExpositionValues } from '@exposition/core'
 import { getExpositionValues } from '@exposition/core'
 
