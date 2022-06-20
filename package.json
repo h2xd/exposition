@@ -17,7 +17,8 @@
     "lint:fix": "eslint --ext=js,ts,tsx,vue,md,json . --fix",
     "test": "vitest run",
     "tsdoc:extract": "pnpm run --recursive --if-present tsdoc:extract",
-    "tsdoc:generate": "api-documenter markdown -i='./temp/' -o='docs'"
+    "tsdoc:generate": "api-documenter markdown -i='./temp/' -o='docs'",
+    "playground": "pnpm run --recursive dev --filter playground"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.21.1",
