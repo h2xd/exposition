@@ -1,6 +1,5 @@
 import { setupWorker } from 'msw'
 import { createApp } from 'vue'
-import type { ExpositionValues } from '../../packages/core'
 import expositionDevTools from '../../packages/vue-devtools/src'
 import { defineMSWIntegration } from '../../packages/msw'
 import App from './App.vue'
