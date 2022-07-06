@@ -1,10 +1,10 @@
-import { createExposition } from '../../../packages/web/node_modules/@exposition/core/dist'
-import type { ExpositionValues } from '../../../packages/web/node_modules/@exposition/core/dist'
+import { createExposition } from '../../../packages/core'
 
 export const playgroundExposition = createExposition({
   cart: {
     options: ['filled', 'empty'],
   },
+  user: {
+    options: ['registered', 'invalid-email'],
+  },
 } as const)
-
-export type playgroundValues = ExpositionValues<typeof playgroundExposition>
