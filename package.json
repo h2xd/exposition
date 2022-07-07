@@ -12,7 +12,7 @@
   "author": "Andrej Schujkow <https://github.com/h2xd>",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm run -r build",
+    "build": "pnpm run --recursive --if-present --filter './packages/*' build",
     "lint": "eslint --ext=js,ts,tsx,vue,md,json .",
     "lint:fix": "eslint --ext=js,ts,tsx,vue,md,json . --fix",
     "test": "vitest run",

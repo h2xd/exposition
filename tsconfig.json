@@ -30,6 +30,9 @@
       ],
       "@exposition/web": [
         "./packages/web/index.ts"
+      ],
+      "@exposition/msw": [
+        "./packages/msw/index.ts"
       ]
     },
     "types": [
