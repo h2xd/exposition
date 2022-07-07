@@ -16,36 +16,48 @@ export function defineMSWIntegration<T extends Exposition<ExpositionConfig>>(opt
 
   const internalHandler: HandlerCreationFn<T>[] = []
 
-  function init() {
-    resetValues()
+  async function init(): Promise<void> {
+    return resetValues()
   }
 
-  function assignHandler(values: ExpositionValues<T>) {
-    try {
-      const handlerList = [...internalHandler, ...handlers].reduce((accumulator, handler) => {
-        return [
-          ...accumulator,
-          ...handler(values),
-        ]
-      }, [] as RestHandler[])
+  async function assignHandler(values: ExpositionValues<T>, delay = 10): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        const handlerList = [...internalHandler, ...handlers].reduce((accumulator, handler) => {
+          return [
+            ...accumulator,
+            ...handler(values),
+          ]
+        }, [] as RestHandler[])
 
-      msw.use(...handlerList)
-    }
-    catch (e) {
-      console.error(e)
-    }
+        msw.use(...handlerList)
+
+        /**
+         * Important! 🧦
+         * MSW seems to need some time to apply all handler.
+         * For that we mimic a `nextTick` functionality that exists in your
+         * favorite Frontend Framework.
+         * BUT, with a much simpler approach.
+         */
+        setTimeout(resolve, delay)
+      }
+      catch (error) {
+        console.error(error)
+        reject(error)
+      }
+    })
   }
 
   function createHandler(handler: (values: ExpositionValues<T>) => RestHandler[]): void {
     internalHandler.push(handler)
   }
 
-  function updateValues<TValues extends ExpositionValues<T>>(newValues: TValues) {
-    assignHandler(newValues)
+  async function updateValues<TValues extends ExpositionValues<T>>(newValues: TValues): Promise<void> {
+    return assignHandler(newValues)
   }
 
-  function resetValues() {
-    assignHandler(getExpositionValues(exposition))
+  async function resetValues(): Promise<void> {
+    return assignHandler(getExpositionValues(exposition))
   }
 
   return {
