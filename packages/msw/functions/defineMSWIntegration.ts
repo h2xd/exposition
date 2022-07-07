@@ -1,9 +1,10 @@
-import type { RestHandler, SetupWorkerApi } from 'msw'
+import type { GraphQLHandler, RestHandler, SetupWorkerApi } from 'msw'
 import type { SetupServerApi } from 'msw/node'
 import type { Exposition, ExpositionConfig, ExpositionValues } from '@exposition/core'
 import { getExpositionValues } from '@exposition/core'
 
-type HandlerCreationFn<T extends Exposition<ExpositionConfig>> = (expositionValues: ExpositionValues<T>) => RestHandler[]
+type Handler = RestHandler | GraphQLHandler
+type HandlerCreationFn<T extends Exposition<ExpositionConfig>> = (expositionValues: ExpositionValues<T>) => Handler[]
 
 interface IntegrationOptions<T extends Exposition<ExpositionConfig>> {
   msw: SetupServerApi | SetupWorkerApi
@@ -28,7 +29,7 @@ export function defineMSWIntegration<T extends Exposition<ExpositionConfig>>(opt
             ...accumulator,
             ...handler(values),
           ]
-        }, [] as RestHandler[])
+        }, [] as Handler[])
 
         msw.use(...handlerList)
 
@@ -48,7 +49,7 @@ export function defineMSWIntegration<T extends Exposition<ExpositionConfig>>(opt
     })
   }
 
-  function createHandler(handler: (values: ExpositionValues<T>) => RestHandler[]): void {
+  function createHandler(handler: (values: ExpositionValues<T>) => Handler[]): void {
     internalHandler.push(handler)
   }
 
