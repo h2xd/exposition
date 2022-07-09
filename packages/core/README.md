@@ -29,7 +29,7 @@ const exposition = createExposition({
 } as const)
 ```
 
-[🔗 Source Code]('https://github.com/h2xd/exposition/blob/main/packages/core/functions/createExposition.ts')
+[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/functions/createExposition.ts)
 
 ## `updateExpositionValues`
 
@@ -50,7 +50,7 @@ getExpositionValues(updatedExposition)
 // { autobot: 'Bumblebee 🚗', decepticon: 'Megatron ✈️' }
 ```
 
-[🔗 Source Code]('https://github.com/h2xd/exposition/blob/main/packages/core/functions/updateExpositionValues.ts')
+[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/functions/updateExpositionValues.ts)
 
 ## `getExpositionValues`
 
@@ -69,7 +69,7 @@ const exposition = createExposition({
 getExpositionValues(exposition) // { base: "🍚 Rice - Cool" }
 ```
 
-[🔗 Source Code]('https://github.com/h2xd/exposition/blob/main/packages/core/functions/getExpositionValues.ts')
+[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/functions/getExpositionValues.ts)
 
 ## `resetExpositionValues`
 
@@ -90,4 +90,4 @@ const revertedExposition = resetExpositionValues(updatedExposition)
 getExpositionValues(revertedExposition) // { character: "Dio 🌎" }
 ```
 
-[🔗 Source Code]('https://github.com/h2xd/exposition/blob/main/packages/core/functions/resetExpositionValues.ts')
+[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/functions/resetExpositionValues.ts)
