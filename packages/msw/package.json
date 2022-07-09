@@ -28,7 +28,6 @@
     "msw": "^0.42.3"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.24.2",
     "cross-env": "^7.0.3",
     "esbuild": "^0.12.9",
     "msw": "^0.42.3",

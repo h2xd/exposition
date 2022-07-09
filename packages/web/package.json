@@ -25,7 +25,6 @@
     "@exposition/core": "workspace:*"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.24.2",
     "cross-env": "^7.0.3",
     "esbuild": "^0.12.9",
     "rollup": "^2.52.3",
