@@ -1,12 +1,10 @@
 import type { Exposition, ExpositionConfig } from '../@types/exposition'
 
 /**
- * Create an Exposition with all necessary data 🔮
+ * Create an Exposition with all necessary data. 🔮
  *
- * ✨ Cast the input config `as const` to get full type support
- *
- * - The key of the entry will be used for the name of the `Scenario`
- * - The first `options` value will be set as the `initialValue` of the `Scenario`
+ * - Cast the config `as const` to get full type support ✨
+ * - The first `options` item will be set as the `initialValue` of the `Scenario`
  *
  * @param config
  * @returns `Exposition`

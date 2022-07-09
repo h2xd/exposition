@@ -3,8 +3,13 @@ export default {
   description: 'Documentation for the exposition library',
   appearance: true,
   lang: 'en-US',
-  base: '/exposition/',
+  base: process.env.NODE_ENV === 'development' ? '/' : '/exposition/',
   lastUpdated: true,
+  markdown: {
+    // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+    theme: 'one-dark-pro',
+    lineNumbers: true,
+  },
   themeConfig: {
     // nav: [
     //   { text: 'Guide', link: '/guide' },
@@ -28,10 +33,10 @@ export default {
         text: '📦 Packages',
         collapsible: true,
         items: [
-          { text: 'core', link: '/packages/core' },
-          { text: 'web', link: '/packages/web' },
-          { text: 'msw', link: '/packages/msw' },
-          { text: 'vue-devtools', link: '/packages/vue-devtools' },
+          { text: '@exposition/core', link: '/packages/core' },
+          { text: '@exposition/web', link: '/packages/web' },
+          { text: '@exposition/msw', link: '/packages/msw' },
+          { text: '@exposition/vue-devtools', link: '/packages/vue-devtools' },
         ],
       },
     ],

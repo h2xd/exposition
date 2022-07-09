@@ -1,7 +1,7 @@
 import type { Exposition, ExpositionValues } from '../@types/exposition'
 
 /**
- * Update the values of the given `Expostion`
+ * Update the values of the given `Exposition`. 🆕
  *
  * @param exposition
  * @param values - that will be used to update the given `Exposition` values

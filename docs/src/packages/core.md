@@ -1,3 +1,5 @@
-# @exposition/core
+---
+title: 📦 @exposition/core
+---
 
-Documentation coming soon...
+<!--@include: ../../../packages/core/README.md-->
