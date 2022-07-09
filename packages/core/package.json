@@ -8,8 +8,7 @@
     "test"
   ],
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c rollup.config.js",
-    "tsdoc:extract": "api-extractor run --local --verbose"
+    "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +16,12 @@
     "directory": "packages/core"
   },
   "author": "Andrej Schujkow <https://github.com/h2xd>",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "main": "./index.ts",
+  "publishConfig": {
+    "types": "./dist/index.d.ts",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs"
+  },
   "license": "MIT",
   "devDependencies": {
     "cross-env": "^7.0.3",
