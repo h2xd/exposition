@@ -1,6 +1,10 @@
 export default {
   title: 'Exposition',
   description: 'Documentation for the exposition library',
+  appearance: true,
+  lang: 'en-US',
+  base: 'https://h2xd.github.io/exposition/',
+  lastUpdated: true,
   themeConfig: {
     // nav: [
     //   { text: 'Guide', link: '/guide' },
@@ -31,7 +35,6 @@ export default {
         ],
       },
     ],
-    lastUpdated: true,
     editLink: {
       pattern: 'https://github.com/h2xd/exposition/edit/main/docs/src/:path',
       text: 'Edit this page on GitHub',
