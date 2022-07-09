@@ -1,0 +1,38 @@
+{
+  "name": "@exposition/docs",
+  "version": "0.1.0",
+  "description": "Documentation for the @exposition library",
+  "scripts": {
+    "docs:dev": "vitepress dev src",
+    "docs:build": "vitepress build src",
+    "docs:serve": "vitepress serve src"
+  },
+  "keywords": [
+    "documentation",
+    "exposition"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h2xd/exposition.git",
+    "directory": "docs"
+  },
+  "author": "Andrej Schujkow <https://github.com/h2xd>",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "license": "MIT",
+  "devDependencies": {
+    "@algolia/client-search": "^4.13.1",
+    "vitepress": "1.0.0-alpha.4",
+    "vue": "^3.2.37"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@types/react",
+        "react",
+        "react-dom"
+      ]
+    }
+  }
+}
