@@ -18,7 +18,7 @@
     "test": "vitest run",
     "doc": "pnpm run --recursive --if-present docs:dev",
     "playground": "pnpm run dev --recursive --filter playground",
-    "ci:publish": "pnpm publish --recursive --filter './packages/core'"
+    "ci:publish": "pnpm publish --recursive --filter './packages/core' --no-git-checks"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.21.1",
