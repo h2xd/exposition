@@ -18,7 +18,7 @@ export default {
         items: [
           // { text: 'Introduction', link: '/introduction' },
           { text: 'Getting Started', link: '/getting-started' },
-        ]
+        ],
       },
       {
         text: '📦 Packages',
@@ -28,8 +28,8 @@ export default {
           { text: 'web', link: '/packages/web' },
           { text: 'msw', link: '/packages/msw' },
           { text: 'vue-devtools', link: '/packages/vue-devtools' },
-        ]
-      }
+        ],
+      },
     ],
     lastUpdated: true,
     editLink: {
@@ -38,7 +38,7 @@ export default {
     },
     footer: {
       message: 'Released under the MIT License',
-      copyright: 'Copyright © 2022-present Andreas Schujkow'
+      copyright: 'Copyright © 2022-present Andreas Schujkow',
     },
-  }
+  },
 }
