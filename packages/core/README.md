@@ -1,4 +1,4 @@
 # @exposition/core
 
-Main functionality lives in this directory.
-Provides service to all later integrations.
+Main functionality of the @exposition library,
+to create an internal api.

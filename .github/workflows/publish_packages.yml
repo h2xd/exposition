@@ -1,0 +1,48 @@
+name: ✈️ Publish Packages
+
+# on:
+#   release:
+#     types: [ published ]
+
+on:
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize', 'ready_for_review']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16]
+    steps:
+    - name: 👓 Checkout repository
+      uses: actions/checkout@v2
+
+    - name: 🚚 Setup pnpm
+      uses: pnpm/action-setup@v2.0.1
+      with:
+        version: 7.0.0
+        
+    - name: 🔻 Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+        registry-url: https://registry.npmjs.org/
+
+    - name: 📦 Install dependencies
+      run: pnpm install
+
+    - name: 🏃‍♀️ Run tests
+      run: pnpm test
+
+    - name: 🏭 Build packages
+      run: pnpm build
+
+    - name: Go to core dir
+      run: cd packages/core
+
+    - name: ✈️ publish to npm
+      run: npm publish --access public --dry-run --no-git-checks
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.NPM}}
