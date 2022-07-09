@@ -3,7 +3,7 @@ export default {
   description: 'Documentation for the exposition library',
   appearance: true,
   lang: 'en-US',
-  base: 'https://h2xd.github.io/exposition/',
+  base: '/exposition/',
   lastUpdated: true,
   themeConfig: {
     // nav: [
