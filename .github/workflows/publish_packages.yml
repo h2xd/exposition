@@ -31,7 +31,7 @@ jobs:
         registry-url: https://registry.npmjs.org/
 
     - name: 📦 Install dependencies
-      run: pnpm ci:install
+      run: pnpm install
 
     - name: 🏃‍♀️ Run tests
       run: pnpm test
