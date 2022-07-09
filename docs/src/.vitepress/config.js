@@ -3,7 +3,6 @@ export default {
   description: 'Documentation for the exposition library',
   appearance: true,
   lang: 'en-US',
-  ignoreDeadLinks: true,
   base: process.env.NODE_ENV === 'development' ? '/' : '/exposition/',
   lastUpdated: true,
   markdown: {
