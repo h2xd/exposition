@@ -8,26 +8,37 @@ And start working on examples later on.
 
 ## Install dependencies
 
-Here are three commands for the most used package manager.<br>
+Here are three commands for the most used package managers.<br>
 _I'll be biased and promote my favorite one first._
 
-`pnpm add -D exposition`
+```sh
+pnpm add -D @exposition/core
+```
 
-`yarn add -D exposition`
+```sh
+yarn add -D @exposition/core
+```
 
-`npm install -D exposition`
+```sh
+npm install -D @exposition/core
+```
 
 ## Define an exposition
 
-Create an Exposition with all necessary data 🔮.
+Create an Exposition with all necessary data 🔮
 
 ```ts
 import { createExposition } from 'exposition'
 
-// ✨ Cast the input config `as const` to get full type support
 const exposition = createExposition({
   auth: {
     options: ['valid ✅', 'deny ❌']
   }
 } as const)
 ```
+
+## Connect to an integration
+
+::: tip coming soon 🤞
+First two integrations just need to be published
+:::

@@ -1,20 +1,24 @@
 import type { Exposition } from '../@types/exposition'
 
 /**
- * Reset the values of a given exposition `Exposition` ⏰
+ * Reset the values of a given `Exposition` to their initialValue. ⏰
  *
  * @param exposition
- * @param scenariosToReset - selection of scenarios that should be resetted to their initial value
+ * @param scenariosToReset - selection of scenarios that should be reverted to their initial value
  * @returns `Exposition`
  * @example
   const exposition = createExposition({
-    user: { options: ['Dio 🌎', 'JoJo 🌟'] },
+    character: { options: ['Dio 🌎', 'JoJo 🌟'] },
   } as const)
 
-  exposition.user.value = 'JoJo 🌟'
+  const updatedExposition = updateExpositionValues(
+    exposition,
+    { character: 'JoJo 🌟' }
+  )
+  getExpositionValues(updatedExposition) // { character: "JoJo 🌟" }
 
-  const resettedExposition = resetExpositionValues(exposition)
-  getExpositionValues(resettedExposition) // { user: "Dio 🌎" }
+  const revertedExposition = resetExpositionValues(updatedExposition)
+  getExpositionValues(revertedExposition) // { character: "Dio 🌎" }
  */
 export function resetExpositionValues<TExposition extends Exposition<any>>(exposition: TExposition, scenariosToReset: (keyof TExposition)[] = []): TExposition {
   return Object.keys(exposition).reduce((accumulator, key) => {

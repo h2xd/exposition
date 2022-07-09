@@ -1,7 +1,7 @@
 import type { Exposition, ExpositionValues } from '../@types/exposition'
 
 /**
- * Extract the current values from a given `Exposition` 📃
+ * Extract the current values from a given `Exposition`. 📃
  *
  * @param exposition
  * @returns ExpositionValues
@@ -9,13 +9,13 @@ import type { Exposition, ExpositionValues } from '../@types/exposition'
   const exposition = createExposition({
     base: {
       options: [
-        '🍚 rice',
+        '🍚 Rice - Cool',
         '🍝 Pasta - Mama Mia',
       ],
     },
   })
 
-  getExpositionValues(exposition)) // { base: "🍚 rice" }
+  getExpositionValues(exposition) // { base: "🍚 Rice - Cool" }
  */
 export function getExpositionValues<T extends Exposition<any>>(exposition: T): ExpositionValues<T> {
   return Object.keys(exposition).reduce((accumulator, key) => {
