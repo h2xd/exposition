@@ -1,9 +1,10 @@
+import type { CustomInspectorNode } from '@vue/devtools-api'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { Exposition, ExpositionValues } from '@exposition/core'
 import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '@exposition/core'
 import { writeToLocalStorage } from '@exposition/web'
 import debug from 'debug'
-import { version } from '../package.json'
+import { version } from '../../package.json'
 
 /**
  * View debugger by running:
@@ -13,7 +14,7 @@ import { version } from '../package.json'
 const log = debug('exposition:vue-devtools')
 const actionLog = log.extend('action')
 
-export default function setupDevtools<T extends Exposition<any>>(app, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
+export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
   const id = `@exposition/vue-devtools/${version}`
 
   const stateType = 'My Awesome Plugin state'
@@ -82,7 +83,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
       ],
     })
 
-    api.on.getInspectorTree((payload, context) => {
+    api.on.getInspectorTree((payload) => {
       if (payload.inspectorId === inspectorId) {
         const scenarioElements = Object.keys(internalExpositionState).reduce((accumulator, key) => {
           const { id } = internalExpositionState[key]
@@ -94,7 +95,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
               label: id,
             },
           ]
-        }, [])
+        }, [] as CustomInspectorNode[])
 
         payload.rootNodes = [
           {
@@ -117,7 +118,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
       }
     })
 
-    api.on.getInspectorState((payload, context) => {
+    api.on.getInspectorState((payload) => {
       if (payload.inspectorId === inspectorId) {
         if (payload.nodeId === 'settings') {
           payload.state = {
@@ -131,6 +132,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
 
         if (payload.nodeId === 'scenarios') {
           payload.state = {
+            // @ts-expect-error - figure out why TypeScript is angry
             scenarios: Object.keys(internalExpositionState).reduce((accumulator, key) => {
               return [
                 ...accumulator,
@@ -167,6 +169,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
                       tooltip: 'Reset the value of the scenario',
                       action: updateState(() => {
                         actionLog('restore scenario %s settings', scenario.id)
+                        // @ts-expect-error - Allow dynamic state definition in this case
                         internalExpositionState = updateExpositionValues(internalExpositionState, {
                           [scenario.id]: scenario.initialValue,
                         })
@@ -177,6 +180,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
                 editable: false,
               },
             ],
+            // @ts-expect-error - figure out why TypeScript is angry
             options: scenario.options.map((option, index) => {
               return {
                 key: index,
@@ -189,6 +193,7 @@ export default function setupDevtools<T extends Exposition<any>>(app, options: {
                       tooltip: `Set "${option}" as the new value`,
                       action: updateState(() => {
                         actionLog('set new value "%s" for scenario "%s"', option, scenario.id)
+                        // @ts-expect-error - Allow dynamic state definition in this case
                         internalExpositionState = updateExpositionValues(internalExpositionState, {
                           [scenario.id]: option,
                         })

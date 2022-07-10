@@ -1,5 +1,5 @@
 import { rest, setupWorker } from 'msw'
-import { defineMSWIntegration } from '../../../packages/msw'
+import { defineMSWIntegration } from '@exposition/integrations/msw'
 import { playgroundExposition } from './exposition'
 import { mockDatabase } from './mockDatabase'
 
