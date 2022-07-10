@@ -1,15 +1,15 @@
 {
   "name": "@exposition/web",
-  "version": "0.1.0",
-  "description": "Web funtionalities and utils of the exposition library",
+  "version": "0.1.4",
+  "description": "Web functionalities and utils of the exposition library",
+  "homepage": "https://h2xd.github.io/exposition",
   "keywords": [
     "exposition",
     "mock",
     "test"
   ],
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c rollup.config.js",
-    "tsdoc:extract": "api-extractor run --local --verbose"
+    "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c rollup.config.js"
   },
   "repository": {
     "type": "git",
