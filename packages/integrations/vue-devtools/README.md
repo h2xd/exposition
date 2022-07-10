@@ -10,4 +10,4 @@ VueDevtools × Exposition
 
 _Added simple PoC with selectable options._
 
-![PoC](./assets/images/dev-tools-2022-05-01.png)
+![PoC](./docs/images/dev-tools-2022-05-01.png)

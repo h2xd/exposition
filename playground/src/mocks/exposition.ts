@@ -1,4 +1,4 @@
-import { createExposition } from '../../../packages/core'
+import { createExposition } from '@exposition/core'
 
 export const playgroundExposition = createExposition({
   cart: {

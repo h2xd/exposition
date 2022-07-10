@@ -17,7 +17,7 @@
     "lint:fix": "eslint --ext=js,ts,tsx,vue,md,json . --fix",
     "test": "vitest run",
     "doc": "pnpm run --recursive --if-present docs:dev --base '/'",
-    "playground": "pnpm run dev --recursive --filter playground",
+    "playground": "pnpm run --recursive --if-present --filter './playground' dev",
     "ci:publish": "pnpm publish --recursive --filter './packages/core' --no-git-checks --access public"
   },
   "devDependencies": {
