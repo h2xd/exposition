@@ -1,3 +1,7 @@
 {
-  "testing.automaticallyOpenPeekView": "never"
+  "testing.automaticallyOpenPeekView": "never",
+  "cSpell.words": [
+    "Andrej",
+    "esbuild"
+  ]
 }
