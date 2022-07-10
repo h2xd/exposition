@@ -31,8 +31,8 @@
       "@exposition/web": [
         "./packages/web/index.ts"
       ],
-      "@exposition/msw": [
-        "./packages/msw/index.ts"
+      "@exposition/integrations": [
+        "./packages/integrations/index.ts"
       ]
     },
     "types": [

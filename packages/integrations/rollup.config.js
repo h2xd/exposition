@@ -3,21 +3,45 @@ import { defineConfig } from 'rollup'
 import esbuild from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
 import json from '@rollup/plugin-json'
+import { definePackageBuild } from '../../scripts/build'
 
 const resolve = path => resolvePath(__dirname, path)
 
-export function definePackageBuild() {
+const packages = [
+  {
+    name: 'msw',
+  },
+  {
+    name: 'vue-devtools',
+  },
+]
+
+function defineBuild() {
+  const packageConfigs = packages.reduce((prevConfig, packageConfig) => {
+    return [
+      ...prevConfig,
+      ...defineIntegrationBuild(packageConfig),
+    ]
+  }, [])
+
+  return [
+    ...definePackageBuild(),
+    ...packageConfigs,
+  ]
+}
+
+function defineIntegrationBuild(packageConfig) {
   return [
     defineConfig({
-      input: resolve('index.ts'),
+      input: resolve(`${packageConfig.name}/index.ts`),
       output: [
         {
-          file: resolve('dist/index.cjs'),
+          file: resolve(`dist/${packageConfig.name}.cjs`),
           format: 'cjs',
           sourcemap: process.env.NODE_ENV === 'production',
         },
         {
-          file: resolve('dist/index.mjs'),
+          file: resolve(`dist/${packageConfig.name}.mjs`),
           format: 'es',
           sourcemap: process.env.NODE_ENV === 'production',
         },
@@ -33,15 +57,15 @@ export function definePackageBuild() {
           define: {
             __VERSION__: '"x.y.z"',
           },
-          tsconfig: 'tsconfig.json',
+          tsconfig: '../../tsconfig.json',
         }),
       ],
     }),
     defineConfig({
-      input: resolve('index.ts'),
+      input: resolve(`${packageConfig.name}/index.ts`),
       output: [
         {
-          file: resolve('dist/index.d.ts'),
+          file: resolve(`dist/${packageConfig.name}.d.ts`),
           format: 'es',
         },
       ],
@@ -49,3 +73,5 @@ export function definePackageBuild() {
     }),
   ]
 }
+
+export default defineBuild()
