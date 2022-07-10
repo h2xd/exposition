@@ -1,5 +1,4 @@
 <p align="center">📖</p>
-<br>
 <h1 align="center">Exposition</h1>
 
 <p align="center">Structure to explain the who, what and where of the API mocking process</p>
