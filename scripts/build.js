@@ -6,18 +6,21 @@ import json from '@rollup/plugin-json'
 
 const resolve = path => resolvePath(__dirname, path)
 
-export function definePackageBuild() {
+export function definePackageBuild(path) {
+  const entryFileName = path ? `${path}/index.ts` : 'index.ts'
+  const outputFileName = path ? `dist/${path}` : 'dist/index'
+
   return [
     defineConfig({
-      input: resolve('index.ts'),
+      input: resolve(entryFileName),
       output: [
         {
-          file: resolve('dist/index.cjs'),
+          file: resolve(`${outputFileName}.cjs`),
           format: 'cjs',
           sourcemap: process.env.NODE_ENV === 'production',
         },
         {
-          file: resolve('dist/index.mjs'),
+          file: resolve(`${outputFileName}.mjs`),
           format: 'es',
           sourcemap: process.env.NODE_ENV === 'production',
         },
@@ -38,10 +41,10 @@ export function definePackageBuild() {
       ],
     }),
     defineConfig({
-      input: resolve('index.ts'),
+      input: resolve(entryFileName),
       output: [
         {
-          file: resolve('dist/index.d.ts'),
+          file: resolve(`${outputFileName}.d.ts`),
           format: 'es',
         },
       ],
