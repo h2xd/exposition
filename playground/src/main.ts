@@ -8,6 +8,8 @@ import { mockWorker, mswIntegration } from './mocks/mswIntegration'
 const app = createApp(App)
 
 seedDatabase()
+
+// #region vue-devtools
 mswIntegration.init()
 mockWorker.start()
 
@@ -17,3 +19,4 @@ app.use(setupDevtools, {
 })
 
 app.mount('#app')
+// #endregion vue-devtools
