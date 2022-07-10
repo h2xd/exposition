@@ -2,6 +2,8 @@
   "testing.automaticallyOpenPeekView": "never",
   "cSpell.words": [
     "Andrej",
-    "esbuild"
+    "endregion",
+    "esbuild",
+    "mswjs"
   ]
 }

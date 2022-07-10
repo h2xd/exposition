@@ -1,3 +1,0 @@
-# @exposition/vue-devtools
-
-Documentation coming soon...

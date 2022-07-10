@@ -1,14 +1,24 @@
-# @exposition/core
+# 🌱 @exposition/core
 
 <!-- This file will also be automatically included in the main documentation -->
 <!-- ../../docs/src/packages/core.md -->
 
-Main functionality of the [`@exposition`](https://github.com/h2xd/exposition) library,
+Main functionality of the [`@exposition`](https://h2xd.github.io/exposition/) library,
 to create and update the configuration while 
-submitting events to various integrations.
+submitting events to various [integrations](https://h2xd.github.io/exposition/packages/integrations.html).
+
+## Install
 
 ```sh
 pnpm add -D @exposition/core
+```
+
+```sh
+yarn add -D @exposition/core
+```
+
+```sh
+npm install -D @exposition/core
 ```
 
 ## `createExposition`

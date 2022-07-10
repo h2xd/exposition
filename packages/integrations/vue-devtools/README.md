@@ -1,13 +1,28 @@
-# @exposition/vue-devtools
+# Vue-Devtools
 
-WORK IN PROGRESS 🧪
+[`@exposition`](https://h2xd.github.io/exposition/) extension for the [Vue-Devtools](https://devtools.vuejs.org/).
 
-VueDevtools × Exposition
+## Why? 🤔
 
-## History
+I love the Vue-Devtools and always enjoyed how nicely everything works together
+while keeping a beautiful UX & UI. Therefore it's a must to have an extension in place.
+I hope you enjoy this extension as much as I do.
 
-### 2022-05-01
+## Installation
 
-_Added simple PoC with selectable options._
+```sh
+pnpm add -D @exposition/integrations @vue/devtools-api
+```
 
-![PoC](./docs/images/dev-tools-2022-05-01.png)
+```sh
+yarn add -D @exposition/integrations @vue/devtools-api
+```
+
+```sh
+npm install -D @exposition/integrations @vue/devtools-api
+```
+
+## Whats next
+
+Everything is installed now comes the part to add everything to your
+application follow along to the setup.

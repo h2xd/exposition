@@ -23,6 +23,9 @@
   "license": "MIT",
   "devDependencies": {
     "@algolia/client-search": "^4.13.1",
+    "@exposition/core": "workspace:*",
+    "@exposition/integrations": "workspace:*",
+    "msw": "^0.42.3",
     "vitepress": "1.0.0-alpha.4",
     "vue": "^3.2.37"
   },

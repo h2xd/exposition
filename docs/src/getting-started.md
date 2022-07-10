@@ -1,6 +1,6 @@
 # Getting Started
 
-:::warning ⚠️ This library is still in active development! 
+:::warning This library is still in active development! ⚠️
 I've just added the docs to get a better feeling for the
 maximum amount of information that need to be put into TSDoc.
 And start working on examples later on.
@@ -37,8 +37,11 @@ const exposition = createExposition({
 } as const)
 ```
 
-## Connect to an integration
+## Add an integration
 
-::: tip coming soon 🤞
-First two integrations just need to be published
+::: tip Start with msw 💡
+Mock Service Worker is the primary integration and even the reason
+for this library. Therefore I highly recommend to start with the [msw setup guide](./cookbook/setup-msw.md) first.
 :::
+
+<!-- @include: ./cookbook/snippets/next-guides.md -->
