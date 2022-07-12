@@ -2,7 +2,7 @@ import type { CustomInspectorNode } from '@vue/devtools-api'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { Exposition, ExpositionValues } from '@exposition/core'
 import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '@exposition/core'
-import { writeToLocalStorage } from '@exposition/web'
+import { readFromLocalStorage, writeToLocalStorage } from '@exposition/web'
 import debug from 'debug'
 import { version } from '../../package.json'
 
@@ -24,6 +24,24 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
 
   let internalExpositionState: T = { ...options.exposition }
 
+  let settingsState = [
+    {
+      key: 'active',
+      value: true,
+      editable: true,
+    }, {
+      key: 'autoLoadFromLocalStorage',
+      value: true,
+      editable: true,
+      hint: 'Enable that custom modifications will be stored and auto loaded from the localStorage',
+    },
+  ]
+
+  const fromLocalStorage = readFromLocalStorage<T>()
+
+  if (fromLocalStorage)
+    internalExpositionState = updateExpositionValues(internalExpositionState, fromLocalStorage)
+
   return setupDevtoolsPlugin({
     id,
     label: expositionLabel,
@@ -35,12 +53,17 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
     function updateState(beforeUpdateHandler: Function): () => void {
       return function () {
         beforeUpdateHandler()
-        api.sendInspectorState(inspectorId)
         const values = getExpositionValues(internalExpositionState)
 
         log('Updating values to: %s', JSON.stringify(values))
 
         options.onUpdate({ ...values })
+
+        if (settingsState[1].value)
+          writeToLocalStorage(internalExpositionState)
+
+        api.sendInspectorState(inspectorId)
+        api.sendInspectorTree(inspectorId)
 
         api.addTimelineEvent({
           layerId: timelineId,
@@ -86,13 +109,24 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
     api.on.getInspectorTree((payload) => {
       if (payload.inspectorId === inspectorId) {
         const scenarioElements = Object.keys(internalExpositionState).reduce((accumulator, key) => {
-          const { id } = internalExpositionState[key]
+          const { id, value, initialValue } = internalExpositionState[key]
+
+          const isInitialValue = value === initialValue
 
           return [
             ...accumulator,
             {
               id,
               label: id,
+              tags: [
+                isInitialValue
+                  ? {
+                      label: 'default',
+                      textColor: 0xFFFFFF,
+                      backgroundColor: 0x000000,
+                    }
+                  : { label: 'modified', textColor: 0xFFC495, backgroundColor: 0xAF4C05 },
+              ],
             },
           ]
         }, [] as CustomInspectorNode[])
@@ -100,7 +134,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
         payload.rootNodes = [
           {
             id: 'settings',
-            label: '📖 Exposition',
+            label: '⚙ Settings',
             tags: [
               {
                 label: 'awesome',
@@ -118,15 +152,29 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       }
     })
 
+    api.on.editInspectorState((payload) => {
+      if (payload.inspectorId === inspectorId) {
+        if (payload.nodeId === 'settings') {
+          const updatedKey = payload.path[0]
+
+          settingsState = settingsState.map((item) => {
+            if (item.key !== updatedKey)
+              return item
+
+            return {
+              ...item,
+              value: payload.state.value,
+            }
+          })
+        }
+      }
+    })
+
     api.on.getInspectorState((payload) => {
       if (payload.inspectorId === inspectorId) {
         if (payload.nodeId === 'settings') {
           payload.state = {
-            settings: [{
-              key: 'active',
-              value: true,
-              editable: true,
-            }],
+            settings: settingsState,
           }
         }
 
