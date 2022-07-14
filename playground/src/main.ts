@@ -16,8 +16,6 @@ mockWorker.start()
 app.use(setupDevtools, {
   exposition: playgroundExposition,
   onUpdate(newValues: any, isEnabled: boolean) {
-    console.log({ newValues, isEnabled })
-
     if (!isEnabled) {
       mswIntegration.useNoHandlers()
       return
