@@ -43,8 +43,6 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
 
         options.onUpdate(state.getValues())
 
-        state.saveToStore(true)
-
         api.sendInspectorState(inspectorId)
         api.sendInspectorTree(inspectorId)
 
@@ -77,14 +75,6 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
             actionLog('clicked restore action')
             state.reset()
           }),
-        },
-        {
-          icon: 'save',
-          tooltip: 'Save the current state to the localStorage',
-          action: () => {
-            actionLog('clicked save to localStorage action')
-            state.saveToStore()
-          },
         },
       ],
     })

@@ -18,28 +18,29 @@ export function defineExpositionState<T extends Exposition<any>>(exposition: T) 
     }
   }
 
-  function saveToStore(checkEnabledSettings = false) {
-    function store() {
-      storageLog('store values to local storage', JSON.stringify(getValues()))
-      writeToLocalStorage(state)
-    }
+  function writeToStore() {
+    storageLog('store values to local storage', JSON.stringify(getValues()))
+    writeToLocalStorage(state)
+  }
 
-    if (!checkEnabledSettings) {
-      store()
-
+  function saveToStore(force = false): void {
+    if (force) {
+      writeToStore()
       return
     }
 
     if (settings.isEnabled('autoLoadFromLocalStorage'))
-      store()
+      writeToStore()
   }
 
   function reset() {
     Object.assign(state, resetExpositionValues(state))
+    saveToStore()
   }
 
   function update(newValues: Partial<ExpositionValues<T>>) {
     Object.assign(state, updateExpositionValues(state, newValues))
+    saveToStore()
   }
 
   function getValues() {
