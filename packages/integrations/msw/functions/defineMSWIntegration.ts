@@ -21,35 +21,18 @@ export function defineMSWIntegration<T extends Exposition<ExpositionConfig>>(opt
     return resetValues()
   }
 
-  async function assignHandler(values: ExpositionValues<T>, delay = 10): Promise<void> {
-    return new Promise((resolve, reject) => {
-      try {
-        const handlerList = [...internalHandler, ...handlers].reduce((accumulator, handler) => {
-          return [
-            ...accumulator,
-            ...handler(values),
-          ]
-        }, [] as Handler[])
+  function assignHandler(values: ExpositionValues<T>): void {
+    const handlerList = [...internalHandler, ...handlers].reduce((accumulator, handler) => {
+      return [
+        ...accumulator,
+        ...handler(values),
+      ]
+    }, [] as Handler[])
 
-        msw.use(...handlerList)
-
-        /**
-         * Important! 🧦
-         * MSW seems to need some time to apply all handler.
-         * For that we mimic a `nextTick` functionality that exists in your
-         * favorite Frontend Framework.
-         * BUT, with a much simpler approach.
-         */
-        setTimeout(resolve, delay)
-      }
-      catch (error) {
-        console.error(error)
-        reject(error)
-      }
-    })
+    msw.use(...handlerList)
   }
 
-  function useNoHandlers() {
+  function useNoHandlers(): void {
     msw.resetHandlers()
     msw.use()
   }
@@ -58,12 +41,12 @@ export function defineMSWIntegration<T extends Exposition<ExpositionConfig>>(opt
     internalHandler.push(handler)
   }
 
-  async function updateValues<TValues extends ExpositionValues<T>>(newValues: TValues): Promise<void> {
-    return assignHandler(newValues)
+  function updateValues<TValues extends ExpositionValues<T>>(newValues: TValues): void {
+    assignHandler(newValues)
   }
 
-  async function resetValues(): Promise<void> {
-    return assignHandler(getExpositionValues(exposition))
+  function resetValues(): void {
+    assignHandler(getExpositionValues(exposition))
   }
 
   return {
