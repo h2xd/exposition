@@ -5,6 +5,7 @@ import { getExpositionValues, resetExpositionValues, updateExpositionValues } fr
 import { readFromLocalStorage, writeToLocalStorage } from '@exposition/web'
 import debug from 'debug'
 import { version } from '../../package.json'
+import { defineDevToolsSettings } from './settings'
 
 /**
  * View debugger by running:
@@ -21,25 +22,13 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
   const inspectorId = `${id}/inspector`
   const timelineId = `${id}/timeline`
   const expositionLabel = '📖 Exposition'
+  const settings = defineDevToolsSettings()
 
   let internalExpositionState: T = { ...options.exposition }
 
-  let settingsState = [
-    {
-      key: 'active',
-      value: true,
-      editable: true,
-    }, {
-      key: 'autoLoadFromLocalStorage',
-      value: true,
-      editable: true,
-      hint: 'Enable that custom modifications will be stored and auto loaded from the localStorage',
-    },
-  ]
-
   const fromLocalStorage = readFromLocalStorage<T>()
 
-  if (fromLocalStorage)
+  if (settings.state[1].value && fromLocalStorage)
     internalExpositionState = updateExpositionValues(internalExpositionState, fromLocalStorage)
 
   return setupDevtoolsPlugin({
@@ -59,7 +48,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
 
         options.onUpdate({ ...values })
 
-        if (settingsState[1].value)
+        if (settings.state[1].value)
           writeToLocalStorage(internalExpositionState)
 
         api.sendInspectorState(inspectorId)
@@ -157,15 +146,15 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
         if (payload.nodeId === 'settings') {
           const updatedKey = payload.path[0]
 
-          settingsState = settingsState.map((item) => {
+          settings.state.forEach((item) => {
             if (item.key !== updatedKey)
               return item
 
-            return {
-              ...item,
-              value: payload.state.value,
-            }
+            item.value = payload.state.value
           })
+
+          settings.saveSettings()
+          writeToLocalStorage(internalExpositionState)
         }
       }
     })
@@ -174,7 +163,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       if (payload.inspectorId === inspectorId) {
         if (payload.nodeId === 'settings') {
           payload.state = {
-            settings: settingsState,
+            settings: settings.state,
           }
         }
 
