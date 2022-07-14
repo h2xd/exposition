@@ -1,6 +1,6 @@
 import type { Exposition } from '@exposition/core'
 import type { DevtoolsContext } from '../@types/api'
-import { inspectorId } from '../config'
+import { inspectorId } from '../utils/config'
 
 const settingsNodeId = 'settings'
 

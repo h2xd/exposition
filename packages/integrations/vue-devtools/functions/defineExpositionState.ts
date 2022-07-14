@@ -1,8 +1,8 @@
 import type { Exposition, ExpositionValues } from '@exposition/core'
 import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '@exposition/core'
 import { readFromLocalStorage, writeToLocalStorage } from '@exposition/web'
-import { storageLog } from './logs'
-import { defineDevToolsSettings } from './settings'
+import { storageLog } from '../utils/logs'
+import { defineDevToolsSettings } from './defineDevToolsSettings'
 
 const settings = defineDevToolsSettings()
 

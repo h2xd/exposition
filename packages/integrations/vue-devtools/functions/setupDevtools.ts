@@ -2,12 +2,12 @@ import type { CustomInspectorNode } from '@vue/devtools-api'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { Exposition, ExpositionValues } from '@exposition/core'
 
-import { expositionLabel, id, inspectorId, stateType, timelineId } from '../config'
+import { expositionLabel, id, inspectorId, stateType, timelineId } from '../utils/config'
 import type { DevtoolsContext } from '../@types/api'
 import { createSettingsViews } from '../views/createSettingsViews'
-import { defineDevToolsSettings } from './settings'
-import { defineExpositionState } from './state'
-import { actionLog, log } from './logs'
+import { actionLog, log } from '../utils/logs'
+import { defineDevToolsSettings } from './defineDevToolsSettings'
+import { defineExpositionState } from './defineExpositionState'
 
 /**
  * View debugger by running:
