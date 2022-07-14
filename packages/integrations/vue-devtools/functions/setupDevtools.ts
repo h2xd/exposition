@@ -26,7 +26,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
     id,
     label: expositionLabel,
     packageName: '@exposition/vue-devtools',
-    homepage: 'https://github.com/h2xd/exposition',
+    homepage: 'https://h2xd.github.io/exposition/integrations/vue-devtools.html',
     componentStateTypes: [stateType],
     app,
   }, (api) => {
