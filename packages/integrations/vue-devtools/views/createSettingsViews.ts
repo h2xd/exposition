@@ -4,7 +4,7 @@ import { inspectorId } from '../utils/config'
 
 const settingsNodeId = 'settings'
 
-export function createSettingsViews<T extends Exposition<any>>({ api, settings, state }: DevtoolsContext<T>) {
+export function createSettingsViews<T extends Exposition<any>>({ api, settings, state }: DevtoolsContext<T>, onChangeHandler: () => void) {
   api.on.editInspectorState((payload) => {
     if (payload.inspectorId !== inspectorId || payload.nodeId !== settingsNodeId)
       return
@@ -20,6 +20,7 @@ export function createSettingsViews<T extends Exposition<any>>({ api, settings, 
 
     settings.saveSettings()
     state.saveToStore()
+    onChangeHandler()
   })
 
   api.on.getInspectorState((payload) => {

@@ -49,6 +49,11 @@ export function defineMSWIntegration<T extends Exposition<ExpositionConfig>>(opt
     })
   }
 
+  function useNoHandlers() {
+    msw.resetHandlers()
+    msw.use()
+  }
+
   function createHandler(handler: (values: ExpositionValues<T>) => Handler[]): void {
     internalHandler.push(handler)
   }
@@ -64,6 +69,7 @@ export function defineMSWIntegration<T extends Exposition<ExpositionConfig>>(opt
   return {
     createHandler,
     updateValues,
+    useNoHandlers,
     resetValues,
     init,
   }

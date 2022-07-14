@@ -15,12 +15,12 @@ import { defineExpositionState } from './defineExpositionState'
  * _Do not forget to set the logging setting to `verbose` in your browser_
  */
 
-export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
+export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>, enabled: boolean) => void }) {
   const settings = defineDevToolsSettings()
   const state = defineExpositionState(options.exposition)
 
   state.loadFromStore()
-  options.onUpdate(state.getValues())
+  options.onUpdate(state.getValues(), settings.isEnabled('active'))
 
   return setupDevtoolsPlugin({
     id,
@@ -36,12 +36,12 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       state,
     }
 
-    function updateState(beforeUpdateHandler: Function): () => void {
+    function updateState(beforeUpdateHandler: Function = () => undefined): () => void {
       return function () {
         beforeUpdateHandler()
         log('Updating values to: %s', JSON.stringify(state.getValues()))
 
-        options.onUpdate(state.getValues())
+        options.onUpdate(state.getValues(), settings.isEnabled('active'))
 
         api.sendInspectorState(inspectorId)
         api.sendInspectorTree(inspectorId)
@@ -125,7 +125,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       }
     })
 
-    createSettingsViews(context)
+    createSettingsViews(context, updateState())
 
     api.on.getInspectorState((payload) => {
       if (payload.inspectorId === inspectorId) {

@@ -15,7 +15,16 @@ mockWorker.start()
 
 app.use(setupDevtools, {
   exposition: playgroundExposition,
-  onUpdate: mswIntegration.updateValues,
+  onUpdate(newValues: any, isEnabled: boolean) {
+    console.log({ newValues, isEnabled })
+
+    if (!isEnabled) {
+      mswIntegration.useNoHandlers()
+      return
+    }
+
+    mswIntegration.updateValues(newValues)
+  },
 })
 
 app.mount('#app')
