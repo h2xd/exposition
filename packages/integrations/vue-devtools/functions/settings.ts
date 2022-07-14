@@ -34,7 +34,7 @@ export function defineDevToolsSettings() {
   main()
 
   return {
-    state,
+    value: state,
     saveSettings,
     loadSettings,
   }

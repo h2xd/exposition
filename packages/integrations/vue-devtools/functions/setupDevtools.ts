@@ -28,7 +28,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
 
   const fromLocalStorage = readFromLocalStorage<T>()
 
-  if (settings.state[1].value && fromLocalStorage)
+  if (settings.value[1].value && fromLocalStorage)
     internalExpositionState = updateExpositionValues(internalExpositionState, fromLocalStorage)
 
   return setupDevtoolsPlugin({
@@ -48,7 +48,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
 
         options.onUpdate({ ...values })
 
-        if (settings.state[1].value)
+        if (settings.value[1].value)
           writeToLocalStorage(internalExpositionState)
 
         api.sendInspectorState(inspectorId)
@@ -146,7 +146,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
         if (payload.nodeId === 'settings') {
           const updatedKey = payload.path[0]
 
-          settings.state.forEach((item) => {
+          settings.value.forEach((item) => {
             if (item.key !== updatedKey)
               return item
 
@@ -163,7 +163,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       if (payload.inspectorId === inspectorId) {
         if (payload.nodeId === 'settings') {
           payload.state = {
-            settings: settings.state,
+            settings: settings.value,
           }
         }
 
