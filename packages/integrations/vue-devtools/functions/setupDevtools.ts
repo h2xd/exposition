@@ -1,18 +1,17 @@
 import type { CustomInspectorNode } from '@vue/devtools-api'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { Exposition, ExpositionValues } from '@exposition/core'
-import debug from 'debug'
+
 import { version } from '../../package.json'
 import { defineDevToolsSettings } from './settings'
 import { defineExpositionState } from './state'
+import { actionLog, log } from './logs'
 
 /**
  * View debugger by running:
  * `localStorage.debug = 'exposition:*'`
  * _Do not forget to set the logging setting to `verbose` in your browser_
  */
-const log = debug('exposition:vue-devtools')
-const actionLog = log.extend('action')
 
 export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
   const id = `@exposition/vue-devtools/${version}`
