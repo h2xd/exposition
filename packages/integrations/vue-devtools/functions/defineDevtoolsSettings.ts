@@ -1,6 +1,6 @@
 const localStorageKey = 'ExpositionVueDevtoolsSettings'
 
-export function defineDevToolsSettings() {
+export function defineDevtoolsSettings() {
   const state = [
     {
       key: 'active',

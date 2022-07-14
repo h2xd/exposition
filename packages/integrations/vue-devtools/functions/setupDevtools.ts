@@ -6,7 +6,7 @@ import { expositionLabel, id, inspectorId, stateType, timelineId } from '../util
 import type { DevtoolsContext } from '../@types/api'
 import { createSettingsViews } from '../views/createSettingsViews'
 import { actionLog, log } from '../utils/logs'
-import { defineDevToolsSettings } from './defineDevToolsSettings'
+import { defineDevtoolsSettings } from './defineDevtoolsSettings'
 import { defineExpositionState } from './defineExpositionState'
 
 /**
@@ -16,7 +16,7 @@ import { defineExpositionState } from './defineExpositionState'
  */
 
 export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>, enabled: boolean) => void }) {
-  const settings = defineDevToolsSettings()
+  const settings = defineDevtoolsSettings()
   const state = defineExpositionState(options.exposition)
 
   state.loadFromStore()
