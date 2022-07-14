@@ -132,7 +132,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
         if (payload.nodeId === 'scenarios') {
           payload.state = {
             // @ts-expect-error - figure out why TypeScript is angry
-            scenarios: Object.keys(internalExpositionState).reduce((accumulator, key) => {
+            scenarios: Object.keys(state.getValues()).reduce((accumulator, key) => {
               return [
                 ...accumulator,
                 {
