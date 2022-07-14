@@ -14,6 +14,8 @@ export function defineDevToolsSettings() {
     },
   ]
 
+  type StateKey = Readonly<typeof state>[number]['key']
+
   function main() {
     loadSettings()
   }
@@ -31,11 +33,18 @@ export function defineDevToolsSettings() {
     Object.assign(state, JSON.parse(settingsFromLocalStorage))
   }
 
+  function isEnabled(setting: StateKey): boolean {
+    return state.some((stateItem) => {
+      return stateItem.key === setting && stateItem.value
+    })
+  }
+
   main()
 
   return {
     value: state,
     saveSettings,
     loadSettings,
+    isEnabled,
   }
 }

@@ -1,11 +1,10 @@
 import type { CustomInspectorNode } from '@vue/devtools-api'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { Exposition, ExpositionValues } from '@exposition/core'
-import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '@exposition/core'
-import { readFromLocalStorage, writeToLocalStorage } from '@exposition/web'
 import debug from 'debug'
 import { version } from '../../package.json'
 import { defineDevToolsSettings } from './settings'
+import { defineExpositionState } from './state'
 
 /**
  * View debugger by running:
@@ -23,13 +22,9 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
   const timelineId = `${id}/timeline`
   const expositionLabel = '📖 Exposition'
   const settings = defineDevToolsSettings()
+  const state = defineExpositionState(options.exposition)
 
-  let internalExpositionState: T = { ...options.exposition }
-
-  const fromLocalStorage = readFromLocalStorage<T>()
-
-  if (settings.value[1].value && fromLocalStorage)
-    internalExpositionState = updateExpositionValues(internalExpositionState, fromLocalStorage)
+  state.loadFromStore()
 
   return setupDevtoolsPlugin({
     id,
@@ -42,14 +37,11 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
     function updateState(beforeUpdateHandler: Function): () => void {
       return function () {
         beforeUpdateHandler()
-        const values = getExpositionValues(internalExpositionState)
+        log('Updating values to: %s', JSON.stringify(state.getValues()))
 
-        log('Updating values to: %s', JSON.stringify(values))
+        options.onUpdate(state.getValues())
 
-        options.onUpdate({ ...values })
-
-        if (settings.value[1].value)
-          writeToLocalStorage(internalExpositionState)
+        state.saveToStore(true)
 
         api.sendInspectorState(inspectorId)
         api.sendInspectorTree(inspectorId)
@@ -59,7 +51,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
           event: {
             title: 'updateExposition',
             time: api.now(),
-            data: { ...values },
+            data: state.getValues(),
           },
         })
       }
@@ -81,7 +73,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
           tooltip: 'Reset the exposition to its initial state',
           action: updateState(() => {
             actionLog('clicked restore action')
-            internalExpositionState = resetExpositionValues(internalExpositionState)
+            state.reset()
           }),
         },
         {
@@ -89,7 +81,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
           tooltip: 'Save the current state to the localStorage',
           action: () => {
             actionLog('clicked save to localStorage action')
-            writeToLocalStorage(internalExpositionState)
+            state.saveToStore()
           },
         },
       ],
@@ -97,8 +89,8 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
 
     api.on.getInspectorTree((payload) => {
       if (payload.inspectorId === inspectorId) {
-        const scenarioElements = Object.keys(internalExpositionState).reduce((accumulator, key) => {
-          const { id, value, initialValue } = internalExpositionState[key]
+        const scenarioElements = Object.keys(state.value).reduce((accumulator, key) => {
+          const { id, value, initialValue } = state.value[key]
 
           const isInitialValue = value === initialValue
 
@@ -154,7 +146,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
           })
 
           settings.saveSettings()
-          writeToLocalStorage(internalExpositionState)
+          state.saveToStore()
         }
       }
     })
@@ -175,15 +167,15 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
                 ...accumulator,
                 {
                   key,
-                  value: internalExpositionState[key].value,
+                  value: state.value[key].value,
                 },
               ]
             }, []),
           }
         }
 
-        if (Object.keys(internalExpositionState).includes(payload.nodeId)) {
-          const scenario = internalExpositionState[payload.nodeId]
+        if (Object.keys(state.value).includes(payload.nodeId)) {
+          const scenario = state.value[payload.nodeId]
 
           payload.state = {
             state: [
@@ -207,7 +199,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
                       action: updateState(() => {
                         actionLog('restore scenario %s settings', scenario.id)
                         // @ts-expect-error - Allow dynamic state definition in this case
-                        internalExpositionState = updateExpositionValues(internalExpositionState, {
+                        state.update({
                           [scenario.id]: scenario.initialValue,
                         })
                       }),
@@ -231,7 +223,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
                       action: updateState(() => {
                         actionLog('set new value "%s" for scenario "%s"', option, scenario.id)
                         // @ts-expect-error - Allow dynamic state definition in this case
-                        internalExpositionState = updateExpositionValues(internalExpositionState, {
+                        state.update({
                           [scenario.id]: option,
                         })
                       }),
