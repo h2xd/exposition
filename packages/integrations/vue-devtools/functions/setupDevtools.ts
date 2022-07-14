@@ -2,7 +2,9 @@ import type { CustomInspectorNode } from '@vue/devtools-api'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { Exposition, ExpositionValues } from '@exposition/core'
 
-import { version } from '../../package.json'
+import { expositionLabel, id, inspectorId, stateType, timelineId } from '../config'
+import type { DevtoolsContext } from '../@types/api'
+import { createSettingsViews } from '../views/createSettingsViews'
 import { defineDevToolsSettings } from './settings'
 import { defineExpositionState } from './state'
 import { actionLog, log } from './logs'
@@ -14,12 +16,6 @@ import { actionLog, log } from './logs'
  */
 
 export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: (exposition: ExpositionValues<T>) => void }) {
-  const id = `@exposition/vue-devtools/${version}`
-
-  const stateType = 'My Awesome Plugin state'
-  const inspectorId = `${id}/inspector`
-  const timelineId = `${id}/timeline`
-  const expositionLabel = '📖 Exposition'
   const settings = defineDevToolsSettings()
   const state = defineExpositionState(options.exposition)
 
@@ -34,6 +30,12 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
     componentStateTypes: [stateType],
     app,
   }, (api) => {
+    const context: DevtoolsContext<T> = {
+      api,
+      settings,
+      state,
+    }
+
     function updateState(beforeUpdateHandler: Function): () => void {
       return function () {
         beforeUpdateHandler()
@@ -133,32 +135,10 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       }
     })
 
-    api.on.editInspectorState((payload) => {
-      if (payload.inspectorId === inspectorId) {
-        if (payload.nodeId === 'settings') {
-          const updatedKey = payload.path[0]
-
-          settings.value.forEach((item) => {
-            if (item.key !== updatedKey)
-              return item
-
-            item.value = payload.state.value
-          })
-
-          settings.saveSettings()
-          state.saveToStore()
-        }
-      }
-    })
+    createSettingsViews(context)
 
     api.on.getInspectorState((payload) => {
       if (payload.inspectorId === inspectorId) {
-        if (payload.nodeId === 'settings') {
-          payload.state = {
-            settings: settings.value,
-          }
-        }
-
         if (payload.nodeId === 'scenarios') {
           payload.state = {
             // @ts-expect-error - figure out why TypeScript is angry
