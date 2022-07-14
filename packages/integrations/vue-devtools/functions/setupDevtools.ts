@@ -24,6 +24,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
   const state = defineExpositionState(options.exposition)
 
   state.loadFromStore()
+  options.onUpdate(state.getValues())
 
   return setupDevtoolsPlugin({
     id,
