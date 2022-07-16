@@ -19,9 +19,6 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
   const settings = defineDevtoolsSettings()
   const state = defineExpositionState(options.exposition)
 
-  state.loadFromStore()
-  options.onUpdate(state.getValues(), settings.isEnabled('active'))
-
   return setupDevtoolsPlugin({
     id,
     label: expositionLabel,
@@ -36,24 +33,34 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       state,
     }
 
-    function updateState(beforeUpdateHandler: Function = () => undefined): () => void {
+    function main(): void {
+      createSettingsViews(context, updateState)
+      state.loadFromStore()
+      updateState()
+    }
+
+    function updateState(): void {
+      log('Updating values to: %s', JSON.stringify(state.getValues()))
+
+      options.onUpdate(state.getValues(), settings.isEnabled('active'))
+
+      api.sendInspectorState(inspectorId)
+      api.sendInspectorTree(inspectorId)
+
+      api.addTimelineEvent({
+        layerId: timelineId,
+        event: {
+          title: 'updateExposition',
+          time: api.now(),
+          data: state.getValues(),
+        },
+      })
+    }
+
+    function createUpdateStateHandler(beforeUpdateHandler: Function = () => undefined): () => void {
       return function () {
         beforeUpdateHandler()
-        log('Updating values to: %s', JSON.stringify(state.getValues()))
-
-        options.onUpdate(state.getValues(), settings.isEnabled('active'))
-
-        api.sendInspectorState(inspectorId)
-        api.sendInspectorTree(inspectorId)
-
-        api.addTimelineEvent({
-          layerId: timelineId,
-          event: {
-            title: 'updateExposition',
-            time: api.now(),
-            data: state.getValues(),
-          },
-        })
+        updateState()
       }
     }
 
@@ -71,7 +78,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
         {
           icon: 'restore',
           tooltip: 'Reset the exposition to its initial state',
-          action: updateState(() => {
+          action: createUpdateStateHandler(() => {
             actionLog('clicked restore action')
             state.reset()
           }),
@@ -125,8 +132,6 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       }
     })
 
-    createSettingsViews(context, updateState())
-
     api.on.getInspectorState((payload) => {
       if (payload.inspectorId === inspectorId) {
         if (payload.nodeId === 'scenarios') {
@@ -166,7 +171,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
                     actions: [{
                       icon: 'restore',
                       tooltip: 'Reset the value of the scenario',
-                      action: updateState(() => {
+                      action: createUpdateStateHandler(() => {
                         actionLog('restore scenario %s settings', scenario.id)
                         // @ts-expect-error - Allow dynamic state definition in this case
                         state.update({
@@ -190,7 +195,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
                     actions: [{
                       icon: 'check',
                       tooltip: `Set "${option}" as the new value`,
-                      action: updateState(() => {
+                      action: createUpdateStateHandler(() => {
                         actionLog('set new value "%s" for scenario "%s"', option, scenario.id)
                         // @ts-expect-error - Allow dynamic state definition in this case
                         state.update({
@@ -207,5 +212,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
         }
       }
     })
+
+    main()
   })
 }
