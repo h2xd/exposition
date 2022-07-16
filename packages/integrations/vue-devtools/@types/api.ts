@@ -1,5 +1,5 @@
 import type { DevtoolsPluginApi, ExtractSettingsTypes, PluginSettingsItem } from '@vue/devtools-api'
-import type { Exposition } from '@exposition/core'
+import type { Exposition, ExpositionValues } from '@exposition/core'
 
 import type { defineDevtoolsSettings } from '../functions/defineDevtoolsSettings'
 import type { defineExpositionState } from '../functions/defineExpositionState'
@@ -12,4 +12,7 @@ export interface DevtoolsContext<T extends Exposition<any>> {
   api: DevtoolsApi
   state: DevtoolsExpositionState<T>
   settings: DevtoolsSettings
+  onUpdate: OnUpdateHandler<T>
 }
+
+export type OnUpdateHandler<T extends Exposition<any>> = (exposition: ExpositionValues<T>, enabled: boolean) => void

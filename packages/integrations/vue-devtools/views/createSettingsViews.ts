@@ -1,10 +1,13 @@
 import type { Exposition } from '@exposition/core'
 import type { DevtoolsContext } from '../@types/api'
+import { updateState } from '../functions/updateState'
 import { inspectorId } from '../utils/config'
 
 const settingsNodeId = 'settings'
 
-export function createSettingsViews<T extends Exposition<any>>({ api, settings, state }: DevtoolsContext<T>, onChangeHandler: () => void) {
+export function createSettingsViews<T extends Exposition<any>>(context: DevtoolsContext<T>) {
+  const { api, settings, state } = context
+
   api.on.editInspectorState((payload) => {
     if (payload.inspectorId !== inspectorId || payload.nodeId !== settingsNodeId)
       return
@@ -20,7 +23,7 @@ export function createSettingsViews<T extends Exposition<any>>({ api, settings, 
 
     settings.saveSettings()
     state.saveToStore()
-    onChangeHandler()
+    updateState(context)
   })
 
   api.on.getInspectorState((payload) => {
