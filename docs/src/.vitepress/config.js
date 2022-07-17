@@ -64,6 +64,11 @@ export default {
       message: 'Released under the MIT License',
       copyright: 'Copyright © 2022-present Andreas Schujkow',
     },
+    algolia: {
+      appId: 'KR7ASGX4FZ',
+      apiKey: '3cdcae5f0f44cf283230c5cbc05fbb09',
+      indexName: 'exposition',
+    },
   },
 }
 
