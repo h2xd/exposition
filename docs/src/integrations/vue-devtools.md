@@ -5,4 +5,4 @@
 Meanwhile please checkout the [hacky playground example](https://github.com/h2xd/exposition/blob/main/playground/src/main.ts).
 :::
 
-<<< ../playground/src/main.ts#vue-devtools{5-6}
+<<< ../playground/src/main.ts#vue-devtools{5-13}
