@@ -1,7 +1,6 @@
 import type { Exposition, ExpositionValues } from '@exposition/core'
 import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '@exposition/core'
 import { readFromLocalStorage, writeToLocalStorage } from '@exposition/web'
-import { storageLog } from '../utils/logs'
 import { defineDevtoolsSettings } from './defineDevtoolsSettings'
 
 const settings = defineDevtoolsSettings()
@@ -12,14 +11,11 @@ export function defineExpositionState<T extends Exposition<any>>(exposition: T) 
   function loadFromStore() {
     const fromLocalStorage = readFromLocalStorage<T>()
 
-    if (settings.isEnabled('autoLoadFromLocalStorage') && fromLocalStorage) {
+    if (settings.isEnabled('autoLoadFromLocalStorage') && fromLocalStorage)
       Object.assign(state, updateExpositionValues(state, fromLocalStorage))
-      storageLog('loaded exposition values', JSON.stringify(getValues()))
-    }
   }
 
   function writeToStore() {
-    storageLog('store values to local storage', JSON.stringify(getValues()))
     writeToLocalStorage(state)
   }
 

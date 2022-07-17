@@ -1,8 +1,7 @@
 import type { Exposition } from '@exposition/core'
 import type { DevtoolsContext } from '../../@types/api'
-import { createUpdateStateHandler } from '../../functions/utils'
+import { updateState } from '../../functions/utils'
 import { inspectorId } from '../../utils/config'
-import { actionLog } from '../../utils/logs'
 
 export function createScenarioDetailView<T extends Exposition<any>>(context: DevtoolsContext<T>) {
   const { api, state } = context
@@ -31,13 +30,12 @@ export function createScenarioDetailView<T extends Exposition<any>>(context: Dev
                   actions: [{
                     icon: 'restore',
                     tooltip: 'Reset the value of the scenario',
-                    action: createUpdateStateHandler(() => {
-                      actionLog('restore scenario %s settings', scenario.id)
+                    action: () => updateState(context, () => {
                       // @ts-expect-error - Allow dynamic state definition in this case
                       state.update({
                         [scenario.id]: scenario.initialValue,
                       })
-                    }, context),
+                    }),
                   }],
                 },
               },
@@ -55,13 +53,12 @@ export function createScenarioDetailView<T extends Exposition<any>>(context: Dev
                   actions: [{
                     icon: 'check',
                     tooltip: `Set "${option}" as the new value`,
-                    action: createUpdateStateHandler(() => {
-                      actionLog('set new value "%s" for scenario "%s"', option, scenario.id)
+                    action: () => updateState(context, () => {
                       // @ts-expect-error - Allow dynamic state definition in this case
                       state.update({
                         [scenario.id]: option,
                       })
-                    }, context),
+                    }),
                   }],
                 },
               },

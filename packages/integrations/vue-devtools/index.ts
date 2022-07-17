@@ -10,12 +10,6 @@ import { createInspectorViews } from './views/createInspectorViews'
 import { createSettingsViews } from './views/createSettingsViews'
 import { createTimelineViews } from './views/createTimelineViews'
 
-/**
- * View debugger by running:
- * `localStorage.debug = 'exposition:*'`
- * _Do not forget to set the logging setting to `verbose` in your browser_
- */
-
 export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: OnUpdateHandler<T> }) {
   const settings = defineDevtoolsSettings()
   const state = defineExpositionState(options.exposition)

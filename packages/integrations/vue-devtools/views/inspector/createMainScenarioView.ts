@@ -1,8 +1,7 @@
 import type { Exposition } from '@exposition/core'
 import type { DevtoolsContext } from '../../@types/api'
-import { createUpdateStateHandler } from '../../functions/utils'
+import { updateState } from '../../functions/utils'
 import { inspectorId } from '../../utils/config'
-import { actionLog } from '../../utils/logs'
 
 export function createMainScenarioView<T extends Exposition<any>>(context: DevtoolsContext<T>) {
   const { api, state } = context
@@ -32,15 +31,12 @@ export function createMainScenarioView<T extends Exposition<any>>(context: Devto
                       {
                         icon: 'restore',
                         tooltip: 'Reset the value of the scenario',
-                        action: createUpdateStateHandler(() => {
-                          actionLog('restore scenario %s settings', scenario.id)
+                        action: () => updateState(context, () => {
                           // @ts-expect-error - Allow dynamic state definition in this case
                           state.update({
                             [scenario.id]: scenario.initialValue,
                           })
-
-                          api.selectInspectorNode(inspectorId, scenario.id)
-                        }, context),
+                        }),
                       },
                     ],
                   },
