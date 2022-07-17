@@ -1,16 +1,23 @@
-<p align="center">📖</p>
-<h1 align="center">Exposition</h1>
-
-<p align="center">Structure to explain the who, what and where of the API mocking process</p>
-
-<p align="center"><i>The ambition is to create a structure to enhance the creation, usage and experience of API mocking in combination with <a href="https://github.com/mswjs/msw">mswjs</a>.</i></p>
+<br />
 
 <p align="center">
-<a href="https://h2xd.github.io/exposition/">Documentation</a>&nbsp;&bull;
-<a href="https://twitter.com/aschujkow">Ping me on Twitter</a>
+  <img src="docs/src/public/assets/exposition-logo.svg" width="150" alt="Exposition logo" />
 </p>
 
----
+<h1 align="center">Exposition</h1>
+
+<p align="center">
+  <b>Structure to explain the who, what and where of the API mocking process</b>
+  <br />
+  <i>The ambition is to enhance the creation, usage and the overall experience of API mocking.</i>
+</p>
+
+<p align="center">
+  <a href="https://h2xd.github.io/exposition/" target="_blank">Documentation</a>&nbsp;&bull;
+  <a href="https://twitter.com/aschujkow" target="_blank">Ping me on Twitter</a>
+</p>
+
+<br />
 
 ## Packages
 
