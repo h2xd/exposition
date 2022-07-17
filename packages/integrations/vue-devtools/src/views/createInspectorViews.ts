@@ -1,11 +1,10 @@
 import type { Exposition } from '@exposition/core'
 import type { CustomInspectorNode } from '@vue/devtools-api'
-import type { DevtoolsContext } from '../@types/api'
-import { updateState } from '../functions/utils'
 
-import { inspectorId, warningLabelSettings } from '../utils/config'
-import { createMainScenarioView } from './inspector/createMainScenarioView'
-import { createScenarioDetailView } from './inspector/createScenarioDetailView'
+import type { DevtoolsContext } from '../@types/api'
+import { updateState } from '../utils'
+import { inspectorId, warningLabelSettings } from '../config'
+import { createMainScenarioView, createScenarioDetailView } from './inspector'
 
 export function createInspectorViews<T extends Exposition<any>>(context: DevtoolsContext<T>) {
   const { api, state, settings } = context
@@ -40,8 +39,8 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
             tags: !isInitialValue
               ? [
 
-                  { ...warningLabelSettings, label: 'modified' },
-                ]
+                { ...warningLabelSettings, label: 'modified' },
+              ]
               : [],
           },
         ]
@@ -53,11 +52,11 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
           label: '⚙ Settings',
           tags: !settings.isEnabled('active')
             ? [
-                {
-                  ...warningLabelSettings,
-                  label: 'mocking inactive',
-                },
-              ]
+              {
+                ...warningLabelSettings,
+                label: 'mocking inactive',
+              },
+            ]
             : [],
         },
         {

@@ -1,7 +1,7 @@
 import type { Exposition } from '@exposition/core'
 import type { DevtoolsContext } from '../../@types/api'
-import { updateState } from '../../functions/utils'
-import { inspectorId } from '../../utils/config'
+import { updateState } from '../../utils'
+import { inspectorId } from '../../config'
 
 export function createScenarioDetailView<T extends Exposition<any>>(context: DevtoolsContext<T>) {
   const { api, state } = context

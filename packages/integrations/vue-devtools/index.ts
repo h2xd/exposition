@@ -1,17 +1,14 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { Exposition } from '@exposition/core'
 
-import type { DevtoolsContext, OnUpdateHandler } from './@types/api'
-import { defineDevtoolsSettings } from './functions/defineDevtoolsSettings'
-import { defineExpositionState } from './functions/defineExpositionState'
-import { updateState } from './functions/utils'
-import { expositionLabel, id, stateType } from './utils/config'
-import { createInspectorViews } from './views/createInspectorViews'
-import { createSettingsViews } from './views/createSettingsViews'
-import { createTimelineViews } from './views/createTimelineViews'
+import type { DevtoolsContext, OnUpdateHandler } from './src/@types/api'
+import { defineDevtoolsSettingsState, defineExpositionState } from './src/states'
+import { updateState } from './src/utils'
+import { expositionLabel, id, stateType } from './src/config'
+import { createInspectorViews, createSettingsViews, createTimelineViews } from './src/views'
 
 export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: OnUpdateHandler<T> }) {
-  const settings = defineDevtoolsSettings()
+  const settings = defineDevtoolsSettingsState()
   const state = defineExpositionState(options.exposition)
 
   return setupDevtoolsPlugin({

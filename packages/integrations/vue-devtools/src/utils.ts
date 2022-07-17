@@ -1,6 +1,6 @@
-import type { Exposition } from '../../../core'
-import type { DevtoolsContext } from '../@types/api'
-import { inspectorId, timelineId } from '../utils/config'
+import type { Exposition } from '@exposition/core'
+import type { DevtoolsContext } from './@types/api'
+import { inspectorId, timelineId } from './config'
 
 export function createTimelineEvent<T extends Exposition<any>>(title: string, { api, state }: DevtoolsContext<T>): void {
   api.addTimelineEvent({

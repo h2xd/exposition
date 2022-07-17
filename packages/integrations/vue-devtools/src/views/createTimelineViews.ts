@@ -1,6 +1,6 @@
 import type { Exposition } from '@exposition/core'
 import type { DevtoolsContext } from '../@types/api'
-import { expositionLabel, timelineId } from '../utils/config'
+import { expositionLabel, timelineId } from '../config'
 
 export function createTimelineViews<T extends Exposition<any>>({ api, state }: DevtoolsContext<T>) {
   api.addTimelineLayer({

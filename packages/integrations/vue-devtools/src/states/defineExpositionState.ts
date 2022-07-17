@@ -1,9 +1,9 @@
 import type { Exposition, ExpositionValues } from '@exposition/core'
 import { getExpositionValues, resetExpositionValues, updateExpositionValues } from '@exposition/core'
 import { readFromLocalStorage, writeToLocalStorage } from '@exposition/web'
-import { defineDevtoolsSettings } from './defineDevtoolsSettings'
+import { defineDevtoolsSettingsState } from './defineDevtoolsSettingsState'
 
-const settings = defineDevtoolsSettings()
+const settings = defineDevtoolsSettingsState()
 
 export function defineExpositionState<T extends Exposition<any>>(exposition: T) {
   const state: T = exposition

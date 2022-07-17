@@ -1,12 +1,11 @@
 import type { DevtoolsPluginApi, ExtractSettingsTypes, PluginSettingsItem } from '@vue/devtools-api'
 import type { Exposition, ExpositionValues } from '@exposition/core'
 
-import type { defineDevtoolsSettings } from '../functions/defineDevtoolsSettings'
-import type { defineExpositionState } from '../functions/defineExpositionState'
+import type { defineDevtoolsSettingsState, defineExpositionState } from '../states'
 
 export type DevtoolsApi = DevtoolsPluginApi<ExtractSettingsTypes<Record<string, PluginSettingsItem>>>
 export type DevtoolsExpositionState<T extends Exposition<any>> = ReturnType<typeof defineExpositionState<T>>
-export type DevtoolsSettings = ReturnType<typeof defineDevtoolsSettings>
+export type DevtoolsSettings = ReturnType<typeof defineDevtoolsSettingsState>
 
 export interface DevtoolsContext<T extends Exposition<any>> {
   api: DevtoolsApi
