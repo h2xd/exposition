@@ -11,6 +11,7 @@ export default {
     lineNumbers: false,
   },
   themeConfig: {
+    logo: '/assets/exposition-logo.svg',
     nav: [
       { text: 'Guide', link: '/getting-started' },
       {
