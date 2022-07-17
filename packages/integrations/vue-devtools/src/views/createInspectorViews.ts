@@ -49,7 +49,7 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
       payload.rootNodes = [
         {
           id: 'settings',
-          label: '⚙ Settings',
+          label: 'Settings',
           tags: !settings.isEnabled('active')
             ? [
               {
@@ -61,7 +61,7 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
         },
         {
           id: 'scenarios',
-          label: '📕 Scenarios',
+          label: 'Scenarios',
           children: scenarioElements,
         },
       ]
