@@ -1,9 +1,11 @@
+const base = process.env.NODE_ENV === 'development' ? '/' : '/exposition/'
+
 export default {
   title: 'Exposition',
   description: 'Documentation for the exposition library',
   appearance: true,
   lang: 'en-US',
-  base: process.env.NODE_ENV === 'development' ? '/' : '/exposition/',
+  base,
   lastUpdated: true,
   markdown: {
     // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
@@ -11,14 +13,14 @@ export default {
     lineNumbers: false,
   },
   head: [
-    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/assets/favicon/apple-touch-icon.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/assets/favicon/favicon-32x32.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/assets/favicon/favicon-16x16.png' }],
-    ['link', { rel: 'manifest', href: '/assets/favicon/site.webmanifest' }],
-    ['link', { rel: 'mask-icon', href: '/assets/favicon/safari-pinned-tab.svg', color: '#3a0839' }],
-    ['link', { rel: 'shortcut icon', href: '/assets/favicon/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: `${base}assets/favicon/apple-touch-icon.png` }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: `${base}assets/favicon/favicon-32x32.png` }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '16x16', href: `${base}assets/favicon/favicon-16x16.png` }],
+    ['link', { rel: 'manifest', href: `${base}assets/favicon/site.webmanifest` }],
+    ['link', { rel: 'mask-icon', href: `${base}assets/favicon/safari-pinned-tab.svg', color: '#3a0839` }],
+    ['link', { rel: 'shortcut icon', href: `${base}assets/favicon/favicon.ico` }],
     ['meta', { name: 'msapplication-TileColor', content: '#3a0839' }],
-    ['meta', { name: 'msapplication-config', content: '/assets/favicon/browserconfig.xml' }],
+    ['meta', { name: 'msapplication-config', content: `${base}assets/favicon/browserconfig.xml` }],
     ['meta', { name: 'theme-color', content: '#fe615b' }],
   ],
   themeConfig: {
