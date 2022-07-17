@@ -39,8 +39,8 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
             tags: !isInitialValue
               ? [
 
-                { ...warningLabelSettings, label: 'modified' },
-              ]
+                  { ...warningLabelSettings, label: 'modified' },
+                ]
               : [],
           },
         ]
@@ -52,11 +52,11 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
           label: 'Settings',
           tags: !settings.isEnabled('active')
             ? [
-              {
-                ...warningLabelSettings,
-                label: 'mocking inactive',
-              },
-            ]
+                {
+                  ...warningLabelSettings,
+                  label: 'mocking inactive',
+                },
+              ]
             : [],
         },
         {
