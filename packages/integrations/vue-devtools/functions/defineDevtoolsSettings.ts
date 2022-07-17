@@ -6,15 +6,15 @@ export function defineDevtoolsSettings() {
       key: 'active',
       value: true,
       editable: true,
-    }, {
+    },
+    {
       key: 'autoLoadFromLocalStorage',
       value: true,
       editable: true,
-      hint: 'Enable that custom modifications will be stored and auto loaded from the localStorage',
     },
   ]
 
-  type StateKey = Readonly<typeof state>[number]['key']
+  type StateKey = typeof state[number]['key']
 
   function main() {
     loadSettings()
