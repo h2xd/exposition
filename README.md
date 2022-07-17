@@ -1,7 +1,7 @@
 <br />
 
 <p align="center">
-  <img src="assets/exposition-logo.svg" width="150" alt="Exposition logo" />
+  <img src="docs/src/public/assets/exposition-logo.svg" width="150" alt="Exposition logo" />
 </p>
 
 <h1 align="center">Exposition</h1>
