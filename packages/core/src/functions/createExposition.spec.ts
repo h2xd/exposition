@@ -66,5 +66,31 @@ describe('createExposition', () => {
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_3', reality: 'heatwave' })
     })
+
+    it('should fire the initialized event', () => {
+      const spy = vi.fn()
+
+      exposition.on('initialized', spy)
+
+      exposition.init()
+      exposition.init()
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('integrations', () => {
+    it('it should be able to use integrations', () => {
+      const spy = vi.fn()
+
+      exposition.use({
+        install(expositionContext, settings) {
+          expositionContext.on('initialized', spy)
+          expect(settings).toMatchObject({ settingsMastery: 1 })
+        },
+      }, { settingsMastery: 1 })
+
+      exposition.init()
+      expect(spy).toHaveBeenCalled()
+    })
   })
 })
