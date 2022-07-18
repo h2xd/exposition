@@ -1,11 +1,11 @@
-import { createExposition } from '@exposition/core'
+import { createExpositionState } from '@exposition/core'
 import { defineMSWIntegration } from '@exposition/integrations/msw'
 import { rest, setupWorker } from 'msw'
 
 // ----------------------------------------------
 
 // #region create-exposition
-export const exposition = createExposition({
+export const expositionState = createExpositionState({
   cart: {
     options: ['filled', 'empty'],
   },
@@ -24,7 +24,7 @@ export const mockWorker = setupWorker()
 // #region setup-msw-integration
 // Setup the msw integration
 export const mswIntegration = defineMSWIntegration({
-  exposition,
+  exposition: expositionState,
   msw: mockWorker,
 })
 // #endregion setup-msw-integration

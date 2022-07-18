@@ -1,4 +1,4 @@
-import type { ExpositionConfig, ExpositionState } from '../@types/exposition'
+import type { ExpositionConfig, ExpositionState } from './@types/exposition'
 
 /**
  * Create an Exposition state with all necessary data. 🔮

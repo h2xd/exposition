@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
-import type { ExpositionConfig, ExpositionValues } from '../@types/exposition'
-import { createExpositionState, getExpositionValues, resetExpositionValues, updateExpositionValues } from '../utils'
+import type { ExpositionConfig, ExpositionValues } from '../sdk'
+import { createExpositionState, getExpositionValues, resetExpositionValues, updateExpositionValues } from '../sdk'
 
 const EventNames = {
   AFTER_UPDATE: 'afterUpdate',
