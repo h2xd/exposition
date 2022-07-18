@@ -1,4 +1,4 @@
-import type { Exposition } from '@exposition/core'
+import type { ExpositionState } from '@exposition/core'
 import { getExpositionValues } from '@exposition/core'
 import type { ExpositionValues } from '../../core/dist'
 
@@ -21,7 +21,7 @@ type ExpositionUrlData = Distinct<string, 'UrlParameters'>
 
   encodeUrlParameters(exposition)
  */
-export function encodeUrlParameters<T extends Exposition<any>>(exposition: T): ExpositionUrlData {
+export function encodeUrlParameters<T extends ExpositionState<any>>(exposition: T): ExpositionUrlData {
   const values = getExpositionValues(exposition)
   const stringifiedValues = JSON.stringify(values)
 
@@ -39,7 +39,7 @@ export function encodeUrlParameters<T extends Exposition<any>>(exposition: T): E
 
   exposition = setExpositionValues(exposition, values)
  */
-export function decodeUrlParameters<T extends Exposition<any>>(data: ExpositionUrlData): ExpositionValues<T> | undefined {
+export function decodeUrlParameters<T extends ExpositionState<any>>(data: ExpositionUrlData): ExpositionValues<T> | undefined {
   const stringifiedValues = window.decodeURIComponent(data)
   const values = JSON.parse(stringifiedValues)
 

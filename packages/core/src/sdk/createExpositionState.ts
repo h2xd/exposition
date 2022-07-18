@@ -1,21 +1,21 @@
-import type { Exposition, ExpositionConfig } from '../@types/exposition'
+import type { ExpositionConfig, ExpositionState } from './@types/exposition'
 
 /**
- * Create an Exposition with all necessary data. 🔮
+ * Create an Exposition state with all necessary data. 🔮
  *
  * - Cast the config `as const` to get full type support ✨
  * - The first `options` item will be set as the `initialValue` of the `Scenario`
  *
  * @param config
- * @returns `Exposition`
+ * @returns `ExpositionState`
  * @example
-  const exposition = createExposition({
+  const expositionState = createExposition({
     auth: {
       options: ['valid ✅', 'deny ❌']
     }
   } as const)
  */
-export function createExposition<T extends ExpositionConfig>(config: T): Exposition<T> {
+export function createExpositionState<T extends ExpositionConfig>(config: T): ExpositionState<T> {
   return Object.keys(config).reduce((accumulator, key) => {
     const { options } = config[key]
 
@@ -30,5 +30,5 @@ export function createExposition<T extends ExpositionConfig>(config: T): Exposit
         value: firstOptionValue,
       },
     }
-  }, {} as Exposition<T>)
+  }, {} as ExpositionState<T>)
 }

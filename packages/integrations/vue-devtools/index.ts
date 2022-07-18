@@ -1,5 +1,5 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
-import type { Exposition } from '@exposition/core'
+import type { ExpositionState } from '@exposition/core'
 
 import type { DevtoolsContext, OnUpdateHandler } from './src/@types/api'
 import { defineDevtoolsSettingsState, defineExpositionState } from './src/states'
@@ -7,7 +7,7 @@ import { updateState } from './src/utils'
 import { expositionLabel, id, stateType } from './src/config'
 import { createInspectorViews, createSettingsViews, createTimelineViews } from './src/views'
 
-export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T; onUpdate: OnUpdateHandler<T> }) {
+export function setupDevtools<T extends ExpositionState<any>>(app: any, options: { exposition: T; onUpdate: OnUpdateHandler<T> }) {
   const settings = defineDevtoolsSettingsState()
   const state = defineExpositionState(options.exposition)
 

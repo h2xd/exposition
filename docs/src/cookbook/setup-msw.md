@@ -25,7 +25,7 @@ npm install -D @exposition/{core,integrations} msw
 
 ## Setup
 
-First create an `Exposition` configuration.
+First create an `ExpositionState` configuration.
 
 <<< @/cookbook/examples/01-setup-msw.ts#create-exposition{3}
 
@@ -34,7 +34,7 @@ In this case it is service worker but you can also use [`setupServer`](https://m
 
 <<< @/cookbook/examples/01-setup-msw.ts#setup-msw
 
-Pass the `Exposition` configuration and your msw client to the integration.
+Pass the `ExpositionState` configuration and your msw client to the integration.
 
 <<< @/cookbook/examples/01-setup-msw.ts#setup-msw-integration{3-4}
 

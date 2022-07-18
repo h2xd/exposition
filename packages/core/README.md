@@ -21,38 +21,38 @@ yarn add -D @exposition/core
 npm install -D @exposition/core
 ```
 
-## `createExposition`
+## `createExpositionState`
 
-Create an Exposition with all necessary data. 🔮
+Create an Exposition state with all necessary data. 🔮
 
 - Cast the config `as const` to get full type support. _(as seen on line 8)_ ✨
 - The first `options` item will be set as the `initialValue` of the `Scenario`
 
 ```ts{8}
-import { createExposition } from '@exposition/core'
+import { createExpositionState } from '@exposition/core'
 
 // ✨ Cast the input config `as const` to get full type support
-const exposition = createExposition({
+const expositionState = createExpositionState({
   auth: {
     options: ['valid ✅', 'deny ❌']
   }
 } as const)
 ```
 
-[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/functions/createExposition.ts)
+[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/src/sdk/createExpositionState.ts)
 
 ## `updateExpositionValues`
 
-Update the values of the given `Exposition` and create a new `Exposition` state. 🆕
+Update the values of the given `ExpositionState` and create a new `ExpositionState` state. 🆕
 
 ```ts
-const exposition = createExposition({
+const expositionState = createExpositionState({
   autobot: { options: ['Optimus Prime 🚚', 'Bumblebee 🚗'] },
   decepticon: { options: ['Megatron ✈️', 'Starscream 🛩️'] },
 } as const)
 
 const updatedExposition = updateExpositionValues(
-  exposition,
+  expositionState,
   { autobot: 'Bumblebee 🚗' }
 )
 
@@ -60,14 +60,14 @@ getExpositionValues(updatedExposition)
 // { autobot: 'Bumblebee 🚗', decepticon: 'Megatron ✈️' }
 ```
 
-[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/functions/updateExpositionValues.ts)
+[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/src/sdk/updateExpositionValues.ts)
 
 ## `getExpositionValues`
 
-Extract the current values from a given `Exposition`. 📃
+Extract the current values from a given `ExpositionState`. 📃
 
 ```ts
-const exposition = createExposition({
+const expositionState = createExpositionState({
   base: {
     options: [
       '🍚 Rice - Cool',
@@ -76,22 +76,22 @@ const exposition = createExposition({
   },
 })
 
-getExpositionValues(exposition) // { base: "🍚 Rice - Cool" }
+getExpositionValues(expositionState) // { base: "🍚 Rice - Cool" }
 ```
 
-[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/functions/getExpositionValues.ts)
+[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/src/sdk/getExpositionValues.ts)
 
 ## `resetExpositionValues`
 
-Reset the values of a given `Exposition` to their initialValue. ⏰
+Reset the values of a given `ExpositionState` to their initialValue. ⏰
 
 ```ts
-const exposition = createExposition({
+const expositionState = createExpositionState({
   character: { options: ['Dio 🌎', 'JoJo 🌟'] },
 } as const)
 
 const updatedExposition = updateExpositionValues(
-  exposition,
+  expositionState,
   { character: 'JoJo 🌟' }
 )
 getExpositionValues(updatedExposition) // { character: "JoJo 🌟" }
@@ -100,4 +100,4 @@ const revertedExposition = resetExpositionValues(updatedExposition)
 getExpositionValues(revertedExposition) // { character: "Dio 🌎" }
 ```
 
-[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/functions/resetExpositionValues.ts)
+[🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/core/src/sdk/resetExpositionValues.ts)

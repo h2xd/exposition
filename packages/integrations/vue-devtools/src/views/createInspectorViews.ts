@@ -1,4 +1,4 @@
-import type { Exposition } from '@exposition/core'
+import type { ExpositionState } from '@exposition/core'
 import type { CustomInspectorNode } from '@vue/devtools-api'
 
 import type { DevtoolsContext } from '../@types/api'
@@ -6,7 +6,7 @@ import { updateState } from '../utils'
 import { inspectorId, warningLabelSettings } from '../config'
 import { createMainScenarioView, createScenarioDetailView } from './inspector'
 
-export function createInspectorViews<T extends Exposition<any>>(context: DevtoolsContext<T>) {
+export function createInspectorViews<T extends ExpositionState<any>>(context: DevtoolsContext<T>) {
   const { api, state, settings } = context
 
   api.addInspector({

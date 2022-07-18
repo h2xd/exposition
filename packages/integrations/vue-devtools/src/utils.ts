@@ -1,8 +1,8 @@
-import type { Exposition } from '@exposition/core'
+import type { ExpositionState } from '@exposition/core'
 import type { DevtoolsContext } from './@types/api'
 import { inspectorId, timelineId } from './config'
 
-export function createTimelineEvent<T extends Exposition<any>>(title: string, { api, state }: DevtoolsContext<T>): void {
+export function createTimelineEvent<T extends ExpositionState<any>>(title: string, { api, state }: DevtoolsContext<T>): void {
   api.addTimelineEvent({
     layerId: timelineId,
     event: {
@@ -13,7 +13,7 @@ export function createTimelineEvent<T extends Exposition<any>>(title: string, { 
   })
 }
 
-export function updateState<T extends Exposition<any>>(
+export function updateState<T extends ExpositionState<any>>(
   context: DevtoolsContext<T>,
   beforeUpdateHandler?: (context: DevtoolsContext<T>) => void,
 ): void {

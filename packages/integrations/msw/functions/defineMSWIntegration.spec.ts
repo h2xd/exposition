@@ -1,11 +1,11 @@
-import { createExposition } from '@exposition/core'
+import { createExpositionState } from '@exposition/core'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { beforeEach } from 'vitest'
 import fetch from 'node-fetch'
 import { defineMSWIntegration } from './defineMSWIntegration'
 
-const exposition = createExposition({
+const expositionState = createExpositionState({
   user: {
     options: ['authorized', 'unauthorized'],
   },
@@ -13,7 +13,7 @@ const exposition = createExposition({
 
 const server = setupServer()
 const integration = defineMSWIntegration({
-  exposition,
+  exposition: expositionState,
   msw: server,
 })
 
