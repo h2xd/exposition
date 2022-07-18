@@ -2,10 +2,10 @@
  * @vitest-environment happy-dom
  */
 import { afterEach, describe, expect, it } from 'vitest'
-import { createExposition, getExpositionValues } from '@exposition/core'
+import { createExpositionState, getExpositionValues } from '@exposition/core'
 import { LOCAL_STORAGE_KEY, readFromLocalStorage, writeToLocalStorage } from './localStorage'
 
-const exposition = createExposition({
+const exposition = createExpositionState({
   account: {
     options: ['valid', 'inactive'],
   },

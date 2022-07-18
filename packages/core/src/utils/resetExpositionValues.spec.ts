@@ -1,11 +1,11 @@
 import { expect, it } from 'vitest'
-import { createExposition } from './createExposition'
+import { createExpositionState } from './createExpositionState'
 import { getExpositionValues } from './getExpositionValues'
 import { resetExpositionValues } from './resetExpositionValues'
 import { updateExpositionValues } from './updateExpositionValues'
 
 it('should reset the whole exposition', () => {
-  const exposition = createExposition({
+  const exposition = createExpositionState({
     user: { options: ['Dio', 'JoJo'] },
     stand: { options: ['The Worldo', 'Star Platinum'] },
   } as const)
@@ -26,7 +26,7 @@ it('should reset the whole exposition', () => {
 })
 
 it('should return a immuteable object', () => {
-  const exposition = createExposition({
+  const exposition = createExpositionState({
     user: { options: ['Dio', 'JoJo'] },
     stand: { options: ['The Worldo', 'Star Platinum'] },
   } as const)
@@ -39,7 +39,7 @@ it('should return a immuteable object', () => {
 })
 
 it('should only reset the given fields', () => {
-  const exposition = createExposition({
+  const exposition = createExpositionState({
     user: { options: ['Dio', 'JoJo'] },
     stand: { options: ['The Worldo', 'Star Platinum'] },
   } as const)

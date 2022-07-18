@@ -1,11 +1,11 @@
 /**
  * @vitest-environment happy-dom
  */
-import { createExposition, getExpositionValues } from '@exposition/core'
+import { createExpositionState, getExpositionValues } from '@exposition/core'
 import { decodeUrlParameters, encodeUrlParameters } from './location'
 
 it('should create URL save parameters', () => {
-  const exposition = createExposition({
+  const exposition = createExpositionState({
     cart: {
       options: ['empty', 'filled'],
     },
@@ -18,7 +18,7 @@ it('should create URL save parameters', () => {
 })
 
 it('should be able to parse given URL parameters', () => {
-  const exposition = createExposition({
+  const exposition = createExpositionState({
     cart: {
       options: ['empty', 'filled'],
     },

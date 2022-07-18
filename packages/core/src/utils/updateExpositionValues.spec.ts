@@ -1,15 +1,15 @@
 import { expect, it } from 'vitest'
-import { createExposition } from './createExposition'
+import { createExpositionState } from './createExpositionState'
 import { getExpositionValues } from './getExpositionValues'
 import { updateExpositionValues } from './updateExpositionValues'
 
 it('should patch the given object', () => {
-  const exposition = createExposition({
+  const expositionState = createExpositionState({
     autobot: { options: ['Optimus Prime', 'Bumblebee'] },
     decepticon: { options: ['Megatron', 'Starscream'] },
   } as const)
 
-  const updatedExposition = updateExpositionValues(exposition, { autobot: 'Bumblebee', decepticon: 'Starscream' })
+  const updatedExposition = updateExpositionValues(expositionState, { autobot: 'Bumblebee', decepticon: 'Starscream' })
 
   expect(getExpositionValues(updatedExposition)).toMatchObject({
     autobot: 'Bumblebee',
@@ -18,14 +18,14 @@ it('should patch the given object', () => {
 })
 
 it('should return a immuteable object', () => {
-  const exposition = createExposition({
+  const expositionState = createExpositionState({
     autobot: { options: ['Optimus Prime', 'Bumblebee'] },
     decepticon: { options: ['Megatron', 'Starscream'] },
   } as const)
 
-  const updatedExposition = updateExpositionValues(exposition, { decepticon: 'Starscream' })
+  const updatedExposition = updateExpositionValues(expositionState, { decepticon: 'Starscream' })
 
-  exposition.decepticon.value = 'Megatron'
+  expositionState.decepticon.value = 'Megatron'
 
   expect(updatedExposition.decepticon.value).toBe('Starscream')
 })

@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { createExposition } from './createExposition'
+import { createExpositionState } from './createExpositionState'
 import { getExpositionValues } from './getExpositionValues'
 
 it('should extract selected values from an Exposition', () => {
@@ -12,8 +12,8 @@ it('should extract selected values from an Exposition', () => {
     },
   } as const
 
-  const exposition = createExposition(expositionConfig)
-  const expositionValues = getExpositionValues(exposition)
+  const expositionState = createExpositionState(expositionConfig)
+  const expositionValues = getExpositionValues(expositionState)
 
   expect(expositionValues.base).toBe('🍚 rice')
 })
@@ -28,10 +28,10 @@ it('should return a map that wont mutate the given argument', () => {
     },
   } as const
 
-  const exposition = createExposition(expositionConfig)
-  const expositionValues = getExpositionValues(exposition)
+  const expositionState = createExpositionState(expositionConfig)
+  const expositionValues = getExpositionValues(expositionState)
 
-  exposition.base.value = '🍝 Pasta - Mama Mia'
+  expositionState.base.value = '🍝 Pasta - Mama Mia'
 
   expect(expositionValues.base).toBe('🍚 rice')
 })

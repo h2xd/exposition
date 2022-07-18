@@ -1,11 +1,11 @@
-import type { Exposition } from '@exposition/core'
+import type { ExpositionState } from '@exposition/core'
 import type { DevtoolsContext } from '../@types/api'
 import { updateState } from '../utils'
 import { inspectorId } from '../config'
 
 const settingsNodeId = 'settings'
 
-export function createSettingsViews<T extends Exposition<any>>(context: DevtoolsContext<T>) {
+export function createSettingsViews<T extends ExpositionState<any>>(context: DevtoolsContext<T>) {
   const { api, settings, state } = context
 
   api.on.editInspectorState((payload) => {

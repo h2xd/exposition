@@ -1,6 +1,6 @@
-import { createExposition } from '@exposition/core'
+import { createExpositionState } from '@exposition/core'
 
-export const playgroundExposition = createExposition({
+export const playgroundExposition = createExpositionState({
   cart: {
     options: ['filled', 'empty'],
   },

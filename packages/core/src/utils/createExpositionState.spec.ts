@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { createExposition } from './createExposition'
+import { createExpositionState } from './createExpositionState'
 
 it('should create an exposition with all required values', () => {
   const expositionConfig = {
@@ -11,7 +11,7 @@ it('should create an exposition with all required values', () => {
     },
   } as const
 
-  const resultExposition = createExposition(expositionConfig)
+  const resultExposition = createExpositionState(expositionConfig)
 
   const expectedExposition = {
     user: {
@@ -35,7 +35,7 @@ it('should return a immutable exposition', () => {
     },
   }
 
-  const resultExposition = createExposition(expositionConfig)
+  const resultExposition = createExpositionState(expositionConfig)
 
   // @ts-expect-error - mutate the initial configuration to check if all references are removed
   expositionConfig['new value'] = {}

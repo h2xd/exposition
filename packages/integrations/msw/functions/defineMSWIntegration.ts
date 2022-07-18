@@ -1,18 +1,18 @@
 import type { GraphQLHandler, RestHandler, SetupWorkerApi } from 'msw'
 import type { SetupServerApi } from 'msw/node'
-import type { Exposition, ExpositionConfig, ExpositionValues } from '@exposition/core'
+import type { ExpositionConfig, ExpositionState, ExpositionValues } from '@exposition/core'
 import { getExpositionValues } from '@exposition/core'
 
 type Handler = RestHandler | GraphQLHandler
-type HandlerCreationFn<T extends Exposition<ExpositionConfig>> = (expositionValues: ExpositionValues<T>) => Handler[]
+type HandlerCreationFn<T extends ExpositionState<ExpositionConfig>> = (expositionValues: ExpositionValues<T>) => Handler[]
 
-interface IntegrationOptions<T extends Exposition<ExpositionConfig>> {
+interface IntegrationOptions<T extends ExpositionState<ExpositionConfig>> {
   msw: SetupServerApi | SetupWorkerApi
   handlers?: HandlerCreationFn<T>[]
   exposition: T
 }
 
-export function defineMSWIntegration<T extends Exposition<ExpositionConfig>>(options: IntegrationOptions<T>) {
+export function defineMSWIntegration<T extends ExpositionState<ExpositionConfig>>(options: IntegrationOptions<T>) {
   const { msw, handlers = [], exposition } = options
 
   const internalHandler: HandlerCreationFn<T>[] = []
