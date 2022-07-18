@@ -4,6 +4,9 @@ hero:
   name: Exposition
   text: Master API mocks
   tagline: Structure to explain the who, what and where of the API mocking process
+  image:
+    src: /assets/exposition-logo.svg
+    alt: Exposition logo
   actions:
     - theme: brand
       text: Get Started
