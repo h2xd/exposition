@@ -37,3 +37,5 @@ export function createExposition<T extends ExpositionConfig>(config: T) {
     on,
   }
 }
+
+export type Exposition = ReturnType<typeof createExposition>
