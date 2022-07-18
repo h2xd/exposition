@@ -1,0 +1,32 @@
+/* Main brand colors */
+:root {
+  --vp-c-brand: #fe615b;
+  --vp-c-brand-light: #ff7470;
+  --vp-c-brand-lighter: #ff9490;
+  --vp-c-brand-dark: #e63835;
+  --vp-c-brand-darker: #bf1d17;
+}
+
+/* Hero Attributes */
+:root {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
+      #dc6fab 30%,
+      #fe615b);
+  --vp-home-hero-image-background-image: linear-gradient(45deg,
+      #fe615b 30%,
+      #dc6fab);
+  --vp-home-hero-image-filter: blur(30px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(56px);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(72px);
+  }
+}
