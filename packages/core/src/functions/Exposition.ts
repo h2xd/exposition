@@ -54,6 +54,5 @@ export class Exposition<T extends ExpositionConfig> {
 }
 
 export interface ExpositionIntegration<TSettings extends Record<string, any>, TExposition = Exposition<any>> {
-  [index: string | number | symbol]: any
   install(context: TExposition, settings: TSettings): void
 }
