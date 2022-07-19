@@ -19,6 +19,7 @@ export class Exposition<T extends ExpositionConfig> {
 
   public reset(scenariosToReset: (keyof ExpositionState<T>)[] = []): Exposition<T> {
     Object.assign(this.state, resetExpositionValues(this.state, scenariosToReset))
+    this.emitter.emit(EventNames.AFTER_RESET, this.values)
 
     return this
   }

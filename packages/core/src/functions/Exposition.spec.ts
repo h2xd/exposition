@@ -57,6 +57,16 @@ describe('createExposition', () => {
   })
 
   describe('events', () => {
+    it('should emit an afterReset event', () => {
+      const spy = vi.fn()
+
+      exposition.on('afterReset', spy)
+      exposition.reset()
+
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' })
+    })
+
     it('should emit an afterUpdate event', () => {
       const spy = vi.fn()
 
