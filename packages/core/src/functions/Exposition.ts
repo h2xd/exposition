@@ -57,4 +57,3 @@ export interface ExpositionIntegration<TSettings extends Record<string, any>, TE
   [index: string | number | symbol]: any
   install(context: TExposition, settings: TSettings): void
 }
-
