@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Exposition } from './Exposition'
 
-describe('createExposition', () => {
+describe('Exposition', () => {
   const expositionConfig = {
     dream: {
       options: [
