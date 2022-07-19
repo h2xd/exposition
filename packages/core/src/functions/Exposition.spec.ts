@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createExposition } from './createExposition'
+import { Exposition } from './Exposition'
 
 describe('createExposition', () => {
   const expositionConfig = {
@@ -20,39 +20,39 @@ describe('createExposition', () => {
     },
   } as const
 
-  let exposition: ReturnType<typeof createExposition<typeof expositionConfig>>
+  let exposition: Exposition<typeof expositionConfig>
 
   beforeEach(() => {
-    exposition = createExposition(expositionConfig)
+    exposition = new Exposition(expositionConfig)
   })
 
   describe('methods', () => {
     it('should have a method to get the current values', () => {
-      expect(exposition.values()).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave' })
     })
 
     it('should have a method to update the current values', () => {
       exposition.update({ dream: 'NREM_stage_2' })
 
-      expect(exposition.values()).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
     })
 
     it('should have a method to reset the current values', () => {
       exposition.update({ dream: 'NREM_stage_2' })
 
-      expect(exposition.values()).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
 
       exposition.reset()
-      expect(exposition.values()).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave' })
     })
 
     it('should only reset a subset of scenarios', () => {
       exposition.update({ dream: 'NREM_stage_2', reality: 'thunderstorm' })
 
-      expect(exposition.values()).toMatchObject({ dream: 'NREM_stage_2', reality: 'thunderstorm' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'thunderstorm' })
 
       exposition.reset(['reality'])
-      expect(exposition.values()).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
     })
   })
 
@@ -82,14 +82,14 @@ describe('createExposition', () => {
     it('it should be able to use integrations', () => {
       const spy = vi.fn()
 
-      exposition.use({
-        install(expositionContext, settings) {
-          expositionContext.on('initialized', spy)
+      const exp = exposition.use({
+        install(context, settings) {
+          context.on('initialized', spy)
           expect(settings).toMatchObject({ settingsMastery: 1 })
         },
       }, { settingsMastery: 1 })
 
-      exposition.init()
+      exp.init()
       expect(spy).toHaveBeenCalled()
     })
   })
