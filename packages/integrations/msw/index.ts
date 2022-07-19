@@ -1,1 +1,1 @@
-export { defineMSWIntegration } from './functions/defineMSWIntegration'
+export { createMswIntegration } from './functions/createMswIntegration'
