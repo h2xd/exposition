@@ -37,7 +37,7 @@ export class Exposition<T extends ExpositionConfig> {
     return this
   }
 
-  public use<TSettings, Tfn extends (context: Exposition<T>, settings: TSettings) => ReturnType<Tfn>>(integrationFunction: Tfn, settings: TSettings): ReturnType<Tfn> {
+  public use<Tfn extends (context: Exposition<T>, settings: TSettings) => TfnR, TSettings = Parameters<Tfn>[1], TfnR = ReturnType<Tfn>>(integrationFunction: Tfn, settings: Parameters<Tfn>[1]): TfnR {
     return integrationFunction(this, settings)
   }
 

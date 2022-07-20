@@ -14,17 +14,10 @@ function isServer(msw: SetupServerApi | SetupWorkerApi): msw is SetupServerApi {
   return !!msw.listen
 }
 
-// function useNoHandlers(): void {
-//   settings.msw.resetHandlers()
-//   settings.msw.use()
-// }
-
 export function createMswIntegration<T extends Exposition<any>>(context: T, settings: IntegrationOptions) {
-  type Values = T['values']
+  const internalHandler: HandlerCreationFn<T['values']>[] = []
 
-  const internalHandler: HandlerCreationFn<Values>[] = []
-
-  function assignHandler(values: Values): void {
+  function assignHandler(values: T['values']): void {
     const handlerList = internalHandler.reduce((accumulator, handler) => {
       return [
         ...accumulator,
@@ -46,7 +39,7 @@ export function createMswIntegration<T extends Exposition<any>>(context: T, sett
 
   context.on('afterUpdate', assignHandler).on('afterReset', assignHandler)
 
-  function createHandler(handler: (values: Values) => Handler[]): void {
+  function createHandler(handler: (values: T['values']) => Handler[]): void {
     internalHandler.push(handler)
   }
 
