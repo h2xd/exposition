@@ -14,46 +14,43 @@ function isServer(msw: SetupServerApi | SetupWorkerApi): msw is SetupServerApi {
   return !!msw.listen
 }
 
-export function createMswIntegration<T extends Exposition<any>>() {
-  // function useNoHandlers(): void {
-  //   settings.msw.resetHandlers()
-  //   settings.msw.use()
-  // }
+// function useNoHandlers(): void {
+//   settings.msw.resetHandlers()
+//   settings.msw.use()
+// }
 
-  const internalHandler: HandlerCreationFn<T['values']>[] = []
+export function createMswIntegration<T extends Exposition<any>>(context: T, settings: IntegrationOptions) {
+  type Values = T['values']
 
-  function createHandler(handler: (values: T['values']) => Handler[]): void {
+  const internalHandler: HandlerCreationFn<Values>[] = []
+
+  function assignHandler(values: Values): void {
+    const handlerList = internalHandler.reduce((accumulator, handler) => {
+      return [
+        ...accumulator,
+        ...handler(values),
+      ]
+    }, [] as Handler[])
+
+    settings.msw.use(...handlerList)
+  }
+
+  context.on('initialized', () => {
+    assignHandler(context.values)
+
+    if (isServer(settings.msw))
+      settings.msw.listen()
+    else
+      settings.msw.start()
+  })
+
+  context.on('afterUpdate', assignHandler).on('afterReset', assignHandler)
+
+  function createHandler(handler: (values: Values) => Handler[]): void {
     internalHandler.push(handler)
   }
 
   return {
     createHandler,
-    install(context: T, settings: IntegrationOptions) {
-      function assignHandler(values: T['values']): void {
-        const handlerList = internalHandler.reduce((accumulator, handler) => {
-          return [
-            ...accumulator,
-            ...handler(values),
-          ]
-        }, [] as Handler[])
-
-        settings.msw.use(...handlerList)
-      }
-
-      context.on('initialized', () => {
-        assignHandler(context.values)
-
-        if (isServer(settings.msw))
-          settings.msw.listen()
-        else
-          settings.msw.start()
-      })
-
-      context.on('afterUpdate', assignHandler).on('afterReset', assignHandler)
-
-      return {
-        createHandler,
-      }
-    },
   }
 }

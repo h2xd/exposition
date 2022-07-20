@@ -92,11 +92,9 @@ describe('Exposition', () => {
     it('it should be able to use integrations', () => {
       const spy = vi.fn()
 
-      exposition.use({
-        install(context, settings) {
-          context.on('initialized', spy)
-          expect(settings).toMatchObject({ settingsMastery: 1 })
-        },
+      exposition.use((context, settings) => {
+        context.on('initialized', spy)
+        expect(settings).toMatchObject({ settingsMastery: 1 })
       }, { settingsMastery: 1 })
 
       exposition.init()

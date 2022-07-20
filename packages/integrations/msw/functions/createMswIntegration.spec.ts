@@ -13,7 +13,7 @@ describe('createMswIntegration', () => {
   } as const)
 
   beforeAll(() => {
-    const mswIntegration = createMswIntegration<typeof exposition>()
+    const mswIntegration = exposition.use(createMswIntegration<typeof exposition>, { msw: setupServer() })
 
     mswIntegration.createHandler((values) => {
       return [
@@ -28,7 +28,7 @@ describe('createMswIntegration', () => {
       ]
     })
 
-    exposition.use(mswIntegration, { msw: setupServer() }).init()
+    exposition.init()
   })
 
   afterEach(() => { exposition.reset() })

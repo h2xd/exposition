@@ -37,12 +37,8 @@ export class Exposition<T extends ExpositionConfig> {
     return this
   }
 
-  public use<TSettings, Tfn extends (context: Exposition<T>) => { install(context: Exposition<T>, settings: TSettings): TfnR }, TfnR = ReturnType<ReturnType<Tfn>['install']>>(integrationFunction: Tfn, settings: Parameters<ReturnType<Tfn>['install']>[1]): TfnR {
-    const integration = integrationFunction(this)
-
-    integration.install(this, settings)
-
-    return integration.install(this, settings)
+  public use<TSettings, Tfn extends (context: Exposition<T>, settings: TSettings) => TfnR, TfnR = ReturnType<Tfn>>(integrationFunction: Tfn, settings: TSettings): TfnR {
+    return integrationFunction(this, settings)
   }
 
   public init(): Exposition<T> {
