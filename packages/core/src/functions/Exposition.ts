@@ -2,7 +2,7 @@ import EventEmitter from 'events'
 import type { ExpositionEventNames } from '../config/eventNames'
 import { EventNames } from '../config/eventNames'
 import type { ExpositionConfig, ExpositionState, ExpositionValues } from '../sdk'
-import { createExpositionState, getExpositionValues, resetExpositionValues, updateExpositionValues } from '../sdk'
+import { createExpositionState, getExpositionValues, getInitialExpositionValues, resetExpositionValues, updateExpositionValues } from '../sdk'
 
 export class Exposition<T extends ExpositionConfig> {
   private emitter = new EventEmitter()
@@ -15,6 +15,10 @@ export class Exposition<T extends ExpositionConfig> {
 
   public get values(): ExpositionValues<ExpositionState<T>> {
     return getExpositionValues(this.state)
+  }
+
+  public get initialValues(): ExpositionValues<ExpositionState<T>> {
+    return getInitialExpositionValues(this.state)
   }
 
   public reset(scenariosToReset: (keyof ExpositionState<T>)[] = []): Exposition<T> {
