@@ -40,6 +40,7 @@ importers:
     specifiers:
       cross-env: ^7.0.3
       esbuild: ^0.12.9
+      events: ^3.3.0
       rollup: ^2.52.3
       rollup-plugin-dts: ^4.2.2
       rollup-plugin-esbuild: ^4.9.1
@@ -47,6 +48,7 @@ importers:
     devDependencies:
       cross-env: 7.0.3
       esbuild: 0.12.29
+      events: 3.3.0
       rollup: 2.75.5
       rollup-plugin-dts: 4.2.2_x74m37vrgewvgb5e3mv6tudlhe
       rollup-plugin-esbuild: 4.9.1_65kx42wl76artgtf6fvlhhgj7i

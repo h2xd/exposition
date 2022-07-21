@@ -1,11 +1,14 @@
-import { createExpositionState } from '@exposition/core'
-import { defineMSWIntegration } from '@exposition/integrations/msw'
-import { rest, setupWorker } from 'msw'
+// #region imports
+import { Exposition } from '@exposition/core'
+import { createMswIntegration } from '@exposition/integrations/msw'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+// #endregion imports
 
 // ----------------------------------------------
 
 // #region create-exposition
-export const expositionState = createExpositionState({
+export const exampleExposition = new Exposition({
   cart: {
     options: ['filled', 'empty'],
   },
@@ -14,19 +17,11 @@ export const expositionState = createExpositionState({
 
 // ----------------------------------------------
 
-// #region setup-msw
-// Setup Mock Service Worker
-export const mockWorker = setupWorker()
-// #endregion setup-msw
-
-// ----------------------------------------------
-
 // #region setup-msw-integration
-// Setup the msw integration
-export const mswIntegration = defineMSWIntegration({
-  exposition: expositionState,
-  msw: mockWorker,
-})
+export const mswIntegration = exampleExposition.use(
+  createMswIntegration<typeof exampleExposition>,
+  { msw: setupServer() },
+)
 // #endregion setup-msw-integration
 
 // ----------------------------------------------
@@ -52,7 +47,6 @@ mswIntegration.createHandler((expositionValues) => {
 
 // ----------------------------------------------
 
-// #region start-integration
-mswIntegration.init()
-mockWorker.start()
-// #endregion start-integration
+// #region init-exposition
+exampleExposition.init()
+// #endregion init-exposition
