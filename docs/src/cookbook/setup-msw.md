@@ -7,8 +7,8 @@ Hey and welcome. In this guide I will show you how to setup the msw integration 
 ## Install dependencies
 
 For this example you need to install the following dependencies:
-- [`@exposition/core`](https://h2xd.github.io/exposition/packages/core.html)
-- [`@exposition/integrations`](https://h2xd.github.io/exposition/packages/integrations.html)
+- [`@exposition/core`](../packages/core.md)
+- [`@exposition/integrations`](../packages/integrations.md)
 - [`msw`](https://github.com/mswjs/msw)
 
 ```sh
@@ -23,48 +23,58 @@ yarn add -D @exposition/{core,integrations} msw
 npm install -D @exposition/{core,integrations} msw
 ```
 
-## Setup
+## tl;dr setup ⚡
 
-First create an `ExpositionState` configuration.
+I'm like to fiddle around with code first, so a whole example to copy & paste is just nice.<br>
+Go ahead and grab the entire code from this cookbook and start building your mocks.
+
+::: details _Example code_ 🍝
+<<< @/cookbook/examples/01-setup-msw.ts
+:::
+
+Otherwise, if you wanna have a break down and a little bit of context follow the steps below.
+
+## Create `Exposition`
+
+First create an `Exposition` instance by passing in your configuration.
 
 <<< @/cookbook/examples/01-setup-msw.ts#create-exposition{3}
 
-Setup a client that will be passed the the integration.
-In this case it is service worker but you can also use [`setupServer`](https://mswjs.io/docs/api/setup-server).
+Next, use `createMswIntegration` and add as a setting parameter ether [`setupClient`](https://mswjs.io/docs/api/setup-client) or [`setupServer`](https://mswjs.io/docs/api/setup-server).
+In this case we use [`setupServer`](https://mswjs.io/docs/api/setup-server).
 
-<<< @/cookbook/examples/01-setup-msw.ts#setup-msw
+<<< @/cookbook/examples/01-setup-msw.ts#setup-msw-integration{2-3}
 
-Pass the `ExpositionState` configuration and your msw client to the integration.
-
-<<< @/cookbook/examples/01-setup-msw.ts#setup-msw-integration{3-4}
+:::warning Weirdness alert 🌌
+For now the `<typeof exampleExposition>` is legit and important.<br>
+I'm searching in my head how to auto pass the config type to all extensions.
+:::
 
 ## Define handler
 
-Now comes the spicy part. 🌶️<br>
 You can import the integration and add new handler by calling `createHandler`.
-
-The cool part is that the `expositionValues` will automatically be available and are fully typed.
+The spicy part is that the first parameter `expositionValues` will automatically be fully typed.
+With that you can use a [switch statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch) and your cases will be auto suggested. 🌶️
 
 <<< @/cookbook/examples/01-setup-msw.ts#define-msw-handler{5}
 
-::: tip Tip :bulb:
-You can also use the very good [`@mswjs/data`](https://github.com/mswjs/data) library,<br>
-In combination with [`@faker-js/faker`](https://fakerjs.dev/). :crown:
+::: tip Pro gamer tip 👑
+You can also use the very good [`@mswjs/data`](https://github.com/mswjs/data) library, in combination with [`@faker-js/faker`](https://fakerjs.dev/)
+to build and fill your mocks. A cookbook for that will follow in the future.
+
+:::details Check out this playground example
+<<< @/../../playground/src/utils/mocks/database.ts
 :::
 
-## Include into your app
+## Finish 🏁
 
-Final part - initialize both msw and integration in your app.
+Initialize your exposition instance and test it in your app.
 
-<<< @/cookbook/examples/01-setup-msw.ts#start-integration
+<<< @/cookbook/examples/01-setup-msw.ts#init-exposition
 
 ## Next steps
 
-Checkout the [Vue-Devtools](./../integrations/vue-devtools.md) integration it you want to swap values on the fly.
-
-:::warning Incoming change 👢
-The whole setup will also most likely change in the next iteration.<br>
-Since the whole setup feels clunky. So keep your eyes on [issue #14](https://github.com/h2xd/exposition/issues/14).
-:::
+Checkout the [Vue-Devtools](./../integrations/vue-devtools.md) integration it you want to swap values on the fly
+or reach out if you wanna have a small session.
 
 <!-- @include: ./snippets/next-guides.md -->
