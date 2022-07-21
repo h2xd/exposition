@@ -37,6 +37,11 @@ describe('Exposition', () => {
       expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
     })
 
+    it('should have a method to get the initial values', () => {
+      exposition.update({ dream: 'NREM_stage_2' })
+      expect(exposition.initialValues).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave' })
+    })
+
     it('should have a method to reset the current values', () => {
       exposition.update({ dream: 'NREM_stage_2' })
 
