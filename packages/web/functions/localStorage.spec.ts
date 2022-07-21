@@ -2,14 +2,16 @@
  * @vitest-environment happy-dom
  */
 import { afterEach, describe, expect, it } from 'vitest'
-import { createExpositionState, getExpositionValues } from '@exposition/core'
+import { Exposition, createExpositionState, getExpositionValues } from '@exposition/core'
 import { LOCAL_STORAGE_KEY, readFromLocalStorage, writeToLocalStorage } from './localStorage'
 
-const exposition = createExpositionState({
+const config = {
   account: {
     options: ['valid', 'inactive'],
   },
-} as const)
+} as const
+const exposition = new Exposition(config)
+const expositionState = createExpositionState(config)
 
 afterEach(() => window.localStorage.clear())
 
@@ -33,17 +35,16 @@ describe('localStorage utils', () => {
     it('should get stored items from the localStorage', () => {
       writeToLocalStorage(exposition)
 
-      const storedValues = readFromLocalStorage()
+      readFromLocalStorage(exposition)
 
-      expect(storedValues).toMatchObject(getExpositionValues(exposition))
+      expect(exposition.values).toMatchObject(getExpositionValues(expositionState))
     })
 
     it('should get data from a custom key', () => {
       writeToLocalStorage(exposition, 'another_cool_key_name')
+      readFromLocalStorage(exposition, 'another_cool_key_name')
 
-      const storedValues = readFromLocalStorage('another_cool_key_name')
-
-      expect(storedValues).toMatchObject(getExpositionValues(exposition))
+      expect(exposition.values).toMatchObject(getExpositionValues(expositionState))
     })
   })
 })
