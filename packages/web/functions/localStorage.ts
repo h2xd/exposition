@@ -1,5 +1,4 @@
-import type { ExpositionState, ExpositionValues } from '@exposition/core'
-import { getExpositionValues } from '@exposition/core'
+import type { Exposition } from '@exposition/core'
 
 export const LOCAL_STORAGE_KEY = 'exposition'
 
@@ -18,13 +17,11 @@ export const LOCAL_STORAGE_KEY = 'exposition'
  *
  * writeToLocalStorage(exposition)
  */
-export function writeToLocalStorage<T extends ExpositionState<any>>(exposition: T, key = LOCAL_STORAGE_KEY): void {
+export function writeToLocalStorage<T extends Exposition<any>>(exposition: T, key = LOCAL_STORAGE_KEY): void {
   if (!window.localStorage)
     return
 
-  const value = getExpositionValues(exposition)
-
-  window.localStorage.setItem(key, JSON.stringify(value))
+  window.localStorage.setItem(key, JSON.stringify(exposition.values))
 }
 
 /**
@@ -44,7 +41,7 @@ export function writeToLocalStorage<T extends ExpositionState<any>>(exposition: 
 
   exposition = updateExpositionValues(exposition, storedValues)
  */
-export function readFromLocalStorage<T extends ExpositionState<any>>(key = LOCAL_STORAGE_KEY): ExpositionValues<T> | undefined {
+export function readFromLocalStorage<T extends Exposition<any>>(exposition: T, key = LOCAL_STORAGE_KEY): void {
   if (!window.localStorage)
     return
 
@@ -54,7 +51,8 @@ export function readFromLocalStorage<T extends ExpositionState<any>>(key = LOCAL
     return
 
   try {
-    return JSON.parse(dataItem) as ExpositionValues<T>
+    const values = JSON.parse(dataItem) as T['values']
+    exposition.update(values)
   }
   catch (error) {
     console.error(error)
