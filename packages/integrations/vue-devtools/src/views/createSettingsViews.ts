@@ -1,12 +1,12 @@
-import type { ExpositionState } from '@exposition/core'
+import type { Exposition } from '@exposition/core'
+import { writeToLocalStorage } from '@exposition/web'
 import type { DevtoolsContext } from '../@types/api'
-import { updateState } from '../utils'
 import { inspectorId } from '../config'
 
 const settingsNodeId = 'settings'
 
-export function createSettingsViews<T extends ExpositionState<any>>(context: DevtoolsContext<T>) {
-  const { api, settings, state } = context
+export function createSettingsViews<T extends Exposition<any>>(context: DevtoolsContext<T>) {
+  const { api, settings, exposition } = context
 
   api.on.editInspectorState((payload) => {
     if (payload.inspectorId !== inspectorId || payload.nodeId !== settingsNodeId)
@@ -22,8 +22,9 @@ export function createSettingsViews<T extends ExpositionState<any>>(context: Dev
     })
 
     settings.saveSettings()
-    state.saveToStore()
-    updateState(context)
+
+    if (settings.isEnabled('autoLoadFromLocalStorage'))
+      writeToLocalStorage(exposition)
   })
 
   api.on.getInspectorState((payload) => {
