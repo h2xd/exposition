@@ -19,14 +19,14 @@ export class Exposition<T extends ExpositionConfig> {
 
   public reset(scenariosToReset: (keyof ExpositionState<T>)[] = []): Exposition<T> {
     Object.assign(this.state, resetExpositionValues(this.state, scenariosToReset))
-    this.emitter.emit(EventNames.AFTER_RESET, this.values)
+    this.emitter.emit(EventNames.RESET, this.values)
 
     return this
   }
 
   public update(newValues: Partial<ExpositionValues<ExpositionState<T>>>): Exposition<T> {
     Object.assign(this.state, updateExpositionValues(this.state, newValues))
-    this.emitter.emit(EventNames.AFTER_UPDATE, this.values)
+    this.emitter.emit(EventNames.UPDATE, this.values)
 
     return this
   }

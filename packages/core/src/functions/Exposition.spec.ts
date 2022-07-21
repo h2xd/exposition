@@ -60,7 +60,7 @@ describe('Exposition', () => {
     it('should emit an afterReset event', () => {
       const spy = vi.fn()
 
-      exposition.on('afterReset', spy)
+      exposition.on('reset', spy)
       exposition.reset()
 
       expect(spy).toHaveBeenCalledTimes(1)
@@ -70,7 +70,7 @@ describe('Exposition', () => {
     it('should emit an afterUpdate event', () => {
       const spy = vi.fn()
 
-      exposition.on('afterUpdate', spy)
+      exposition.on('update', spy)
       exposition.update({ dream: 'NREM_stage_3' })
 
       expect(spy).toHaveBeenCalledTimes(1)

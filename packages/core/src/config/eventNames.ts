@@ -1,6 +1,6 @@
 export const EventNames = {
-  AFTER_RESET: 'afterReset',
-  AFTER_UPDATE: 'afterUpdate',
+  RESET: 'reset',
+  UPDATE: 'update',
   INITIALIZED: 'initialized',
 } as const
 

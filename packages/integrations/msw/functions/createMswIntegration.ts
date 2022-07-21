@@ -37,7 +37,7 @@ export function createMswIntegration<T extends Exposition<any>>(context: T, sett
       settings.msw.start()
   })
 
-  context.on('afterUpdate', assignHandler).on('afterReset', assignHandler)
+  context.on('update', assignHandler).on('reset', assignHandler)
 
   function createHandler(handler: (values: T['values']) => Handler[]): void {
     internalHandler.push(handler)
