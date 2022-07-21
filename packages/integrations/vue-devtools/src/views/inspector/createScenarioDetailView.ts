@@ -1,72 +1,73 @@
-import type { ExpositionState } from '@exposition/core'
+import type { Exposition } from '@exposition/core'
 import type { DevtoolsContext } from '../../@types/api'
-import { updateState } from '../../utils'
 import { inspectorId } from '../../config'
 
-export function createScenarioDetailView<T extends ExpositionState<any>>(context: DevtoolsContext<T>) {
-  const { api, state } = context
+export function createScenarioDetailView<T extends Exposition<any>>(context: DevtoolsContext<T>) {
+  const { api, exposition } = context
 
   api.on.getInspectorState((payload) => {
-    if (payload.inspectorId === inspectorId) {
-      if (Object.keys(state.value).includes(payload.nodeId)) {
-        const scenario = state.value[payload.nodeId]
+    if (payload.inspectorId !== inspectorId)
+      return
 
-        payload.state = {
-          state: [
-            {
-              key: 'scenario',
-              value: scenario.id,
-            },
-            {
-              key: 'initialValue',
-              value: scenario.initialValue,
-            },
-            {
-              key: 'value',
-              value: {
-                _custom: {
-                  type: null,
-                  value: scenario.value,
-                  actions: [{
-                    icon: 'restore',
-                    tooltip: 'Reset the value of the scenario',
-                    action: () => updateState(context, () => {
-                      // @ts-expect-error - Allow dynamic state definition in this case
-                      state.update({
-                        [scenario.id]: scenario.initialValue,
-                      })
-                    }),
-                  }],
+    if (!Object.keys(exposition.values).includes(payload.nodeId))
+      return
+
+    const key = payload.nodeId
+    const value = exposition.values[key]
+    const initialValue = exposition.initialValues[key]
+
+    payload.state = {
+      state: [
+        {
+          key: 'scenario',
+          value: key,
+        },
+        {
+          key: 'initialValue',
+          value: initialValue,
+        },
+        {
+          key: 'value',
+          value: {
+            _custom: {
+              type: null,
+              value,
+              actions: [{
+                icon: 'restore',
+                tooltip: 'Reset the value of the scenario',
+                action: () => {
+                  exposition.update({
+                    [key]: initialValue,
+                  })
                 },
-              },
-              editable: false,
+              }],
             },
-          ],
-          // @ts-expect-error - figure out why TypeScript is angry
-          options: scenario.options.map((option, index) => {
-            return {
-              key: index,
-              value: {
-                _custom: {
-                  type: null,
-                  value: option,
-                  actions: [{
-                    icon: 'check',
-                    tooltip: `Set "${option}" as the new value`,
-                    action: () => updateState(context, () => {
-                      // @ts-expect-error - Allow dynamic state definition in this case
-                      state.update({
-                        [scenario.id]: option,
-                      })
-                    }),
-                  }],
+          },
+          editable: false,
+        },
+      ],
+      // @ts-expect-error - TODO: Massive hack, there should be an option to interact with
+      options: exposition.state[key].options.map((option, index) => {
+        return {
+          key: index,
+          value: {
+            _custom: {
+              type: null,
+              value: option,
+              actions: [{
+                icon: 'check',
+                tooltip: `Set "${option}" as the new value`,
+                action: () => {
+                  exposition.update({
+                    [key]: option,
+                  })
                 },
-              },
-              editable: false,
-            }
-          }),
+              }],
+            },
+          },
+          editable: false,
         }
-      }
+      }),
     }
   })
 }

@@ -1,13 +1,12 @@
-import type { ExpositionState } from '@exposition/core'
+import type { Exposition } from '@exposition/core'
 import type { CustomInspectorNode } from '@vue/devtools-api'
 
 import type { DevtoolsContext } from '../@types/api'
-import { updateState } from '../utils'
 import { inspectorId, warningLabelSettings } from '../config'
 import { createMainScenarioView, createScenarioDetailView } from './inspector'
 
-export function createInspectorViews<T extends ExpositionState<any>>(context: DevtoolsContext<T>) {
-  const { api, state, settings } = context
+export function createInspectorViews<T extends Exposition<any>>(context: DevtoolsContext<T>) {
+  const { api, exposition, settings } = context
 
   api.addInspector({
     id: inspectorId,
@@ -17,55 +16,57 @@ export function createInspectorViews<T extends ExpositionState<any>>(context: De
       {
         icon: 'restore',
         tooltip: 'Reset the exposition to its initial state',
-        action: () => updateState(context, () => {
-          state.reset()
-        }),
+        action: () => {
+          exposition.reset()
+        },
       },
     ],
   })
 
   api.on.getInspectorTree((payload) => {
-    if (payload.inspectorId === inspectorId) {
-      const scenarioElements = Object.keys(state.value).reduce((accumulator, key) => {
-        const { id, value, initialValue } = state.value[key]
+    if (payload.inspectorId !== inspectorId)
+      return
 
-        const isInitialValue = value === initialValue
+    const initialValues = exposition.initialValues
 
-        return [
-          ...accumulator,
-          {
-            id,
-            label: id,
-            tags: !isInitialValue
-              ? [
+    const scenarioElements = Object.keys(exposition.values).reduce((accumulator, key) => {
+      const value = exposition.values[key]
+      const isInitialValue = value === initialValues[key]
 
-                  { ...warningLabelSettings, label: 'modified' },
-                ]
-              : [],
-          },
-        ]
-      }, [] as CustomInspectorNode[])
-
-      payload.rootNodes = [
+      return [
+        ...accumulator,
         {
-          id: 'settings',
-          label: 'Settings',
-          tags: !settings.isEnabled('active')
+          id: key,
+          label: key,
+          tags: !isInitialValue
             ? [
-                {
-                  ...warningLabelSettings,
-                  label: 'mocking inactive',
-                },
+
+                { ...warningLabelSettings, label: 'modified' },
               ]
             : [],
         },
-        {
-          id: 'scenarios',
-          label: 'Scenarios',
-          children: scenarioElements,
-        },
       ]
-    }
+    }, [] as CustomInspectorNode[])
+
+    payload.rootNodes = [
+      {
+        id: 'settings',
+        label: 'Settings',
+        tags: !settings.isEnabled('active')
+          ? [
+              {
+                ...warningLabelSettings,
+                label: 'mocking inactive',
+              },
+            ]
+          : [],
+      },
+      {
+        id: 'scenarios',
+        label: 'Scenarios',
+        children: scenarioElements,
+      },
+    ]
   })
 
   createMainScenarioView(context)
