@@ -18,7 +18,7 @@ export const LOCAL_STORAGE_KEY = 'exposition'
  * writeToLocalStorage(exposition)
  */
 export function writeToLocalStorage<T extends Exposition<any>>(exposition: T, key = LOCAL_STORAGE_KEY): void {
-  if (!window.localStorage)
+  if (!window.localStorage || !exposition.settings.restoreState)
     return
 
   window.localStorage.setItem(key, JSON.stringify(exposition.values))
@@ -42,7 +42,7 @@ export function writeToLocalStorage<T extends Exposition<any>>(exposition: T, ke
   exposition = updateExpositionValues(exposition, storedValues)
  */
 export function readFromLocalStorage<T extends Exposition<any>>(exposition: T, key = LOCAL_STORAGE_KEY): void {
-  if (!window.localStorage)
+  if (!window.localStorage || !exposition.settings.restoreState)
     return
 
   const dataItem = window.localStorage.getItem(key)
