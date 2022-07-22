@@ -1,12 +1,11 @@
 import type { Exposition } from '@exposition/core'
-import type { CustomInspectorNode } from '@vue/devtools-api'
 
 import type { DevtoolsContext } from '../@types/api'
 import { inspectorId, warningLabelSettings } from '../config'
 import { createMainScenarioView, createScenarioDetailView } from './inspector'
 
 export function createInspectorViews<T extends Exposition<any>>(context: DevtoolsContext<T>) {
-  const { api, exposition, settings } = context
+  const { api, exposition } = context
 
   api.addInspector({
     id: inspectorId,
@@ -29,30 +28,26 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
 
     const initialValues = exposition.initialValues
 
-    const scenarioElements = Object.keys(exposition.values).reduce((accumulator, key) => {
-      const value = exposition.values[key]
+    const scenarioElements = Object.entries(exposition.values).map(([key, value]) => {
       const isInitialValue = value === initialValues[key]
 
-      return [
-        ...accumulator,
-        {
-          id: key,
-          label: key,
-          tags: !isInitialValue
-            ? [
+      return {
+        id: key,
+        label: key,
+        tags: !isInitialValue
+          ? [
 
-                { ...warningLabelSettings, label: 'modified' },
-              ]
-            : [],
-        },
-      ]
-    }, [] as CustomInspectorNode[])
+              { ...warningLabelSettings, label: 'modified' },
+            ]
+          : [],
+      }
+    })
 
     payload.rootNodes = [
       {
         id: 'settings',
         label: 'Settings',
-        tags: !settings.isEnabled('active')
+        tags: !exposition.settings.active
           ? [
               {
                 ...warningLabelSettings,

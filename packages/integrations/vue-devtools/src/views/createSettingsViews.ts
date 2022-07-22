@@ -6,33 +6,35 @@ import { inspectorId } from '../config'
 const settingsNodeId = 'settings'
 
 export function createSettingsViews<T extends Exposition<any>>(context: DevtoolsContext<T>) {
-  const { api, settings, exposition } = context
-
-  api.on.editInspectorState((payload) => {
-    if (payload.inspectorId !== inspectorId || payload.nodeId !== settingsNodeId)
-      return
-
-    const updatedKey = payload.path[0]
-
-    settings.value.forEach((item) => {
-      if (item.key !== updatedKey)
-        return item
-
-      item.value = payload.state.value
-    })
-
-    settings.saveSettings()
-
-    if (settings.isEnabled('autoLoadFromLocalStorage'))
-      writeToLocalStorage(exposition)
-  })
+  const { api, exposition } = context
 
   api.on.getInspectorState((payload) => {
     if (payload.inspectorId !== inspectorId || payload.nodeId !== settingsNodeId)
       return
 
     payload.state = {
-      settings: settings.value,
+      state: Object.entries(exposition.settings).map(([key, value]) => {
+        return {
+          key,
+          value,
+          editable: true,
+        }
+      }),
     }
+  })
+
+  api.on.editInspectorState((payload) => {
+    if (payload.inspectorId !== inspectorId || payload.nodeId !== settingsNodeId)
+      return
+
+    const key = payload.path[0] as keyof T['settings']
+    const value = payload.state.value as T['settings'][typeof key]
+
+    exposition.updateSettings({
+      [key]: value,
+    })
+
+    if (exposition.settings.restoreState)
+      writeToLocalStorage(exposition)
   })
 }
