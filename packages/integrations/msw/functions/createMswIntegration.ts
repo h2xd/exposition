@@ -18,6 +18,7 @@ export function createMswIntegration<T extends Exposition<any>>(context: T, sett
   const internalHandler: HandlerCreationFn<T['values']>[] = []
 
   function assignHandler(values: T['values']): void {
+    clearHandler()
     const handlerList = internalHandler.reduce((accumulator, handler) => {
       return [
         ...accumulator,
@@ -26,6 +27,10 @@ export function createMswIntegration<T extends Exposition<any>>(context: T, sett
     }, [] as Handler[])
 
     settings.msw.use(...handlerList)
+  }
+
+  function clearHandler() {
+    settings.msw.resetHandlers()
   }
 
   context.on('initialized', () => {
@@ -38,6 +43,14 @@ export function createMswIntegration<T extends Exposition<any>>(context: T, sett
   })
 
   context.on('update', assignHandler).on('reset', assignHandler)
+  context.on('updateSettings', (values, { active }) => {
+    if (!active) {
+      clearHandler()
+      return
+    }
+
+    assignHandler(values)
+  })
 
   function createHandler(handler: (values: T['values']) => Handler[]): void {
     internalHandler.push(handler)
