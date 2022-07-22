@@ -31,7 +31,10 @@ describe('createMswIntegration', () => {
     exposition.init()
   })
 
-  afterEach(() => { exposition.reset() })
+  afterEach(() => {
+    exposition.reset()
+    exposition.updateSettings({ active: true, restoreState: true })
+  })
 
   it('should return an authorized code by default', async () => {
     const response = await fetch('https://api.example.com/account')
@@ -47,15 +50,34 @@ describe('createMswIntegration', () => {
     expect(response.status).toBe(401)
   })
 
-  // it('should use no handler if explicitly called', async () => {
-  //   await integration.useNoHandlers()
+  describe('settings hooks', () => {
+    it('should use no handler if exposition is set to inactive', async () => {
+      exposition.updateSettings({ active: false })
 
-  //   try {
-  //     await fetch('/')
-  //   }
-  //   catch (error) {
-  //     expect(error).toBeDefined()
-  //   }
-  // })
+      try {
+        await fetch('/')
+      }
+      catch (error) {
+        expect(error).toBeDefined()
+      }
+    })
+
+    it('should reactivate handler when exposition.settings.active is updated to true', async () => {
+      exposition.updateSettings({ active: false })
+
+      try {
+        await fetch('/')
+      }
+      catch (error) {
+        expect(error).toBeDefined()
+      }
+
+      exposition.updateSettings({ active: true })
+
+      const response = await fetch('https://api.example.com/account')
+
+      expect(response.status).toBe(200)
+    })
+  })
 })
 
