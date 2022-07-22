@@ -29,7 +29,7 @@ I'm like to fiddle around with code first, so a whole example to copy & paste is
 Go ahead and grab the entire code from this cookbook and start building your mocks.
 
 ::: details _Example code_ 🍝
-<<< @/cookbook/examples/01-setup-msw.ts
+<<< @/../../examples/msw/01-setup-msw.ts
 :::
 
 Otherwise, if you wanna have a break down and a little bit of context follow the steps below.
@@ -38,12 +38,12 @@ Otherwise, if you wanna have a break down and a little bit of context follow the
 
 First create an `Exposition` instance by passing in your configuration.
 
-<<< @/cookbook/examples/01-setup-msw.ts#create-exposition{3}
+<<< @/../../examples/msw/01-setup-msw.ts#create-exposition{3}
 
 Next, use `createMswIntegration` and add as a setting parameter ether [`setupClient`](https://mswjs.io/docs/api/setup-client) or [`setupServer`](https://mswjs.io/docs/api/setup-server).
 In this case we use [`setupServer`](https://mswjs.io/docs/api/setup-server).
 
-<<< @/cookbook/examples/01-setup-msw.ts#setup-msw-integration{2-3}
+<<< @/../../examples/msw/01-setup-msw.ts#setup-msw-integration{2-3}
 
 :::warning Weirdness alert 🌌
 For now the `<typeof exampleExposition>` is legit and important.<br>
@@ -56,7 +56,7 @@ You can import the integration and add new handler by calling `createHandler`.
 The spicy part is that the first parameter `expositionValues` will automatically be fully typed.
 With that you can use a [switch statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch) and your cases will be auto suggested. 🌶️
 
-<<< @/cookbook/examples/01-setup-msw.ts#define-msw-handler{5}
+<<< @/../../examples/msw/01-setup-msw.ts#define-msw-handler{5}
 
 ::: tip Pro gamer tip 👑
 You can also use the very good [`@mswjs/data`](https://github.com/mswjs/data) library, in combination with [`@faker-js/faker`](https://fakerjs.dev/)
@@ -70,7 +70,7 @@ to build and fill your mocks. A cookbook for that will follow in the future.
 
 Initialize your exposition instance and test it in your app.
 
-<<< @/cookbook/examples/01-setup-msw.ts#init-exposition
+<<< @/../../examples/msw/01-setup-msw.ts#init-exposition
 
 ## Next steps
 
