@@ -25,7 +25,7 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
 
     function main(): void {
       loadSettingsFromLocalStorage()
-      loadPreviousExpositionState()
+      readFromLocalStorage(exposition)
 
       addExpositionHooks()
 
@@ -48,18 +48,12 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
       }
     }
 
-    function loadPreviousExpositionState() {
-      if (exposition.settings.restoreState)
-        readFromLocalStorage(exposition)
-    }
-
     function addExpositionHooks() {
-      exposition.on('update', (_values, settings) => {
+      exposition.on('update', () => {
         updateDevtools(context)
         createTimelineEvent('update state', context)
 
-        if (settings.restoreState)
-          writeToLocalStorage(exposition)
+        writeToLocalStorage(exposition)
       })
 
       exposition.on('reset', () => {
