@@ -1,4 +1,6 @@
 import EventEmitter from 'events'
+import type { PartialDeep } from 'type-fest'
+import type { ExpositionContext, ExpositionSettings } from '../@types/Exposition.types'
 import type { ExpositionEventNames } from '../config/eventNames'
 import { EventNames } from '../config/eventNames'
 import type { ExpositionConfig, ExpositionState, ExpositionValues } from '../sdk'
@@ -7,10 +9,17 @@ import { createExpositionState, getExpositionValues, getInitialExpositionValues,
 export class Exposition<T extends ExpositionConfig> {
   private emitter = new EventEmitter()
   private state: ExpositionState<T>
+  private settingsState: ExpositionSettings = {
+    active: true,
+    restoreState: true,
+  }
+
   private initialized = false
 
-  public constructor(config: T) {
+  public constructor(config: T, options: PartialDeep<ExpositionContext> = {}) {
     this.state = createExpositionState(config)
+
+    this.assignNewSettings(options?.settings || {})
   }
 
   public get values(): ExpositionValues<ExpositionState<T>> {
@@ -21,21 +30,43 @@ export class Exposition<T extends ExpositionConfig> {
     return getInitialExpositionValues(this.state)
   }
 
+  public get settings(): Readonly<ExpositionSettings> {
+    return Object.freeze({ ...this.settingsState })
+  }
+
+  private emit(eventName: ExpositionEventNames): void {
+    this.emitter.emit(eventName, this.values, this.settings)
+  }
+
   public reset(scenariosToReset: (keyof ExpositionState<T>)[] = []): Exposition<T> {
     Object.assign(this.state, resetExpositionValues(this.state, scenariosToReset))
-    this.emitter.emit(EventNames.RESET, this.values)
+
+    this.emit(EventNames.RESET)
 
     return this
   }
 
   public update(newValues: Partial<ExpositionValues<ExpositionState<T>>>): Exposition<T> {
     Object.assign(this.state, updateExpositionValues(this.state, newValues))
-    this.emitter.emit(EventNames.UPDATE, this.values)
+
+    this.emit(EventNames.UPDATE)
 
     return this
   }
 
-  public on(event: ExpositionEventNames, handler: (values: ExpositionValues<ExpositionState<T>>) => void): Exposition<T> {
+  public updateSettings(newSettings: Partial<ExpositionSettings>): Exposition<T> {
+    this.assignNewSettings(newSettings)
+
+    this.emit(EventNames.UPDATE_SETTINGS)
+
+    return this
+  }
+
+  private assignNewSettings(newSettings: Partial<ExpositionSettings>): void {
+    Object.assign(this.settingsState, { ...this.settingsState, ...newSettings })
+  }
+
+  public on<Event extends ExpositionEventNames>(event: Event, handler: (values: ExpositionValues<ExpositionState<T>>, settings: ExpositionSettings) => void): Exposition<T> {
     this.emitter.on(event, handler)
 
     return this
@@ -47,8 +78,8 @@ export class Exposition<T extends ExpositionConfig> {
 
   public init(): Exposition<T> {
     if (!this.initialized) {
-      this.emitter.emit(EventNames.INITIALIZED)
       this.initialized = true
+      this.emit(EventNames.INITIALIZED)
     }
 
     return this
