@@ -13,7 +13,10 @@ const config = {
 const exposition = new Exposition(config)
 const expositionState = createExpositionState(config)
 
-afterEach(() => window.localStorage.clear())
+afterEach(() => {
+  exposition.updateSettings({ restoreState: true })
+  window.localStorage.clear()
+})
 
 describe('localStorage utils', () => {
   describe('write data to the localStorage', () => {
@@ -28,6 +31,14 @@ describe('localStorage utils', () => {
 
       expect(window.localStorage.getItem(LOCAL_STORAGE_KEY)).toBeNull()
       expect(window.localStorage.getItem('cool_key_name')).not.toBeNull()
+    })
+
+    it('should store data, if the exposition.settings.restoreState is set to false', () => {
+      exposition.updateSettings({ restoreState: false })
+
+      writeToLocalStorage(exposition)
+
+      expect(window.localStorage.getItem(LOCAL_STORAGE_KEY)).toBeNull()
     })
   })
 
@@ -45,6 +56,18 @@ describe('localStorage utils', () => {
       readFromLocalStorage(exposition, 'another_cool_key_name')
 
       expect(exposition.values).toMatchObject(getExpositionValues(expositionState))
+    })
+
+    it('should get data, if the exposition.settings.restoreState is set to false', () => {
+      exposition.updateSettings({ restoreState: false })
+
+      exposition.update({ account: 'inactive' })
+      writeToLocalStorage(exposition)
+
+      exposition.reset()
+      readFromLocalStorage(exposition)
+
+      expect(exposition.values).toMatchObject({ account: 'valid' })
     })
   })
 })
