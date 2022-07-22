@@ -26,3 +26,5 @@ npm install -D @exposition/integrations @vue/devtools-api
 
 Everything is installed now comes the part to add everything to your
 application follow along to the setup.
+
+[👩‍💻 Setup](https://h2xd.github.io/exposition/cookbook/setup-vue-devtools.html)
