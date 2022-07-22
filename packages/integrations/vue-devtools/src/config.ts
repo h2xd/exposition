@@ -11,3 +11,5 @@ export const warningLabelSettings = {
   backgroundColor: 0xFBA02D,
   textColor: 0x000000,
 }
+
+export const localStorageSettingsKey = 'ExpositionVueDevtoolsSettings'
