@@ -3,13 +3,11 @@ import type { Exposition } from '@exposition/core'
 
 import { readFromLocalStorage, writeToLocalStorage } from '@exposition/web'
 import type { DevtoolsContext } from './src/@types/api'
-import { defineDevtoolsSettingsState } from './src/states/defineDevtoolsSettingsState'
 import { createTimelineEvent, updateDevtools } from './src/hooks'
-import { expositionLabel, id, stateType } from './src/config'
+import { expositionLabel, id, localStorageSettingsKey, stateType } from './src/config'
 import { createInspectorViews, createSettingsViews, createTimelineViews } from './src/views'
 
 export function setupDevtools<T extends Exposition<any>>(app: any, options: { exposition: T }) {
-  const settings = defineDevtoolsSettingsState()
   const { exposition } = options
 
   return setupDevtoolsPlugin({
@@ -22,30 +20,57 @@ export function setupDevtools<T extends Exposition<any>>(app: any, options: { ex
   }, (api) => {
     const context: DevtoolsContext<T> = {
       api,
-      settings,
       exposition,
     }
 
     function main(): void {
-      loadPreviousState()
+      loadSettingsFromLocalStorage()
+      loadPreviousExpositionState()
+
       addExpositionHooks()
+
       createSettingsViews(context)
       createTimelineViews(context)
       createInspectorViews(context)
     }
 
-    function loadPreviousState() {
-      if (settings.isEnabled('autoLoadFromLocalStorage'))
+    function loadSettingsFromLocalStorage() {
+      const settingsFromLocalStorage = window.localStorage.getItem(localStorageSettingsKey)
+
+      if (!settingsFromLocalStorage)
+        return
+
+      try {
+        exposition.updateSettings(JSON.parse(settingsFromLocalStorage))
+      }
+      catch (error) {
+        console.error('Failed updating the exposition settings', { error })
+      }
+    }
+
+    function loadPreviousExpositionState() {
+      if (exposition.settings.restoreState)
         readFromLocalStorage(exposition)
     }
 
     function addExpositionHooks() {
-      exposition.on('update', () => {
+      exposition.on('update', (_values, settings) => {
         updateDevtools(context)
         createTimelineEvent('update state', context)
 
-        if (settings.isEnabled('autoLoadFromLocalStorage'))
+        if (settings.restoreState)
           writeToLocalStorage(exposition)
+      })
+
+      exposition.on('reset', () => {
+        updateDevtools(context)
+        createTimelineEvent('reset state', context)
+      })
+
+      exposition.on('updateSettings', () => {
+        updateDevtools(context)
+        createTimelineEvent('update settings', context)
+        window.localStorage.setItem(localStorageSettingsKey, JSON.stringify(exposition.settings))
       })
     }
 

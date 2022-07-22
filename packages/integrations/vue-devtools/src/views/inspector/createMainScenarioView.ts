@@ -15,39 +15,33 @@ export function createMainScenarioView<T extends Exposition<any>>(context: Devto
     const initialValues = exposition.initialValues
 
     payload.state = {
-      // @ts-expect-error - figure out why TypeScript is angry
-      scenarios: Object.keys(exposition.values).reduce((accumulator, key) => {
-        const value = exposition.values[key]
-
-        return [
-          ...accumulator,
-          {
-            key,
-            value: {
-              _custom: {
-                type: null,
-                value,
-                actions: [
-                  {
-                    icon: 'keyboard_arrow_down',
-                    tooltip: 'Go to scenario',
-                    action: () => api.selectInspectorNode(inspectorId, key),
+      state: Object.entries(exposition.values).map(([key, value]) => {
+        return {
+          key,
+          value: {
+            _custom: {
+              type: null,
+              value,
+              actions: [
+                {
+                  icon: 'keyboard_arrow_down',
+                  tooltip: 'Go to scenario',
+                  action: () => api.selectInspectorNode(inspectorId, key),
+                },
+                {
+                  icon: 'restore',
+                  tooltip: 'Reset the value of the scenario',
+                  action: () => {
+                    exposition.update({
+                      [key]: initialValues[key],
+                    })
                   },
-                  {
-                    icon: 'restore',
-                    tooltip: 'Reset the value of the scenario',
-                    action: () => {
-                      exposition.update({
-                        [key]: initialValues[key],
-                      })
-                    },
-                  },
-                ],
-              },
+                },
+              ],
             },
           },
-        ]
-      }, []),
+        }
+      }),
     }
   })
 }
