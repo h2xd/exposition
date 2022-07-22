@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { ExpositionSettings } from '../@types/Exposition.types'
 import { Exposition } from './Exposition'
 
 describe('Exposition', () => {
@@ -25,6 +26,11 @@ describe('Exposition', () => {
   beforeEach(() => {
     exposition = new Exposition(expositionConfig)
   })
+
+  const defaultSettings: ExpositionSettings = {
+    active: true,
+    restoreState: true,
+  }
 
   describe('methods', () => {
     it('should have a method to get the current values', () => {
@@ -62,24 +68,24 @@ describe('Exposition', () => {
   })
 
   describe('events', () => {
-    it('should emit an afterReset event', () => {
+    it('should emit an reset event', () => {
       const spy = vi.fn()
 
       exposition.on('reset', spy)
       exposition.reset()
 
       expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' })
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' }, defaultSettings)
     })
 
-    it('should emit an afterUpdate event', () => {
+    it('should emit an update event', () => {
       const spy = vi.fn()
 
       exposition.on('update', spy)
       exposition.update({ dream: 'NREM_stage_3' })
 
       expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_3', reality: 'heatwave' })
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_3', reality: 'heatwave' }, defaultSettings)
     })
 
     it('should fire the initialized event', () => {
@@ -90,6 +96,7 @@ describe('Exposition', () => {
       exposition.init()
       exposition.init()
       expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' }, defaultSettings)
     })
   })
 
@@ -106,6 +113,41 @@ describe('Exposition', () => {
 
       exposition.init()
       expect(spy).toHaveBeenCalled()
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' }, defaultSettings)
+    })
+  })
+
+  describe('settings', () => {
+    describe('getters', () => {
+      it('should have a getter for settings', () => {
+        expect(exposition.settings).toMatchObject(Object.freeze({ active: true, restoreState: true }))
+      })
+
+      it('should provide an option to override the default settings', () => {
+        const otherInitialSettings = new Exposition({}, { settings: { active: false } })
+
+        expect(otherInitialSettings.settings).toEqual({ active: false, restoreState: true })
+      })
+    })
+
+    describe('methods', () => {
+      it('should provide an option to update the current settings', () => {
+        exposition.updateSettings({ active: false })
+
+        expect(exposition.settings).toMatchObject({ active: false, restoreState: true })
+      })
+    })
+
+    describe('events', () => {
+      it('should emit an updateSettings event', () => {
+        const spy = vi.fn()
+
+        exposition.on('updateSettings', spy)
+        exposition.updateSettings({ active: false })
+
+        expect(spy).toHaveBeenCalledTimes(1)
+        expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' }, { active: false, restoreState: true })
+      })
     })
   })
 })
