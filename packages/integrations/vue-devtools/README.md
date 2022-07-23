@@ -11,18 +11,39 @@ I hope you enjoy this extension as much as I do.
 ## Installation
 
 ```sh
-pnpm add -D @exposition/integrations @vue/devtools-api
+pnpm add -D @exposition/{core, integrations} @vue/devtools-api
 ```
 
 ```sh
-yarn add -D @exposition/integrations @vue/devtools-api
+yarn add -D @exposition/{core, integrations} @vue/devtools-api
 ```
 
 ```sh
-npm install -D @exposition/integrations @vue/devtools-api
+npm install -D @exposition/{core, integrations} @vue/devtools-api
 ```
 
-## Whats next
+## tl;dr setup ⚡
 
-Everything is installed now comes the part to add everything to your
-application follow along to the setup.
+Create a Vue instance, an `Exposition` and use `setupDevtools` in your application.
+
+```ts
+import { createApp } from 'vue'
+import { Exposition } from '@exposition/core'
+import { setupDevtools } from '@exposition/integrations/vue-devtools'
+
+import YourApplication from './App.vue'
+
+const appExposition = new Exposition({
+  // ... custom configuration
+})
+
+const app = createApp(YourApplication)
+
+app.use(setupDevtools, {
+  exposition: appExposition,
+})
+
+appExposition.init()
+
+app.mount('#app')
+```
