@@ -1,6 +1,5 @@
-import type { ExpositionState } from '@exposition/core'
-import { getExpositionValues } from '@exposition/core'
-import type { ExpositionValues } from '../../core/dist'
+import type { ExpositionState, ExpositionValues } from '@exposition/sdk'
+import { getExpositionValues } from '@exposition/sdk'
 
 type Distinct<T, DistinctName> = T & { __TYPE__: DistinctName }
 

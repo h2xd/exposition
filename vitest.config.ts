@@ -11,6 +11,7 @@ export default defineConfig({
     alias: {
       '@exposition/core': resolve('packages/core/index.ts'),
       '@exposition/web': resolve('packages/web/index.ts'),
+      '@exposition/sdk': resolve('packages/sdk/index.ts'),
       '@exposition/msw': resolve('packages/msw/index.ts'),
     },
   },

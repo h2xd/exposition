@@ -1,4 +1,4 @@
-import type { ExpositionState } from './@types/exposition'
+import type { ExpositionState } from '../@types/exposition'
 
 /**
  * Reset the values of a given `Exposition` to their initialValue. ⏰

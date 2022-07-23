@@ -2,7 +2,8 @@
  * @vitest-environment happy-dom
  */
 import { afterEach, describe, expect, it } from 'vitest'
-import { Exposition, createExpositionState, getExpositionValues } from '@exposition/core'
+import { Exposition } from '@exposition/core'
+import { createExpositionState, getExpositionValues } from '@exposition/sdk'
 import { LOCAL_STORAGE_KEY, readFromLocalStorage, writeToLocalStorage } from './localStorage'
 
 const config = {

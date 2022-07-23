@@ -42,6 +42,7 @@
   "sideEffects": false,
   "dependencies": {
     "@exposition/core": "workspace:*",
+    "@exposition/sdk": "workspace:*",
     "@exposition/web": "workspace:*"
   },
   "peerDependencies": {

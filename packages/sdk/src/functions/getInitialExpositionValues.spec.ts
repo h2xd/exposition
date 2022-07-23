@@ -5,27 +5,27 @@ import { updateExpositionValues } from './updateExpositionValues'
 
 it('should extract the initial values from an Exposition', () => {
   const expositionConfig = {
-    base: {
+    progress: {
       options: [
-        '🍚 rice',
-        '🍝 Pasta - Mama Mia',
+        '🐛 Small',
+        '🦋 Big',
       ],
     },
   } as const
 
   const expositionState = createExpositionState(expositionConfig)
-  const updatedExpositionState = updateExpositionValues(expositionState, { base: '🍝 Pasta - Mama Mia' })
+  const updatedExpositionState = updateExpositionValues(expositionState, { progress: '🦋 Big' })
   const expositionValues = getInitialExpositionValues(updatedExpositionState)
 
-  expect(expositionValues.base).toBe('🍚 rice')
+  expect(expositionValues.progress).toBe('🐛 Small')
 })
 
 it('should return a map that wont mutate the given argument', () => {
   const expositionConfig = {
-    base: {
+    progress: {
       options: [
-        '🍚 rice',
-        '🍝 Pasta - Mama Mia',
+        '🐛 Small',
+        '🦋 Big',
       ],
     },
   } as const
@@ -33,7 +33,7 @@ it('should return a map that wont mutate the given argument', () => {
   const expositionState = createExpositionState(expositionConfig)
   const expositionValues = getInitialExpositionValues(expositionState)
 
-  expositionState.base.value = '🍝 Pasta - Mama Mia'
+  expositionState.progress.value = '🦋 Big'
 
-  expect(expositionValues.base).toBe('🍚 rice')
+  expect(expositionValues.progress).toBe('🐛 Small')
 })
