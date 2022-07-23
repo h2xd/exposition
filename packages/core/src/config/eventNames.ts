@@ -1,4 +1,7 @@
 export const EventNames = {
+  /**
+   * test?
+   */
   RESET: 'reset',
   UPDATE: 'update',
   UPDATE_SETTINGS: 'updateSettings',
