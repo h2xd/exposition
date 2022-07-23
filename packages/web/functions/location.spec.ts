@@ -1,7 +1,7 @@
 /**
  * @vitest-environment happy-dom
  */
-import { createExpositionState, getExpositionValues } from '@exposition/core'
+import { createExpositionState, getExpositionValues } from '@exposition/sdk'
 import { decodeUrlParameters, encodeUrlParameters } from './location'
 
 it('should create URL save parameters', () => {

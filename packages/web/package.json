@@ -22,7 +22,8 @@
   "module": "./dist/index.mjs",
   "license": "MIT",
   "dependencies": {
-    "@exposition/core": "workspace:*"
+    "@exposition/core": "workspace:*",
+    "@exposition/sdk": "workspace:*"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

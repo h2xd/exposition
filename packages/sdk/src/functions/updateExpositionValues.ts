@@ -1,4 +1,4 @@
-import type { ExpositionState, ExpositionValues } from './@types/exposition'
+import type { ExpositionState, ExpositionValues } from '../@types/exposition'
 
 /**
  * Update the values of the given `Exposition`. 🆕

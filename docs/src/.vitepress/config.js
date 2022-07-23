@@ -90,6 +90,7 @@ function generatePackages() {
   return [
     { text: '@exposition/core', link: '/packages/core' },
     { text: '@exposition/integrations', link: '/packages/integrations' },
+    { text: '@exposition/sdk', link: '/packages/sdk' },
   ]
 }
 

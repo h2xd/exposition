@@ -1,6 +1,7 @@
 import type { GraphQLHandler, RestHandler, SetupWorkerApi } from 'msw'
 import type { SetupServerApi } from 'msw/node'
-import type { Exposition, ExpositionConfig, ExpositionState, ExpositionValues } from '@exposition/core'
+import type { Exposition } from '@exposition/core'
+import type { ExpositionConfig, ExpositionState, ExpositionValues } from '@exposition/sdk'
 
 type Handler = RestHandler | GraphQLHandler
 type HandlerCreationFn<T extends ExpositionState<ExpositionConfig>> = (expositionValues: ExpositionValues<T>) => Handler[]
