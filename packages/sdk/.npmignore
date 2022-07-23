@@ -1,0 +1,7 @@
+# unselect all file
+**
+
+# allow list certain files
+!dist/*
+!README.md
+!package.json

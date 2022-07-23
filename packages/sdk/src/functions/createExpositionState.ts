@@ -1,4 +1,4 @@
-import type { ExpositionConfig, ExpositionState } from './@types/exposition'
+import type { ExpositionConfig, ExpositionState } from '../@types/exposition'
 
 /**
  * Create an Exposition state with all necessary data. 🔮
@@ -9,7 +9,7 @@ import type { ExpositionConfig, ExpositionState } from './@types/exposition'
  * @param config
  * @returns `ExpositionState`
  * @example
-  const expositionState = createExposition({
+  const expositionState = createExpositionState({
     auth: {
       options: ['valid ✅', 'deny ❌']
     }

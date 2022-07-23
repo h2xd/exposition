@@ -28,11 +28,14 @@
       "@exposition/core": [
         "./packages/core/index.ts"
       ],
-      "@exposition/web": [
-        "./packages/web/index.ts"
-      ],
       "@exposition/integrations": [
         "./packages/integrations/index.ts"
+      ],
+      "@exposition/sdk": [
+        "./packages/sdk/index.ts"
+      ],
+      "@exposition/web": [
+        "./packages/web/index.ts"
       ]
     },
     "types": [

@@ -21,8 +21,10 @@
 
 ## Packages
 
-- [🌱 @exposition/core](https://github.com/h2xd/exposition/tree/main/packages/core) — _main functionality & utils_
+- [🌱 @exposition/core](https://github.com/h2xd/exposition/tree/main/packages/core) — _main functionality_
 - [🧩 @exposition/integrations](https://github.com/h2xd/exposition/tree/main/packages/integrations) — _extensions for developer experience_
+- [🧰 @exposition/core](https://github.com/h2xd/exposition/tree/main/packages/sdk) — _utils to build custom integrations or other exposition based function_
+- [🌐 @exposition/web](https://github.com/h2xd/exposition/tree/main/packages/web) — (NOT PUBLISHED) _utils to interact with web apis like localStorage or the window object_
 
 ## Misc
 

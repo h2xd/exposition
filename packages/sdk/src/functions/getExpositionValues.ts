@@ -1,4 +1,4 @@
-import type { ExpositionState, ExpositionValues } from './@types/exposition'
+import type { ExpositionState, ExpositionValues } from '../@types/exposition'
 
 /**
  * Extract the current values from a given `ExpositionState`. 📃

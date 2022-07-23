@@ -1,10 +1,11 @@
 import EventEmitter from 'events'
 import type { PartialDeep } from 'type-fest'
+import type { ExpositionConfig, ExpositionState, ExpositionValues } from '@exposition/sdk'
+import { createExpositionState, getExpositionValues, getInitialExpositionValues, resetExpositionValues, updateExpositionValues } from '@exposition/sdk'
+
 import type { ExpositionContext, ExpositionSettings } from '../@types/Exposition.types'
 import type { ExpositionEventNames } from '../config/eventNames'
 import { EventNames } from '../config/eventNames'
-import type { ExpositionConfig, ExpositionState, ExpositionValues } from '../sdk'
-import { createExpositionState, getExpositionValues, getInitialExpositionValues, resetExpositionValues, updateExpositionValues } from '../sdk'
 
 export class Exposition<T extends ExpositionConfig> {
   private emitter = new EventEmitter()
