@@ -74,7 +74,7 @@ Initialize your exposition instance and test it in your app.
 
 ## Next steps
 
-Checkout the [Vue-Devtools](./../integrations/vue-devtools.md) integration it you want to swap values on the fly
-or reach out if you wanna have a small session.
+Checkout the [Vue-Devtools](./../integrations/vue-devtools.md) integration if you want to change
+settings in a conformable way.
 
 <!-- @include: ./snippets/next-guides.md -->
