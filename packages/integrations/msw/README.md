@@ -26,4 +26,4 @@ npm install -D @exposition/integrations
 Everything is installed now comes the part to add everything to your
 application follow along to the setup.
 
-[👩‍💻 Setup](https://h2xd.github.io/exposition/cookbook/setup-msw)
+[👩‍💻 Setup](https://h2xd.github.io/exposition/cookbook/setup-msw.html)

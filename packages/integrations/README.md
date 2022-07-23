@@ -24,8 +24,8 @@ npm install -D @exposition/integrations
 
 Each integration has it's own documentation and examples section. 💖
 
-- [@exposition/integrations/msw](https://h2xd.github.io/exposition/integrations/msw) — _integration for_ [msw](https://mswjs.io/)
-- [@exposition/integrations/vue-devtools](https://h2xd.github.io/exposition/integrations/vue-devtools) — _extension for_ [Vue Devtools](https://devtools.vuejs.org/)
+- [@exposition/integrations/msw](https://h2xd.github.io/exposition/integrations/msw.html) — _integration for_ [msw](https://mswjs.io/)
+- [@exposition/integrations/vue-devtools](https://h2xd.github.io/exposition/integrations/vue-devtools.html) — _extension for_ [Vue Devtools](https://devtools.vuejs.org/)
 
 ## Tree-shaking
 
