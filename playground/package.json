@@ -1,7 +1,7 @@
 {
   "name": "@exposition/playground",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.3.0",
   "scripts": {
     "dev": "cross-env vite",
     "build": "vue-tsc --noEmit && vite build",

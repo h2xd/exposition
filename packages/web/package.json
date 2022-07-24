@@ -1,6 +1,6 @@
 {
   "name": "@exposition/web",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Web functionalities and utils of the exposition library",
   "homepage": "https://h2xd.github.io/exposition",
   "keywords": [
