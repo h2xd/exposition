@@ -1,6 +1,6 @@
 {
   "name": "@exposition/sdk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Functions and other utils to work with the exposition library",
   "homepage": "https://h2xd.github.io/exposition/packages/sdk.html",
   "keywords": [
