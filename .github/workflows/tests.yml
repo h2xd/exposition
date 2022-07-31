@@ -12,28 +12,31 @@ jobs:
       matrix:
         node-version: [16]
     steps:
-    - name: 👓 Checkout repository
-      uses: actions/checkout@v2
+      - name: 👓 Checkout repository
+        uses: actions/checkout@v2
 
-    - name: 🚚 Setup pnpm
-      uses: pnpm/action-setup@v2.0.1
-      with:
-        version: 7.0.0
-        
-    - name: 🔻 Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
+      - name: 🚚 Setup pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.0.0
 
-    - name: 📦 Install dependencies
-      run: pnpm install
+      - name: 🔻 Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
-    - name: 🏃‍♀️ Run tests
-      run: pnpm test
+      - name: 📦 Install dependencies
+        run: pnpm install
 
-    - name: 📢 Publish results
-      uses: EnricoMi/publish-unit-test-result-action/composite@v1
-      if: always()
-      with:
-        files: "./.tests/unittest.xml"
+      - name: 🏃‍♀️ Run Vitests
+        run: pnpm test
+
+      - name: 🏃‍♀️ Run Jest
+        run: pnpm test:jest
+
+      - name: 📢 Publish results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v1
+        if: always()
+        with:
+          files: './.tests/unittest.xml'
