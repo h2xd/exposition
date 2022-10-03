@@ -45,11 +45,6 @@ In this case we use [`setupServer`](https://mswjs.io/docs/api/setup-server).
 
 <<< @/cookbook/examples/01-setup-msw.ts#setup-msw-integration{2-3}
 
-:::warning Weirdness alert 🌌
-For now the `<typeof exampleExposition>` is legit and important.<br>
-I'm searching in my head how to auto pass the config type to all extensions.
-:::
-
 ## Define handler
 
 You can import the integration and add new handler by calling `createHandler`.

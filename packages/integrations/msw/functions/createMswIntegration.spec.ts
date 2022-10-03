@@ -13,7 +13,7 @@ describe('createMswIntegration', () => {
   } as const)
 
   beforeAll(() => {
-    const mswIntegration = exposition.use(createMswIntegration<typeof exposition>, { msw: setupServer() })
+    const mswIntegration = createMswIntegration(exposition, { msw: setupServer() })
 
     mswIntegration.createHandler((values) => {
       return [

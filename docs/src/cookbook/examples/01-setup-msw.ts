@@ -18,8 +18,8 @@ export const exampleExposition = new Exposition({
 // ----------------------------------------------
 
 // #region setup-msw-integration
-export const mswIntegration = exampleExposition.use(
-  createMswIntegration<typeof exampleExposition>,
+export const mswIntegration = createMswIntegration(
+  exampleExposition,
   { msw: setupServer() },
 )
 // #endregion setup-msw-integration
