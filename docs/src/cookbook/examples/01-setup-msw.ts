@@ -20,7 +20,12 @@ export const exampleExposition = new Exposition({
 // #region setup-msw-integration
 export const mswIntegration = createMswIntegration(
   exampleExposition,
-  { msw: setupServer() },
+  {
+    msw: setupServer(),
+    config: {
+      baseUrl: 'https://localhost:1337',
+    },
+  },
 )
 // #endregion setup-msw-integration
 
@@ -50,3 +55,14 @@ mswIntegration.createHandler((expositionValues) => {
 // #region init-exposition
 exampleExposition.init()
 // #endregion init-exposition
+
+// #region define-msw-handler-with-config
+mswIntegration.createHandler(
+  (_expositionValues, config) => {
+    return [
+      rest.get(`${config.baseUrl}/cart`, () => {
+        // ... your handler logic
+      }),
+    ]
+  })
+// #endregion define-msw-handler-with-config
