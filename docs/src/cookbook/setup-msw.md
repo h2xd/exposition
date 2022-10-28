@@ -61,6 +61,20 @@ to build and fill your mocks. A cookbook for that will follow in the future.
 <<< @/../../playground/src/utils/mocks/database.ts
 :::
 
+## Dynamic config
+
+Sometimes you want to create dynamic configs between multiple environments.
+An example. Your local environment has different endpoint than your staging environment.
+For that you can define a dynamic config and pass it to the integration and then use it
+while creating MSW interceptors.
+
+<<< @/cookbook/examples/01-setup-msw.ts#setup-msw-integration{5-7}
+
+This configuration can than be accessed as the second parameter of the handler function
+and used to define dynamic base paths or other creative ideas 💡.
+
+<<< @/cookbook/examples/01-setup-msw.ts#define-msw-handler-with-config{2,4}
+
 ## Finish 🏁
 
 Initialize your exposition instance and test it in your app.
