@@ -4,10 +4,11 @@ import type { Exposition } from '@exposition/core'
 import type { ExpositionConfig, ExpositionState, ExpositionValues } from '@exposition/sdk'
 
 type Handler = RestHandler | GraphQLHandler
-type HandlerCreationFn<T extends ExpositionState<ExpositionConfig>> = (expositionValues: ExpositionValues<T>) => Handler[]
+type HandlerCreationFn<T extends ExpositionState<ExpositionConfig>, TC extends Object> = (expositionValues: ExpositionValues<T>, context: TC) => Handler[]
 
-interface IntegrationOptions {
+interface IntegrationOptions<TC extends Object = {}> {
   msw: SetupServerApi | SetupWorkerApi
+  config?: TC
 }
 
 function isServer(msw: SetupServerApi | SetupWorkerApi): msw is SetupServerApi {
@@ -15,15 +16,15 @@ function isServer(msw: SetupServerApi | SetupWorkerApi): msw is SetupServerApi {
   return !!msw.listen
 }
 
-export function createMswIntegration<T extends Exposition<any>>(context: T, settings: IntegrationOptions) {
-  const internalHandler: HandlerCreationFn<T['values']>[] = []
+export function createMswIntegration<T extends Exposition<any>, TC extends Object = {}>(context: T, settings: IntegrationOptions<TC>) {
+  const internalHandler: HandlerCreationFn<T['values'], TC>[] = []
 
   function assignHandler(values: T['values']): void {
     clearHandler()
     const handlerList = internalHandler.reduce((accumulator, handler) => {
       return [
         ...accumulator,
-        ...handler(values),
+        ...handler(values, settings.config || {} as TC),
       ]
     }, [] as Handler[])
 
@@ -53,7 +54,7 @@ export function createMswIntegration<T extends Exposition<any>>(context: T, sett
     assignHandler(values)
   })
 
-  function createHandler(handler: (values: T['values']) => Handler[]): void {
+  function createHandler(handler: HandlerCreationFn<T['values'], TC>): void {
     internalHandler.push(handler)
   }
 
