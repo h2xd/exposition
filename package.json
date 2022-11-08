@@ -1,6 +1,6 @@
 {
   "name": "@exposition/monorepo",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "Structure to explain the who, what and where of the API mocking process",
   "keywords": [
@@ -18,8 +18,8 @@
     "test": "vitest run",
     "doc": "pnpm run --recursive --if-present docs:dev --base '/'",
     "playground": "pnpm run --recursive --if-present --filter './playground' dev",
-    "ci:publish": "pnpm publish --recursive --filter './packages/core' --filter './packages/sdk' --filter './packages/integrations' --no-git-checks --access public",
-    "test:publish": "pnpm publish --dry-run --recursive --filter './packages/core' --filter './packages/sdk' --filter './packages/integrations' --no-git-checks --access public"
+    "ci:publish": "pnpm publish --recursive --filter './packages/**' --no-git-checks --access public",
+    "test:publish": "pnpm publish --dry-run --recursive --filter './packages/**' --no-git-checks --access public"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.2",
