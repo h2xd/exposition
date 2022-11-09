@@ -1,6 +1,6 @@
 {
   "name": "@exposition/core",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Core functionality of the exposition library",
   "homepage": "https://h2xd.github.io/exposition/packages/core.html",
   "keywords": [
