@@ -1,17 +1,19 @@
 import type { GraphQLHandler, RestHandler, SetupWorkerApi } from 'msw'
 import type { SetupServerApi } from 'msw/node'
 import type { Exposition } from '@exposition/core'
-import type { ExpositionConfig, ExpositionState, ExpositionValues } from '@exposition/sdk'
+import type { ExpositionConfig, ExpositionState } from '@exposition/sdk'
 
 type Handler = RestHandler | GraphQLHandler
-type HandlerCreationFn<T extends ExpositionState<ExpositionConfig>, TC extends Object> = (expositionValues: ExpositionValues<T>, config: TC) => Handler[]
+type HandlerCreationFn<T extends ExpositionState<ExpositionConfig>, TC extends Object> = (expositionValues: T, config: TC) => Handler[]
+
+type MswInstance = SetupServerApi | SetupWorkerApi
 
 interface IntegrationOptions<TC extends Object = {}> {
-  msw: SetupServerApi | SetupWorkerApi
+  msw?: MswInstance
   config?: TC
 }
 
-function isServer(msw: SetupServerApi | SetupWorkerApi): msw is SetupServerApi {
+function isServer(msw: MswInstance): msw is SetupServerApi {
   // @ts-expect-error - we check whenever the give type is as server by checking for the listen function
   return !!msw.listen
 }
@@ -39,32 +41,38 @@ function isServer(msw: SetupServerApi | SetupWorkerApi): msw is SetupServerApi {
  *
  * exposition.init()
  */
-export function createMswIntegration<T extends Exposition<any>, TC extends Object = {}>(exposition: T, settings: IntegrationOptions<TC>) {
+export function createMswIntegration<T extends Exposition<any>, TC extends Object = {}>(exposition: T, settings?: IntegrationOptions<TC>) {
   const internalHandler: HandlerCreationFn<T['values'], TC>[] = []
+
+  const instance = {
+    msw: settings?.msw,
+  }
 
   function assignHandler(values: T['values']): void {
     clearHandler()
     const handlerList = internalHandler.reduce((accumulator, handler) => {
       return [
         ...accumulator,
-        ...handler(values, settings.config || {} as TC),
+        ...handler(values, settings?.config || {} as TC),
       ]
     }, [] as Handler[])
 
-    settings.msw.use(...handlerList)
+    instance.msw?.use(...handlerList)
   }
 
   function clearHandler() {
-    settings.msw.resetHandlers()
+    instance.msw?.resetHandlers()
   }
 
   exposition.on('initialized', () => {
     assignHandler(exposition.values)
 
-    if (isServer(settings.msw))
-      settings.msw.listen()
-    else
-      settings.msw.start()
+    if (instance.msw) {
+      if (isServer(instance.msw))
+        instance.msw?.listen()
+      else
+        instance.msw?.start()
+    }
   })
 
   exposition.on('update', assignHandler).on('reset', assignHandler)
@@ -108,6 +116,16 @@ export function createMswIntegration<T extends Exposition<any>, TC extends Objec
      */
     createHandler(handler: HandlerCreationFn<T['values'], TC>): void {
       internalHandler.push(handler)
-    }
+    },
+    /**
+     * Inject msw later on to handle setupServer and setupWorker
+     * ---
+     * With that you can create handler for both server and client integrations
+     * and use them for tests and client mocks
+     * @param msw
+     */
+    injectMsw(msw: MswInstance) {
+      instance.msw = msw
+    },
   }
 }

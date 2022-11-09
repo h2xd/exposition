@@ -138,6 +138,50 @@ describe('createMswIntegration', () => {
         expect(responseJsonSecond).toMatchObject({ name: 'Spanky 🐕', sound: 'VeryHappy' })
       })
     })
+
+    describe('with msw injection', () => {
+      const advancedExposition = new Exposition({
+        cat: {
+          options: ['happy', 'veryHappy'],
+        },
+      } as const)
+
+      const server = withLifeCycleHooks(advancedExposition)
+
+      beforeAll(() => {
+        const mswIntegrationAdvanced = createMswIntegration(advancedExposition)
+
+        mswIntegrationAdvanced.createHandler((values) => {
+          return [
+            rest.get('https://api.example.com/cat', (_request, response, context) => {
+              switch (values.cat) {
+                case 'happy':
+                  return response(context.json({ name: 'Quentin 🐈', sound: 'Happy' }))
+                case 'veryHappy':
+                  return response(context.json({ name: 'Quentin 🐈', sound: 'VeryHappy' }))
+              }
+            }),
+          ]
+        })
+
+        mswIntegrationAdvanced.injectMsw(server)
+        advancedExposition.init()
+      })
+
+      it('should create a handler with an injected msw instance', async () => {
+        const response = await fetch('https://api.example.com/cat')
+        const responseJson = await response.json()
+
+        expect(responseJson).toMatchObject({ name: 'Quentin 🐈', sound: 'Happy' })
+
+        advancedExposition.update({ cat: 'veryHappy' })
+
+        const responseSecond = await fetch('https://api.example.com/cat')
+        const responseJsonSecond = await responseSecond.json()
+
+        expect(responseJsonSecond).toMatchObject({ name: 'Quentin 🐈', sound: 'VeryHappy' })
+      })
+    })
   })
 })
 
