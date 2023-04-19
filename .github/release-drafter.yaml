@@ -1,0 +1,53 @@
+name-template: 'v$RESOLVED_VERSION 🌈'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '🚀 Features'
+    labels:
+      - '✨ enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - '🐛 bug'
+  - title: '🧰 Maintenance'
+    label:
+      - '🤖 automation'
+      - '⚙️ refactoring'
+  - title: '📚 Documentation'
+    label:
+      - '📚 documentation'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+version-resolver:
+  # Leaving that part out since we are in beta mode for now
+  major:
+    labels:
+     - 'major'
+  minor:
+    labels:
+      - '✨ enhancement'
+  patch:
+    labels:
+      - '🐛 bug'
+  default: patch
+template: |
+  ## $RESOLVED_VERSION
+  
+  <!-- Optional: Add in custom description before the release -->
+  
+  $CHANGES
+autolabeler:
+  - label: '📚 documentation'
+    branch:
+      - '/^docs\/.+$/'
+  - label: '🐛 bug'
+    branch:
+      - '/^fix\/.+$/'
+  - label: '✨ enhancement'
+    branch:
+      - '/^feature\/.+$/'
+      - '/^feat\/.+$/'
+  - label: '🤖 automation'
+    branch:
+      - '/^ci\/.+$/'
+  - label: '🤖 refactoring'
+    branch:
+      - '/^refactor\/.+$/'

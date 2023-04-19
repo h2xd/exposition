@@ -108,3 +108,6 @@ dist
 
 # api-extractor
 temp
+
+# Intellij
+.idea
