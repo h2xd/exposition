@@ -2,7 +2,6 @@
 # https://github.com/release-drafter/release-drafter
 
 name: ✍️ Release Drafter
-description: Create a new release draft each time once a PR is merged into main
 
 on:
   push:
