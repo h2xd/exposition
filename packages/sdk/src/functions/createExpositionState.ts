@@ -1,4 +1,5 @@
 import type { ExpositionConfig, ExpositionState } from '../@types/exposition'
+import { isScenarioConfig } from '../utils/isScenarioConfig'
 
 /**
  * Create an Exposition state with all necessary data. 🔮
@@ -7,6 +8,7 @@ import type { ExpositionConfig, ExpositionState } from '../@types/exposition'
  * - The first `options` item will be set as the `initialValue` of the `Scenario`
  *
  * @param config
+ * @param prependKey
  * @returns `ExpositionState`
  * @example
   const expositionState = createExpositionState({
@@ -15,20 +17,29 @@ import type { ExpositionConfig, ExpositionState } from '../@types/exposition'
     }
   } as const)
  */
-export function createExpositionState<T extends ExpositionConfig>(config: T): ExpositionState<T> {
+export function createExpositionState<T extends ExpositionConfig>(config: T, prependKey?: string): ExpositionState<T> {
   return Object.keys(config).reduce((accumulator, key) => {
-    const { options } = config[key]
+    const configItem = config[key]
 
-    const firstOptionValue = options[0]
+    if (isScenarioConfig(configItem)) {
+      const { options } = configItem
+
+      const firstOptionValue = options[0]
+
+      return {
+        ...accumulator,
+        [key]: {
+          id: prependKey ? `${prependKey}.${key}` : key,
+          options,
+          initialValue: firstOptionValue,
+          value: firstOptionValue,
+        },
+      }
+    }
 
     return {
       ...accumulator,
-      [key]: {
-        id: key,
-        options,
-        initialValue: firstOptionValue,
-        value: firstOptionValue,
-      },
+      [key]: createExpositionState(configItem, key),
     }
   }, {} as ExpositionState<T>)
 }
