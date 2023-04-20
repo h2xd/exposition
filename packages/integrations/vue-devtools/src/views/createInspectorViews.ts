@@ -26,22 +26,32 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
     if (payload.inspectorId !== inspectorId)
       return
 
-    const initialValues = exposition.initialValues
+    function mapEntries(values: any, initialValues: any, prevKey?: string): any {
+      return Object.entries(values).map(([key, value]) => {
+        const isInitialValue = value === initialValues[key]
 
-    const scenarioElements = Object.entries(exposition.values).map(([key, value]) => {
-      const isInitialValue = value === initialValues[key]
+        const combinedKey = prevKey ? `${prevKey}.${key}` : key
 
-      return {
-        id: key,
-        label: key,
-        tags: !isInitialValue
-          ? [
+        if (typeof value === 'string') {
+          return {
+            id: combinedKey,
+            label: key,
+            tags: !isInitialValue
+              ? [
 
-              { ...warningLabelSettings, label: 'modified' },
-            ]
-          : [],
-      }
-    })
+                  { ...warningLabelSettings, label: 'modified' },
+                ]
+              : [],
+          }
+        }
+
+        return {
+          id: combinedKey,
+          label: key,
+          children: mapEntries(value, initialValues[key], key),
+        }
+      })
+    }
 
     payload.rootNodes = [
       {
@@ -59,7 +69,7 @@ export function createInspectorViews<T extends Exposition<any>>(context: Devtool
       {
         id: 'scenarios',
         label: 'Scenarios',
-        children: scenarioElements,
+        children: mapEntries(exposition.values, exposition.initialValues),
       },
     ]
   })
