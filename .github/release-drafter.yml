@@ -1,4 +1,4 @@
-name-template: 'v$RESOLVED_VERSION 🌈'
+name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🚀 Features'
@@ -29,8 +29,6 @@ version-resolver:
       - '🐛 bug'
   default: patch
 template: |
-  ## $RESOLVED_VERSION
-  
   <!-- Optional: Add in custom description before the release -->
   
   $CHANGES
