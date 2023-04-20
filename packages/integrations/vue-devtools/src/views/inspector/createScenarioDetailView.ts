@@ -37,7 +37,7 @@ export function createScenarioDetailView<T extends Exposition<any>>(context: Dev
     if (!Object.keys(flattenObject(exposition.values)).includes(payload.nodeId))
       return
 
-    let state = exposition.state
+    let state = exposition.getState()
     const pathItems = payload.nodeId.split('.')
     if (pathItems.length > 0) {
       pathItems.forEach((item) => {

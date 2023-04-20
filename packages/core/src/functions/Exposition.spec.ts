@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { createExpositionState } from '@exposition/sdk'
 import type { ExpositionSettings } from '../@types/Exposition.types'
 import { Exposition } from './Exposition'
 
@@ -69,6 +70,19 @@ describe('Exposition', () => {
 
       exposition.reset()
       expect(exposition.values).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } })
+    })
+
+    describe('getState', () => {
+      it('should have a get state function', () => {
+        expect(exposition.getState()).toMatchObject(createExpositionState(expositionConfig))
+      })
+
+      it('should be readonly', () => {
+        exposition.getState().reality.value = 'flooding'
+
+        // @ts-expect-error - forcing check on a private member
+        expect(exposition.state.reality.value).toBe('heatwave')
+      })
     })
   })
 

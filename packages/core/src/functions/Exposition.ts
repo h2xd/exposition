@@ -9,7 +9,7 @@ import { EventNames } from '../config/eventNames'
 
 export class Exposition<T extends ExpositionConfig> {
   private emitter = new EventEmitter()
-  public state: Readonly<ExpositionState<T>>
+  private state: Readonly<ExpositionState<T>>
   private settingsState: ExpositionSettings = {
     active: true,
     restoreState: true,
@@ -111,6 +111,13 @@ export class Exposition<T extends ExpositionConfig> {
     this.emit(EventNames.UPDATE_SETTINGS)
 
     return this
+  }
+
+  /**
+   * Get the current Exposition state object for custom apis
+   */
+  public getState() {
+    return structuredClone(this.state)
   }
 
   private assignNewSettings(newSettings: PartialDeep<ExpositionSettings>): void {
