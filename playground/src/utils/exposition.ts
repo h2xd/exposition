@@ -10,6 +10,14 @@ export const playgroundExposition = new Exposition({
   user: {
     options: ['registered', 'invalid-email'],
   },
+  group: {
+    item1: {
+      options: ['one', 'two'],
+    },
+    item2: {
+      options: ['Dio 🌎', 'JoJo ⭐️'],
+    },
+  },
 } as const)
 
 playgroundExposition.use(seedDatabase, undefined)
