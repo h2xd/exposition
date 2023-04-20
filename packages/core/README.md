@@ -75,12 +75,13 @@ const exposition = new Exposition(
 You can use the following commands to interact with your defined `Scenario` elements:
 
 | command         | type     | action                                                                 |
-| --------------- | -------- | ---------------------------------------------------------------------- |
+|-----------------| -------- |------------------------------------------------------------------------|
 | `values`        | `getter` | return the current `Scenario` values                                   |
 | `initialValues` | `getter` | similar to `values` but will return the initialValue of the `Scenario` |
 | `update`        | `method` | update one or multiple of your `Scenario` values                       |
 | `reset`         | `method` | reset one or multiple `Scenario` elements to their `initialValue`      |
 | `init`          | `method` | signal all integrations that you are finished with your setup          |
+| `getState`      | `method` | get current enriched exposition config state                           | 
 
 There are also commands to read and change the state of the overall `Exposition` settings:
 
