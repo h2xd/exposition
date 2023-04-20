@@ -1,4 +1,5 @@
 import type { ExpositionState, ExpositionValues } from '../@types/exposition'
+import { isScenario } from '../utils/guards'
 
 /**
  * Extract the initials values from a given `ExpositionState`. 🦖
@@ -21,11 +22,18 @@ import type { ExpositionState, ExpositionValues } from '../@types/exposition'
  */
 export function getInitialExpositionValues<T extends ExpositionState<any>>(expositionState: T): ExpositionValues<T> {
   return Object.keys(expositionState).reduce((accumulator, key) => {
-    const scenario = expositionState[key]
+    const state = expositionState[key]
+
+    if (isScenario(state)) {
+      return {
+        ...accumulator,
+        [key]: state.initialValue,
+      }
+    }
 
     return {
       ...accumulator,
-      [key]: scenario.initialValue,
+      [key]: getInitialExpositionValues(state),
     }
   }, {} as ExpositionValues<T>)
 }

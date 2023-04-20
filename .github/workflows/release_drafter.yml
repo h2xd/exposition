@@ -2,20 +2,18 @@
 # https://github.com/release-drafter/release-drafter
 
 name: ✍️ Release Drafter
-description: Create a new release draft each time once a PR is merged into main
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, reopened, synchronize]
 
 permissions:
   contents: read
 
 jobs:
   update_release_draft:
+    name: '📝 Update Draft'
     permissions:
       # write permission is required to create a github release
       contents: write

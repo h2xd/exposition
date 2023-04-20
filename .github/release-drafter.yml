@@ -34,20 +34,3 @@ template: |
   <!-- Optional: Add in custom description before the release -->
   
   $CHANGES
-autolabeler:
-  - label: '📚 documentation'
-    branch:
-      - '/^docs\/.+$/'
-  - label: '🐛 bug'
-    branch:
-      - '/^fix\/.+$/'
-  - label: '✨ enhancement'
-    branch:
-      - '/^feature\/.+$/'
-      - '/^feat\/.+$/'
-  - label: '🤖 automation'
-    branch:
-      - '/^ci\/.+$/'
-  - label: '🤖 refactoring'
-    branch:
-      - '/^refactor\/.+$/'

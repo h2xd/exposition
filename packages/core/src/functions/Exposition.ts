@@ -74,12 +74,11 @@ export class Exposition<T extends ExpositionConfig> {
 
   /**
    * Reset the `Scenario` elements of this instance
-   * @param scenariosToReset - pick what `Scenario` elements should be set to their `initialValue`
    * @emits reset - after the values were reverted
    * @returns `Exposition`
    */
-  public reset(scenariosToReset: (keyof ExpositionState<T>)[] = []): Exposition<T> {
-    Object.assign(this.state, resetExpositionValues(this.state, scenariosToReset))
+  public reset(): Exposition<T> {
+    Object.assign(this.state, resetExpositionValues(this.state))
 
     this.emit(EventNames.RESET)
 
@@ -92,7 +91,7 @@ export class Exposition<T extends ExpositionConfig> {
    * @emits update - after the `Scenario` elements were set to their new value
    * @returns `Exposition`
    */
-  public update(newValues: Partial<ExpositionValues<ExpositionState<T>>>): Exposition<T> {
+  public update(newValues: PartialDeep<ExpositionValues<ExpositionState<T>>>): Exposition<T> {
     Object.assign(this.state, updateExpositionValues(this.state, newValues))
 
     this.emit(EventNames.UPDATE)
@@ -106,7 +105,7 @@ export class Exposition<T extends ExpositionConfig> {
    * @emits updateSettings - after the settings were set to their new value
    * @returns `Exposition`
    */
-  public updateSettings(newSettings: Partial<ExpositionSettings>): Exposition<T> {
+  public updateSettings(newSettings: PartialDeep<ExpositionSettings>): Exposition<T> {
     this.assignNewSettings(newSettings)
 
     this.emit(EventNames.UPDATE_SETTINGS)
@@ -114,7 +113,7 @@ export class Exposition<T extends ExpositionConfig> {
     return this
   }
 
-  private assignNewSettings(newSettings: Partial<ExpositionSettings>): void {
+  private assignNewSettings(newSettings: PartialDeep<ExpositionSettings>): void {
     Object.assign(this.settingsState, { ...this.settingsState, ...newSettings })
   }
 

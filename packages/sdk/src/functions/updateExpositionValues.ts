@@ -1,4 +1,6 @@
+import type { PartialDeep } from 'type-fest'
 import type { ExpositionState, ExpositionValues } from '../@types/exposition'
+import { isScenario } from '../utils/guards'
 
 /**
  * Update the values of the given `Exposition`. 🆕
@@ -17,14 +19,25 @@ import type { ExpositionState, ExpositionValues } from '../@types/exposition'
 
   getExpositionValues(updatedExposition) // { autobot: 'Bumblebee 🚗', decepticon: 'Megatron ✈️' }
  */
-export function updateExpositionValues<T extends ExpositionState<any>, TValues extends ExpositionValues<T>>(expositionState: T, values: Partial<TValues>): T {
+export function updateExpositionValues<T extends ExpositionState<any>, TValues extends PartialDeep<ExpositionValues<T>>>(expositionState: T, values: TValues): T {
   return Object.keys(expositionState).reduce((accumulator, key) => {
+    const state = expositionState[key]
+    // @ts-expect-error - TODO: figure out what is going on here
+    const value = values[key]
+
+    if (isScenario(state)) {
+      return {
+        ...accumulator,
+        [key]: {
+          ...expositionState[key],
+          value: value || state.value,
+        },
+      }
+    }
+
     return {
       ...accumulator,
-      [key]: {
-        ...expositionState[key],
-        value: values[key] || expositionState[key].value,
-      },
+      [key]: !value ? state : updateExpositionValues(state, value),
     }
   }, {} as T)
 }

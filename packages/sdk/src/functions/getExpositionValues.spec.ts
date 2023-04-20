@@ -10,12 +10,22 @@ it('should extract selected values from an Exposition', () => {
         '🍝 Pasta - Mama Mia',
       ],
     },
+    group1: {
+      item1: {
+        options: ['1', '2'],
+      },
+    },
   } as const
 
   const expositionState = createExpositionState(expositionConfig)
   const expositionValues = getExpositionValues(expositionState)
 
-  expect(expositionValues.base).toBe('🍚 rice')
+  expect(expositionValues).toMatchObject({
+    base: '🍚 rice',
+    group1: {
+      item1: '1',
+    },
+  })
 })
 
 it('should return a map that wont mutate the given argument', () => {

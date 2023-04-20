@@ -1,0 +1,5 @@
+"📚 documentation": ['docs/*', 'documentation/*']
+"🐛 bug": ['fix/*', 'bugfix/*', 'hotfix/*']
+"✨ enhancement": ["feature/*", "feat/*"]
+"🤖 automation": ["ci/*"]
+"⚙️ refactoring": ["refactor/*"]
