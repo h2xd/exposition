@@ -9,7 +9,7 @@ import { EventNames } from '../config/eventNames'
 
 export class Exposition<T extends ExpositionConfig> {
   private emitter = new EventEmitter()
-  private state: ExpositionState<T>
+  public state: Readonly<ExpositionState<T>>
   private settingsState: ExpositionSettings = {
     active: true,
     restoreState: true,
