@@ -1,10 +1,10 @@
 import type { ExpositionState } from '../@types/exposition'
+import { isScenario } from '../utils/guards'
 
 /**
  * Reset the values of a given `Exposition` to their initialValue. ⏰
  *
  * @param expositionState
- * @param scenariosToReset - selection of scenarios that should be reverted to their initial value
  * @returns `ExpositionState`
  * @example
   const expositionState = createExpositionState({
@@ -20,16 +20,23 @@ import type { ExpositionState } from '../@types/exposition'
   const revertedExposition = resetExpositionValues(updatedExposition)
   getExpositionValues(revertedExposition) // { character: "Dio 🌎" }
  */
-export function resetExpositionValues<T extends ExpositionState<any>>(expositionState: T, scenariosToReset: (keyof T)[] = []): T {
+export function resetExpositionValues<T extends ExpositionState<any>>(expositionState: T): T {
   return Object.keys(expositionState).reduce((accumulator, key) => {
-    const shouldReset = scenariosToReset.length === 0 || scenariosToReset.includes(key)
+    const state = expositionState[key]
+
+    if (isScenario(state)) {
+      return {
+        ...accumulator,
+        [key]: {
+          ...state,
+          value: state.initialValue,
+        },
+      }
+    }
 
     return {
       ...accumulator,
-      [key]: {
-        ...expositionState[key],
-        value: shouldReset ? expositionState[key].initialValue : expositionState[key].value,
-      },
+      [key]: resetExpositionValues(state),
     }
   }, {} as T)
 }

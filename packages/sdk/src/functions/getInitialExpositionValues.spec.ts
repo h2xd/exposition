@@ -11,13 +11,23 @@ it('should extract the initial values from an Exposition', () => {
         '🦋 Big',
       ],
     },
+    duration: {
+      length: {
+        options: ['1 year', '2 years'],
+      },
+    },
   } as const
 
   const expositionState = createExpositionState(expositionConfig)
-  const updatedExpositionState = updateExpositionValues(expositionState, { progress: '🦋 Big' })
+  const updatedExpositionState = updateExpositionValues(expositionState, { progress: '🦋 Big', duration: { length: '2 years' } })
   const expositionValues = getInitialExpositionValues(updatedExpositionState)
 
-  expect(expositionValues.progress).toBe('🐛 Small')
+  expect(expositionValues).toMatchObject({
+    progress: '🐛 Small',
+    duration: {
+      length: '1 year',
+    },
+  })
 })
 
 it('should return a map that wont mutate the given argument', () => {

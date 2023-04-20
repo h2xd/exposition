@@ -1,4 +1,5 @@
 import type { ExpositionState, ExpositionValues } from '../@types/exposition'
+import { isScenario } from '../utils/guards'
 
 /**
  * Extract the current values from a given `ExpositionState`. 📃
@@ -19,11 +20,18 @@ import type { ExpositionState, ExpositionValues } from '../@types/exposition'
  */
 export function getExpositionValues<T extends ExpositionState<any>>(expositionState: T): ExpositionValues<T> {
   return Object.keys(expositionState).reduce((accumulator, key) => {
-    const scenario = expositionState[key]
+    const state = expositionState[key]
+
+    if (isScenario(state)) {
+      return {
+        ...accumulator,
+        [key]: state.value,
+      }
+    }
 
     return {
       ...accumulator,
-      [key]: scenario.value,
+      [key]: getExpositionValues(state),
     }
   }, {} as ExpositionValues<T>)
 }

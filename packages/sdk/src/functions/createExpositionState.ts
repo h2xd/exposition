@@ -1,5 +1,5 @@
 import type { ExpositionConfig, ExpositionState } from '../@types/exposition'
-import { isScenarioConfig } from '../utils/isScenarioConfig'
+import { isScenarioConfig } from '../utils/guards'
 
 /**
  * Create an Exposition state with all necessary data. 🔮
@@ -21,6 +21,8 @@ export function createExpositionState<T extends ExpositionConfig>(config: T, pre
   return Object.keys(config).reduce((accumulator, key) => {
     const configItem = config[key]
 
+    const combinedKey = prependKey ? `${prependKey}.${key}` : key
+
     if (isScenarioConfig(configItem)) {
       const { options } = configItem
 
@@ -29,7 +31,7 @@ export function createExpositionState<T extends ExpositionConfig>(config: T, pre
       return {
         ...accumulator,
         [key]: {
-          id: prependKey ? `${prependKey}.${key}` : key,
+          id: combinedKey,
           options,
           initialValue: firstOptionValue,
           value: firstOptionValue,
@@ -39,7 +41,7 @@ export function createExpositionState<T extends ExpositionConfig>(config: T, pre
 
     return {
       ...accumulator,
-      [key]: createExpositionState(configItem, key),
+      [key]: createExpositionState(configItem, combinedKey),
     }
   }, {} as ExpositionState<T>)
 }

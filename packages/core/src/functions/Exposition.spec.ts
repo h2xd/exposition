@@ -19,6 +19,20 @@ describe('Exposition', () => {
         'thunderstorm',
       ],
     },
+    group1: {
+      item1: {
+        options: [
+          '1', '2', '3',
+        ],
+      },
+      group1_1: {
+        item1_1: {
+          options: [
+            '1.1', '2.1', '3.1',
+          ],
+        },
+      },
+    },
   } as const
 
   let exposition: Exposition<typeof expositionConfig>
@@ -34,36 +48,27 @@ describe('Exposition', () => {
 
   describe('methods', () => {
     it('should have a method to get the current values', () => {
-      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } })
     })
 
     it('should have a method to update the current values', () => {
-      exposition.update({ dream: 'NREM_stage_2' })
+      exposition.update({ dream: 'NREM_stage_2', group1: { item1: '2' } })
 
-      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave', group1: { item1: '2', group1_1: { item1_1: '1.1' } } })
     })
 
     it('should have a method to get the initial values', () => {
-      exposition.update({ dream: 'NREM_stage_2' })
-      expect(exposition.initialValues).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave' })
+      exposition.update({ dream: 'NREM_stage_2', group1: { group1_1: { item1_1: '3.1' } } })
+      expect(exposition.initialValues).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } })
     })
 
     it('should have a method to reset the current values', () => {
-      exposition.update({ dream: 'NREM_stage_2' })
+      exposition.update({ dream: 'NREM_stage_2', group1: { group1_1: { item1_1: '3.1' } } })
 
-      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '3.1' } } })
 
       exposition.reset()
-      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave' })
-    })
-
-    it('should only reset a subset of scenarios', () => {
-      exposition.update({ dream: 'NREM_stage_2', reality: 'thunderstorm' })
-
-      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'thunderstorm' })
-
-      exposition.reset(['reality'])
-      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_2', reality: 'heatwave' })
+      expect(exposition.values).toMatchObject({ dream: 'NREM_stage_1', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } })
     })
   })
 
@@ -75,7 +80,7 @@ describe('Exposition', () => {
       exposition.reset()
 
       expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' }, defaultSettings)
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } }, defaultSettings)
     })
 
     it('should emit an update event', () => {
@@ -85,7 +90,7 @@ describe('Exposition', () => {
       exposition.update({ dream: 'NREM_stage_3' })
 
       expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_3', reality: 'heatwave' }, defaultSettings)
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_3', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } }, defaultSettings)
     })
 
     it('should fire the initialized event', () => {
@@ -96,7 +101,7 @@ describe('Exposition', () => {
       exposition.init()
       exposition.init()
       expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' }, defaultSettings)
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } }, defaultSettings)
     })
   })
 
@@ -113,7 +118,7 @@ describe('Exposition', () => {
 
       exposition.init()
       expect(spy).toHaveBeenCalled()
-      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' }, defaultSettings)
+      expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } }, defaultSettings)
     })
   })
 
@@ -146,7 +151,7 @@ describe('Exposition', () => {
         exposition.updateSettings({ active: false })
 
         expect(spy).toHaveBeenCalledTimes(1)
-        expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave' }, { active: false, restoreState: true })
+        expect(spy).toHaveBeenCalledWith({ dream: 'NREM_stage_1', reality: 'heatwave', group1: { item1: '1', group1_1: { item1_1: '1.1' } } }, { active: false, restoreState: true })
       })
     })
   })

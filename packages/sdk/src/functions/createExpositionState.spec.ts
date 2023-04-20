@@ -97,7 +97,7 @@ it('should create grouped states', () => {
       },
       group2: {
         item2: {
-          id: 'group2.item2',
+          id: 'group.group2.item2',
           initialValue: 'option2.1',
           value: 'option2.1',
           options: ['option2.1', 'option2.2'],
