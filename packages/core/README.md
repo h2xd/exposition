@@ -23,12 +23,12 @@ npm install -D @exposition/core
 
 ## Motivation
 
-The goal of this project is to provide really good developer experience, when it comes to API mocking.
-The reason is that API mocking with a large subset of different variations / results is really hard
+The goal of this project is to provide perfect developer experience, when it comes to API mocking.
+The reason is that API mocking with a large subset of different variations / results is really hard,
 and I saw a lot of project skipping tests because even thinking about the amount of work and the debugging
 later on is insane. _Okay! Okay! I will stop. Here is a candy to calm down._ 🍬
 
-**This library is written with the thought that devs never want to leave their IDE and love to fiddle around with code first. Therefore you can find a lot of examples and descriptions in TSDoc.**
+**This library is written with the thought that devs never want to leave their IDE and love to fiddle around with code first. Therefore, you can find a lot of examples and descriptions in TSDoc.**
 
 ## Create an exposition 📙
 
@@ -40,11 +40,47 @@ const exposition = new Exposition({
 } as const)
 ```
 
+You can also cluster scenarios into groups by defining further objects inside the config as stated in the below example.
+_The last option MUST have an `options` key for internal type inference._
+
+```ts
+const exposition = new Exposition({
+  user: {
+    age: {
+      options: ['under 18 🐣', '18 🐓', 'over 18 🦖']
+    },
+    avatar: {
+      options: ['no avatar 💬', 'image 🤳']
+    },
+    auth: {
+      options: ['valid ✅', 'deny ❌']
+    },
+    rights: {
+      users: {
+        create: {
+          options: ['yes ✅', 'no ❌']
+        },
+        read: {
+          options: ['yes ✅', 'no ❌']
+        },
+        update: {
+          options: ['yes ✅', 'no ❌']
+        },
+        delete: {
+          options: ['yes ✅', 'no ❌']
+        }
+      }
+    }
+  }
+} as const)
+```
+
+
 ### Config
 
 The first parameter is a simple record that will define the Schema of your `Exposition`
-instance. Feel free to name your keys that describes your `Scenario` in the best possible way.
-Also the first index of the `options` array will be set as the `initialValue` of the `Scenario`.
+instance. Feel free to name your keys that describe your `Scenario` in the best possible way.
+Also, the first index of the `options` array will be set as the `initialValue` of the `Scenario`.
 
 ### Options
 
@@ -125,10 +161,10 @@ exposition.update({ stage: '🦋 Big' })
 ## Add an integration
 
 Mock Service Worker is the primary integration and even the reason
-for this library. Therefore I highly recommend to start with the [msw setup guide](https://h2xd.github.io/exposition/cookbook/setup-msw.html) first.
+for this library. Therefore, I highly recommend to start with the [msw setup guide](https://h2xd.github.io/exposition/cookbook/setup-msw.html) first.
 
 You can also create your own integration that levels on the above `on` events.
 
 A guide how to write a custom integration will follow.
 
-For now you can check out the implementation of [`msw`](https://github.com/h2xd/exposition/blob/main/packages/integrations/msw/functions/createMswIntegration.ts)
+For now, you can check out the implementation of [`msw`](https://github.com/h2xd/exposition/blob/main/packages/integrations/msw/functions/createMswIntegration.ts)

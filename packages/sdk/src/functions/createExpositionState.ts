@@ -14,6 +14,14 @@ import { isScenarioConfig } from '../utils/guards'
   const expositionState = createExpositionState({
     auth: {
       options: ['valid ✅', 'deny ❌']
+    },
+    user: {
+      age: {
+        options: ['under 18 🐣', '18 🐓', 'over 18 🦖']
+      },
+      avatar: {
+        options: ['no avatar 💬', 'image 🤳']
+      }
     }
   } as const)
  */
