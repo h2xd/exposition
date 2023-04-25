@@ -27,16 +27,62 @@ Create an Exposition state with all necessary data. 🔮
 - Cast the config `as const` to get full type support. _(as seen on line 8)_ ✨
 - The first `options` item will be set as the `initialValue` of the `Scenario`
 
-```ts{8}
+```ts{16}
 import { createExpositionState } from '@exposition/sdk'
 
 // ✨ Cast the input config `as const` to get full type support
 const expositionState = createExpositionState({
   auth: {
     options: ['valid ✅', 'deny ❌']
+  },
+  user: {
+    age: {
+      options: ['under 18 🐣', '18 🐓', 'over 18 🦖']
+    },
+    avatar: {
+      options: ['no avatar 💬', 'image 🤳']
+    }
   }
 } as const)
 ```
+
+You can also create subgroups by defining further elements inside the configuration file as you can see in this example.
+_The last option MUST have an `options` key for internal type inference._
+
+```ts
+import { createExpositionState } from '@exposition/sdk'
+
+const expositionState = createExpositionState({
+  user: {
+    age: {
+      options: ['under 18 🐣', '18 🐓', 'over 18 🦖']
+    },
+    avatar: {
+      options: ['no avatar 💬', 'image 🤳']
+    },
+    auth: {
+      options: ['valid ✅', 'deny ❌']
+    },
+    rights: {
+      users: {
+        create: {
+          options: ['yes ✅', 'no ❌']
+        },
+        read: {
+          options: ['yes ✅', 'no ❌']
+        },
+        update: {
+          options: ['yes ✅', 'no ❌']
+        },
+        delete: {
+          options: ['yes ✅', 'no ❌']
+        }
+      }
+    }
+  }
+} as const)
+```
+
 
 [🔗 Source Code](https://github.com/h2xd/exposition/blob/main/packages/sdk/src/functions/createExpositionState.ts)
 

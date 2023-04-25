@@ -22,13 +22,27 @@ export class Exposition<T extends ExpositionConfig> {
    * @param config - create a Schema that will be exposed to integrations
    * @param options - change default options
    *
-   * @example
+   * @example - Simple config
     const exposition = new Exposition({
       stage: {
         options: ['🐛 Small', '🦋 Big']
       }
     } as const)
-   * @example
+   * @example - Config groups
+    const exposition = new Exposition({
+      user: {
+        age: {
+          options: ['under 18 🐣', '18 🐓', 'over 18 🦖']
+        },
+        avatar: {
+          options: ['no avatar 💬', 'image 🤳']
+        },
+        auth: {
+          options: ['valid ✅', 'deny ❌']
+        }
+      }
+    })
+   * @example - Update default exposition settings
     const exposition = new Exposition(
       {
         // ... your config
